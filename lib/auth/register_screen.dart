@@ -1,11 +1,21 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stemro_app/auth/AuthService.dart';
 import 'package:stemro_app/view/home_screen.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
 import 'login_screen.dart';
 class RegistrationPage extends StatelessWidget {
+
+  var authHandler = AuthService();
+
+  final nameController = TextEditingController();
+  final schoolController = TextEditingController();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +50,7 @@ class RegistrationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextField(
+                          controller: nameController,
                           decoration: InputDecoration(
                             hintText:  "Engineer's Name",
                             hintStyle: TextStyle(color: Colors.white),
@@ -68,6 +79,7 @@ class RegistrationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextField(
+                          controller: schoolController,
                           decoration: InputDecoration(
                             hintText: 'School Name',
                             hintStyle: TextStyle(color: Colors.white),
@@ -96,6 +108,7 @@ class RegistrationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextField(
+                          controller: emailController,
                           decoration: InputDecoration(
                             hintText: 'Email',
                             hintStyle: TextStyle(color: Colors.white),
@@ -124,6 +137,7 @@ class RegistrationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextField(
+                          controller: passController,
                           decoration: InputDecoration(
                             hintText: 'Password',
                             hintStyle: TextStyle(color: Colors.white),
@@ -149,7 +163,24 @@ class RegistrationPage extends StatelessWidget {
                       HeightBox(20),
                       GestureDetector(
                           onTap: (){
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+                            print("Register Clicked Event");
+                            authHandler.handleSignUp(emailController.text, passController.text).then((user) {
+                              if (!user.uid.endsWith("null")) {
+                                FirebaseDatabase.instance.reference().child(user.uid)
+                                    .child('email').set(emailController.text);
+                                FirebaseDatabase.instance.reference().child(user.uid)
+                                    .child('password').set(passController.text);
+                                FirebaseDatabase.instance.reference().child(user.uid)
+                                    .child('name').set(nameController.text);
+                                FirebaseDatabase.instance.reference().child(user.uid)
+                                    .child('school').set(schoolController.text);
+                                print("Registration success");
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                              }else{
+                                print("Registration failed");
+                                //Show error message to user
+                              }
+                            }).catchError((e) => print(e));
                           },
                           child: "Sign-Up".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.grey).
                           color(Colors.teal).roundedLg.make().w(150).h(40)),

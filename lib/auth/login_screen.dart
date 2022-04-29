@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stemro_app/auth/AuthService.dart';
 import 'package:stemro_app/auth/register_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 class LoginPage extends StatelessWidget {
+
+  var authHandler = AuthService();
+
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +44,7 @@ class LoginPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: TextStyle(color: Colors.white),
@@ -65,6 +73,7 @@ class LoginPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextField(
+                        controller: passController,
                         decoration: InputDecoration(
                           hintText: 'Password',
                           hintStyle: TextStyle(color: Colors.white),
@@ -90,8 +99,16 @@ class LoginPage extends StatelessWidget {
                     HeightBox(20),
                     GestureDetector(
                         onTap: (){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
                           print("Login Clicked Event");
+                          authHandler.handleSignIn(emailController.text, passController.text).then((user) {
+                            if(!user.uid.endsWith("null")){
+                              print("Login success");
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+                            }else{
+                              print("Login failed");
+                              //Show some error to user
+                            }
+                          }).catchError((e) => print(e));
                         },
                         child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
                         color(Colors.teal).roundedLg.make().w(200).h(55)),

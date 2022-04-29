@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "539346453033",
+    "project_id": "stemro-app",
+    "storage_bucket": "stemro-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539346453033:android:1ab86952924aa8b27b9238",
+        "android_client_info": {
+          "package_name": "com.example.stemro_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539346453033-bnp0nbiiggc2004ila9khl4ui85e5cvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg52eGbwoHHcA_3YgCL5VNiHKF1XEs4wI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539346453033-bnp0nbiiggc2004ila9khl4ui85e5cvj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
