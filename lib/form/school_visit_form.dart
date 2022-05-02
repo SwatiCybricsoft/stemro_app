@@ -1,101 +1,66 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:ffi';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
-class CameraWidget extends StatefulWidget{
+class ImagePage extends StatefulWidget {
+  const ImagePage({Key? key}) : super(key: key);
   @override
-  State createState() {
-    // TODO: implement createState
-    return CameraWidgetState();
-  }
+  State<ImagePage> createState() => _ImagePageState();
 }
-class CameraWidgetState extends State{
-  PickedFile? imageFile=null;
-  Future<void>_showChoiceDialog(BuildContext context)
-  {
-    return showDialog(context: context,builder: (BuildContext context){
-      return AlertDialog(
-        title: Text("Choose option",style: TextStyle(color: Colors.blue),),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: [
-              Divider(height: 1,color: Colors.blue,),
-              ListTile(
-                onTap: (){
-                  _openGallery(context);
-                },
-                title: Text("Gallery"),
-                leading: Icon(Icons.account_box,color: Colors.blue,),
-              ),
-
-              Divider(height: 1,color: Colors.blue,),
-              ListTile(
-                onTap: (){
-                  _openCamera(context);
-                },
-                title: Text("Camera"),
-                leading: Icon(Icons.camera,color: Colors.blue,),
-              ),
-            ],
-          ),
-        ),);
-    });
-  }
+class _ImagePageState extends State<ImagePage> {
+  File? imageFile;
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: Text("Pick Image Camera"),
-        backgroundColor: Colors.green,
+        title: Text('Image'),
       ),
-      body: Container(
+      body: Padding(padding: const EdgeInsets.all(12.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Card(
-              child:( imageFile==null)?Text("Choose Image"): Image.file( File(  imageFile!.path)),
+            Container(
+              width: 640,
+              height: 400,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                border: Border.all(width: 8,color: Colors.blue),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: const Text('Image should appear her'),
             ),
-            MaterialButton(
-              minWidth: MediaQuery.of(context).size.width,
-              textColor: Colors.white,
-              color: Colors.pink,
-              onPressed: (){
-                _showChoiceDialog(context);
-              },
-              child: Text("Select Image"),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Expanded(child:ElevatedButton(
+                  onPressed: ()=>getImage(source: ImageSource.camera),
+                  child: const Text("Capture Image"),
+                )),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(child: ElevatedButton(
+                  onPressed: () =>getImage(source: ImageSource.gallery),
+                  child: const Text("Select Image"),
+                ))
+              ],
             )
           ],
         ),
       ),
     );
   }
+  void getImage({required ImageSource source})async{
+    final file = await ImagePicker().pickImage(source: source);
+    if(file?.path != null){
+      setState(() {
+        imageFile = File(file!.path);
+      });
+    }
 
-  void _openGallery(BuildContext context) async{
-    final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery ,
-    );
-    setState(() {
-      imageFile = pickedFile!;
-    });
-
-    Navigator.pop(context);
-  }
-
-  void _openCamera(BuildContext context)  async{
-    final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera ,
-    );
-    setState(() {
-      imageFile = pickedFile!;
-    });
-    Navigator.pop(context);
   }
 }
+
+
