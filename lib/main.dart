@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 
 
 import 'auth/splash_screen.dart';
-import 'form/school_visit_form.dart';
-import 'form/visit_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
