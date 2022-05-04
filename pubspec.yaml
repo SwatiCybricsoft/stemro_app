@@ -40,7 +40,15 @@ dependencies:
   flutter_svg: ^1.0.3
   image_picker: ^0.8.5
   dropdown_button2: ^1.4.0
+  #API requests
+  http: 0.13.4
+  # Firebase
+  firebase_core: ^1.0.3
+  firebase_database: ^8.0.0
+  firebase_auth: ^1.0.3
 
+  # State Management
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
