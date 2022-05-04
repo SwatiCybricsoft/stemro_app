@@ -1,12 +1,15 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:stemro_app/auth/AuthService.dart';
 import 'package:stemro_app/view/home_screen.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
 import 'login_screen.dart';
+
+import '../auth/AuthService.dart';
+import 'dart:developer';
+
 class RegistrationPage extends StatelessWidget {
 
   var authHandler = AuthService();

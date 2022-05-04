@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
-import 'package:stemro_app/form/school_visit_form.dart';
 import 'package:stemro_app/form/visit_page.dart';
+
+import 'package:firebase_database/firebase_database.dart';
+import '../auth/AuthService.dart';
+import 'dart:developer';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
   @override
@@ -258,6 +262,19 @@ class _HomeState extends State<Home> {
       )
     );
 
+  }
+
+  void userDetails (){
+    if(AuthService().getUser() != null){
+      var uid = AuthService().getUser()!.uid;
+      FirebaseDatabase.instance
+          .reference()
+          .child(uid)
+          .once()
+          .then((DataSnapshot snapshot) {
+        log('Server response: ${snapshot.value}');
+      });
+    }
   }
 
 }

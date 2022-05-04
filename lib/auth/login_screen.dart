@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:stemro_app/auth/AuthService.dart';
 import 'package:stemro_app/auth/register_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../auth/AuthService.dart';
+import 'dart:developer';
+
 class LoginPage extends StatelessWidget {
 
   var authHandler = AuthService();
