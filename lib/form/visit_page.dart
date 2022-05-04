@@ -170,6 +170,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     hintText: 'Add a note',
                     labelText: " Add a note"
                 ),
+
               ),
               SizedBox(
                 height: 10,

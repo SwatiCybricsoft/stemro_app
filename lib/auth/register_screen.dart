@@ -8,8 +8,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import 'login_screen.dart';
 class RegistrationPage extends StatelessWidget {
-
-  var authHandler = AuthService();
+  // var authHandler = AuthService();
 
   final nameController = TextEditingController();
   final schoolController = TextEditingController();
@@ -53,6 +52,7 @@ class RegistrationPage extends StatelessWidget {
                           controller: nameController,
                           decoration: InputDecoration(
                             hintText:  "Engineer's Name",
+                            labelText: " Enter Engineer's Name" ,
                             hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
@@ -81,7 +81,9 @@ class RegistrationPage extends StatelessWidget {
                         child: TextField(
                           controller: schoolController,
                           decoration: InputDecoration(
+
                             hintText: 'School Name',
+                            labelText: "Enter School Name",
                             hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
@@ -110,6 +112,7 @@ class RegistrationPage extends StatelessWidget {
                         child: TextField(
                           controller: emailController,
                           decoration: InputDecoration(
+                            labelText: ' Enter Email',
                             hintText: 'Email',
                             hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: OutlineInputBorder(
@@ -139,6 +142,7 @@ class RegistrationPage extends StatelessWidget {
                         child: TextField(
                           controller: passController,
                           decoration: InputDecoration(
+                            labelText: 'Enter Password',
                             hintText: 'Password',
                             hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: OutlineInputBorder(
@@ -163,27 +167,27 @@ class RegistrationPage extends StatelessWidget {
                       HeightBox(20),
                       GestureDetector(
                           onTap: (){
-                            print("Register Clicked Event");
-                            authHandler.handleSignUp(emailController.text, passController.text).then((user) {
-                              if (!user.uid.endsWith("null")) {
-                                FirebaseDatabase.instance.reference().child(user.uid)
-                                    .child('email').set(emailController.text);
-                                FirebaseDatabase.instance.reference().child(user.uid)
-                                    .child('password').set(passController.text);
-                                FirebaseDatabase.instance.reference().child(user.uid)
-                                    .child('name').set(nameController.text);
-                                FirebaseDatabase.instance.reference().child(user.uid)
-                                    .child('school').set(schoolController.text);
-                                print("Registration success");
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
-                              }else{
-                                print("Registration failed");
-                                //Show error message to user
-                              }
-                            }).catchError((e) => print(e));
+                            // print("Register Clicked Event");
+                            // authHandler.handleSignUp(emailController.text, passController.text).then((user) {
+                            //   if (!user.uid.endsWith("null")) {
+                            //     FirebaseDatabase.instance.reference().child(user.uid)
+                            //         .child('email').set(emailController.text);
+                            //     FirebaseDatabase.instance.reference().child(user.uid)
+                            //         .child('password').set(passController.text);
+                            //     FirebaseDatabase.instance.reference().child(user.uid)
+                            //         .child('name').set(nameController.text);
+                            //     FirebaseDatabase.instance.reference().child(user.uid)
+                            //         .child('school').set(schoolController.text);
+                            //     print("Registration success");
+                            //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                            //   }else{
+                            //     print("Registration failed");
+                            //     //Show error message to user
+                            //   }
+                            // }).catchError((e) => print(e));
                           },
                           child: "Sign-Up".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.grey).
-                          color(Colors.teal).roundedLg.make().w(150).h(40)),
+                          color(Colors.teal).roundedLg.make().w(200).h(55)),
                       HeightBox(140),
                       "Login with".text.black.makeCentered(),
 
@@ -197,7 +201,7 @@ class RegistrationPage extends StatelessWidget {
         ),
         bottomNavigationBar: GestureDetector(
           onTap: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
           },
           child: RichText(text: TextSpan(
             text: 'New User?',

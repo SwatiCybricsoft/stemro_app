@@ -4,20 +4,28 @@ import 'package:stemro_app/auth/AuthService.dart';
 import 'package:stemro_app/auth/register_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
+
 class LoginPage extends StatelessWidget {
+//...validation..........
 
-  var authHandler = AuthService();
-
+  // var authHandler = AuthService();
+  final formGlobalKey = GlobalKey <FormState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal.shade300,
-        body: SafeArea(
+        backgroundColor: Colors.teal.shade300,
+        body: Form(
           child: Stack(
             children: [
+              Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
               Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -27,7 +35,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20,40 , 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -43,26 +51,31 @@ class LoginPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: TextField(
+                      child: TextFormField(
                         controller: emailController,
+                        keyboardType:TextInputType.emailAddress,
                         decoration: InputDecoration(
+                          // errorText: 'Please enter EmailId',
                           hintText: 'Email',
+                          labelText: 'Enter Email',
                           hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                                 color: Colors.white
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
                                   color: Colors.white
                               )
                           ),
-                          isDense: true,                      // Added this
+                          isDense: true,
+                          // Added this
                           contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                         ),
+
                         cursorColor: Colors.white,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -72,49 +85,75 @@ class LoginPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: TextField(
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
                         controller: passController,
+                        obscureText: true,
+                        keyboardType: TextInputType.visiblePassword,
+
                         decoration: InputDecoration(
                           hintText: 'Password',
+                          labelText: " Enter Password",
+                          // errorText: 'Please enter Password',
                           hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                                 color: Colors.white
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
-                                  color: Colors.white,
+                                color: Colors.white,
                               )
                           ),
-                          isDense: true,                      // Added this
+                          isDense: true,
+                          // Added this
                           contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                         ),
                         cursorColor: Colors.white,
+                        autofocus: false,
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                     HeightBox(20),
                     GestureDetector(
-                        onTap: (){
-                          print("Login Clicked Event");
-                          authHandler.handleSignIn(emailController.text, passController.text).then((user) {
-                            if(!user.uid.endsWith("null")){
-                              print("Login success");
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
-                            }else{
-                              print("Login failed");
-                              //Show some error to user
-                            }
-                          }).catchError((e) => print(e));
+
+                        onTap: () {
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => RegistrationPage()));
+
+                          // print("Login Clicked Event");
+                          // authHandler.handleSignIn(emailController.text, passController.text).then((user) {
+                          //   if(!user.uid.endsWith("null")){
+                          //     print("Login success");
+                          //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+                          //   }else{
+                          //     print("Login failed");
+                          //     //Show some error to user
+                          //   }
+                          // }).catchError((e) => print(e));
                         },
-                        child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
-                        color(Colors.teal).roundedLg.make().w(200).h(55)),
-                    // HeightBox(30),
-                    // "Login with".text.white.makeCentered(),
-                    // // SocialSignWidgetRow()
+                        child: "Login".text.white.light.xl
+                            .makeCentered()
+                            .box
+                            .white
+                            .shadowOutline(outlineColor: Colors.white)
+                            .
+                        color(Colors.teal)
+                            .roundedLg
+                            .make()
+                            .w(200)
+                            .h(55)
+                    ),
+
                   ],
                 ),
               )
@@ -122,8 +161,9 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: GestureDetector(
-          onTap: (){
-             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegistrationPage()));
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => RegistrationPage()));
           },
           child: RichText(text: TextSpan(
             text: 'New User?',
@@ -134,7 +174,7 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
-                    color:Colors.teal),
+                    color: Colors.teal),
               ),
             ],
           )
@@ -142,4 +182,6 @@ class LoginPage extends StatelessWidget {
         )
     );
   }
+
+
 }
