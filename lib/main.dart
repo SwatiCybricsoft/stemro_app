@@ -4,9 +4,10 @@ import 'auth/splash_screen.dart';
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  Firebase.initializeApp();
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
