@@ -28,7 +28,6 @@ class _TeachersTraningState extends State<TeachersTraning> {
                 title: Text("Gallery"),
                 leading: Icon(Icons.account_box,color: Colors.teal,),
               ),
-
               Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){

@@ -9,8 +9,8 @@ import 'dart:developer';
 
 class LoginPage extends StatelessWidget {
 
-  var authHandler = AuthService();
-
+   var authHandler = AuthService();
+   late String _email, _password;
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
@@ -18,110 +18,134 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.teal.shade300,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/unsplash.jpg"),
-                        fit: BoxFit.cover
-                    )
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/unsplash.jpg"),
+                          fit: BoxFit.cover
+                      )
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20,40 , 20, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: 100,
-                        width: 100,
-                        child: SvgPicture.asset("assets/xing.svg")),
-                    HeightBox(10),
-                    "Login".text.color(Colors.white).size(20).make(),
-                    HeightBox(
-                        20
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: TextField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          hintStyle: TextStyle(color: Colors.white),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                                color: Colors.white
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20,40 , 20, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: 100,
+                          width: 100,
+                          child: SvgPicture.asset("assets/xing.svg")),
+                      HeightBox(10),
+                      "Login".text.color(Colors.white).size(20).make(),
+                      HeightBox(
+                          20
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: TextFormField(
+
+                          controller: emailController,
+                          validator: (val) => val!.contains("@") ? "Email Id is not Valid" : null ,
+                          onSaved: (val) => _email = val!,
+                          decoration: InputDecoration(
+                            hintText: 'Email',
+                            labelText: 'Enter Email',
+                            hintStyle: TextStyle(color: Colors.white),
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               borderSide: BorderSide(
                                   color: Colors.white
-                              )
-                          ),
-                          isDense: true,                      // Added this
-                          contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                        ),
-                        cursorColor: Colors.white,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    HeightBox(
-                        20
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: TextField(
-                        controller: passController,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.white),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                                color: Colors.white
+                              ),
                             ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                    color: Colors.white
+                                )
+                            ),
+                            isDense: true,                      // Added this
+                            contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          cursorColor: Colors.white,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      HeightBox(
+                          20
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: TextFormField(
+                          controller: passController,
+                          validator: (val)=>val!.length <6 ? 'Password too short.':null,
+                          onSaved: (val) =>_password = val!,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            labelText: 'Enter Password',
+
+                            hintStyle: TextStyle(color: Colors.white),
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               borderSide: BorderSide(
-                                  color: Colors.white,
-                              )
+                                  color: Colors.white
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                    color: Colors.white,
+                                )
+                            ),
+                            isDense: true,                      // Added this
+                            contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                           ),
-                          isDense: true,                      // Added this
-                          contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                          cursorColor: Colors.white,
+                          obscureText: true,
+
+                          style: TextStyle(color: Colors.white),
                         ),
-                        cursorColor: Colors.white,
-                        style: TextStyle(color: Colors.white),
                       ),
-                    ),
-                    HeightBox(20),
-                    GestureDetector(
-                        onTap: (){
-                          print("Login Clicked Event");
-                          authHandler.handleSignIn(emailController.text, passController.text).then((user) {
-                            if(!user.uid.endsWith("null")){
-                              print("Login success");
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
-                            }else{
-                              print("Login failed");
-                              //Show some error to user
-                            }
-                          }).catchError((e) => print(e));
-                        },
-                        child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
-                        color(Colors.teal).roundedLg.make().w(200).h(55)),
-                    // HeightBox(30),
-                    // "Login with".text.white.makeCentered(),
-                    // // SocialSignWidgetRow()
-                  ],
-                ),
-              )
-            ],
+                      HeightBox(20),
+                      GestureDetector(
+                          onTap: (){
+                            print("Login Clicked Event");
+                            authHandler.handleSignIn(emailController.text, passController.text).then((user) {
+                              if(!user.uid.endsWith("null")){
+                                print("Login success");
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+                              }else{
+                                print("Login failed");
+                                //Show some error to user
+                              }
+                            }).catchError((e) => print(e));
+                          },
+                        // child: Container(
+                        //   padding: const EdgeInsets.all(10),
+                        //   // child: isLoading?SizedBox(
+                        //   //   height: 25,
+                        //   //   width: 25,
+                        //   //   child: CircularProgressIndicator(
+                        //   //     color: Colors.white,
+                        //   //     strokeWidth: 3,
+                        //   //   ),
+                        //   // ):Text('Login')
+                        // ),
+                          child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
+                          color(Colors.teal).roundedLg.make().w(200).h(55)
+                      ),
+                      // HeightBox(30),
+                      // "Login with".text.white.makeCentered(),
+                      // // SocialSignWidgetRow()
+                    ], // "L
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: GestureDetector(

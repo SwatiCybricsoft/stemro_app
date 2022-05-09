@@ -11,7 +11,8 @@ import '../auth/AuthService.dart';
 import 'dart:developer';
 
 class RegistrationPage extends StatelessWidget {
-
+  late String _email, _password;
+  bool _passwordVisible = false;
   var authHandler = AuthService();
 
   final nameController = TextEditingController();
@@ -56,7 +57,8 @@ class RegistrationPage extends StatelessWidget {
                           controller: nameController,
                           decoration: InputDecoration(
                             hintText:  "Engineer's Name",
-                            hintStyle: TextStyle(color: Colors.white),
+                            labelText: "Engineer's Name",
+                            // hintStyle: TextStyle(color: Colors.black),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -85,8 +87,8 @@ class RegistrationPage extends StatelessWidget {
                           controller: schoolController,
                           decoration: InputDecoration(
                             hintText: 'School Name',
-                            hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: OutlineInputBorder(
+                             labelText: 'School Name',
+                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               borderSide: BorderSide(
                                   color: Colors.white
@@ -110,11 +112,13 @@ class RegistrationPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: TextField(
+                        child: TextFormField(
                           controller: emailController,
+                          validator: (val) => val!.contains("@") ? "Email Id is not Valid" : null ,
+                          onSaved: (val) => _email = val!,
                           decoration: InputDecoration(
                             hintText: 'Email',
-                            hintStyle: TextStyle(color: Colors.white),
+                             labelText:'Email' ,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -139,10 +143,13 @@ class RegistrationPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: TextField(
+                        child: TextFormField(
+
                           controller: passController,
                           decoration: InputDecoration(
                             hintText: 'Password',
+                            labelText: "Password",
+
                             hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
@@ -156,11 +163,18 @@ class RegistrationPage extends StatelessWidget {
                                     color: Colors.black
                                 )
                             ),
-                            isDense: true,                      // Added this
+                            isDense: true,
+
+                            // Added this
                             contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                           ),
                           cursorColor: Colors.white,
                           style: TextStyle(color: Colors.white),
+                          obscureText: true,
+
+                          validator: (val)=>val!.length <6 ? 'Password too short.':null,
+                          onSaved: (val) =>_password = val!,
+
                         ),
                       ),
                       HeightBox(20),
@@ -186,10 +200,9 @@ class RegistrationPage extends StatelessWidget {
                             }).catchError((e) => print(e));
                           },
                           child: "Sign-Up".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.grey).
-                          color(Colors.teal).roundedLg.make().w(150).h(40)),
+                          color(Colors.teal).roundedLg.make().w(200).h(55)),
                       HeightBox(140),
                       "Login with".text.black.makeCentered(),
-
                     ],
                   ),
                 )
