@@ -33,9 +33,19 @@ class AuthService {
   //4
   User? getUser() {
     try {
-      return _firebaseAuth.currentUser;
+      User? user = _firebaseAuth.currentUser;
+      return user;
     } on FirebaseAuthException {
       return null;
+    }
+  }
+
+  //5
+  String getUID() {
+    try {
+      return _firebaseAuth.currentUser!.uid;
+    } on FirebaseAuthException {
+      return "Default";
     }
   }
 }

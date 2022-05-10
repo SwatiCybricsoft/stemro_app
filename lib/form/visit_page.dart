@@ -4,6 +4,11 @@ import 'package:stemro_app/view/Lab_picture.dart';
 import 'package:stemro_app/view/component_verification.dart';
 import 'package:stemro_app/view/teachers_traing.dart';
 
+import 'package:firebase_database/firebase_database.dart';
+import '../auth/AuthService.dart';
+import 'dart:developer';
+import 'package:intl/intl.dart';
+
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
 
@@ -11,6 +16,7 @@ class FormPage extends StatefulWidget {
   State<FormPage> createState() => _FormPageState();
 }
 class _FormPageState extends State<FormPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +104,14 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   int dropDownValue = 0;
+
+  final dateController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final schoolController = TextEditingController();
+  final typeController = TextEditingController();
+  final noteController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -120,6 +134,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),),
               ),
               TextFormField(
+                controller: dateController,
                 decoration: const InputDecoration(
                     filled: true,
                     hintText:"Today's Date",
@@ -127,6 +142,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
               ),
               TextFormField(
+                controller: nameController,
                 decoration: const InputDecoration(
                     filled: true,
                     hintText: "Engineer's Name",
@@ -134,6 +150,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
               ),
               TextFormField(
+                controller: emailController,
                 decoration: const InputDecoration(
                     filled: true,
                     hintText: "Engineer's EmailID",
@@ -141,6 +158,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
               ),
               TextFormField(
+                controller: schoolController,
                 decoration: const InputDecoration(
                     filled: true,
                     hintText: 'Enter School Name',
@@ -156,7 +174,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   letterSpacing: 1.0
                 ),),
                 items: <String>['ComponentVerification',
-                  'TeachersTraining', 'RegularVisit', 'PreSalesDemo/Meeting','Technical/Documentationsupport'].map((String value) {
+                  'TeachersTraining', 'RegularVisit', 'PreSalesDemo/Meeting','Technical/DocumentationSupport'].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: new Text(value),
@@ -165,6 +183,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 onChanged: (_) {},
               ),
               TextFormField(
+                controller: noteController,
                 decoration: const InputDecoration(
                     filled: true,
                     hintText: 'Add a note',
@@ -179,7 +198,22 @@ class MyCustomFormState extends State<MyCustomForm> {
                 child: new Container(
                     padding: const EdgeInsets.only(top: 30),
                    child: RaisedButton.icon(onPressed:(){
-                     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>LoginPage()));
+
+                     var now = DateTime.now();
+                     String requestID = DateFormat('yyyyMMddhhmmss').format(now);
+                     
+                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                         .child('date').set(dateController.text);
+                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                         .child('name').set(nameController.text);
+                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                         .child('email').set(emailController.text);
+                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                         .child('school').set(schoolController.text);
+                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                         .child('note').set(noteController.text);
+                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                         .child('uid').set(AuthService().getUID());
                    },
                        icon: Icon(Icons.login), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
                 ),

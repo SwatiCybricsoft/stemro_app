@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/auth/login_screen.dart';
@@ -172,9 +173,17 @@ class _LabPictureState extends State<LabPicture> {
     );
     setState(() {
       imageFile = pickedFile!;
-    });
+      // File image = imageFile as File;
+      // FirebaseStorage storage = FirebaseStorage.instance;
+      // Reference ref = storage.ref().child("image1" + DateTime.now().toString());
+      // UploadTask uploadTask = ref.putFile(image);
+      // uploadTask.then((res) {
+      //   res.ref.getDownloadURL();
+      //   print(res.ref.getDownloadURL());
+      // });
 
-    Navigator.pop(context);
+    // Navigator.pop(context);
+  });
   }
 
   void _openCamera(BuildContext context)  async{
@@ -183,6 +192,14 @@ class _LabPictureState extends State<LabPicture> {
     );
     setState(() {
       imageFile = pickedFile!;
+      // File image = imageFile as File;
+      // FirebaseStorage storage = FirebaseStorage.instance;
+      // Reference ref = storage.ref().child("image1" + DateTime.now().toString());
+      // UploadTask uploadTask = ref.putFile(image);
+      // uploadTask.then((res) {
+      //   // res.ref.getDownloadURL();
+      //   print(res.ref.getDownloadURL());
+      // });
     });
     Navigator.pop(context);
   }
