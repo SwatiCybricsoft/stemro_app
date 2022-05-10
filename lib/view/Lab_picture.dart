@@ -168,39 +168,45 @@ class _LabPictureState extends State<LabPicture> {
 
   }
   void _openGallery(BuildContext context) async{
-    final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery ,
-    );
-    setState(() {
-      imageFile = pickedFile!;
-      // File image = imageFile as File;
-      // FirebaseStorage storage = FirebaseStorage.instance;
-      // Reference ref = storage.ref().child("image1" + DateTime.now().toString());
-      // UploadTask uploadTask = ref.putFile(image);
-      // uploadTask.then((res) {
-      //   res.ref.getDownloadURL();
-      //   print(res.ref.getDownloadURL());
-      // });
-
-    // Navigator.pop(context);
-  });
+    String destination = "Lab Pictures/Gallery";
+    final _firebaseStorage = FirebaseStorage.instance;
+    PickedFile? image = await ImagePicker().getImage(source: ImageSource.gallery);
+    if (image != null){
+      var file = File(image.path);
+      var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      print(downloadUrl);
+    } else {
+      print('No Image Path Received');
+    }
   }
 
   void _openCamera(BuildContext context)  async{
-    final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera ,
-    );
-    setState(() {
-      imageFile = pickedFile!;
-      // File image = imageFile as File;
-      // FirebaseStorage storage = FirebaseStorage.instance;
-      // Reference ref = storage.ref().child("image1" + DateTime.now().toString());
-      // UploadTask uploadTask = ref.putFile(image);
-      // uploadTask.then((res) {
-      //   // res.ref.getDownloadURL();
-      //   print(res.ref.getDownloadURL());
-      // });
-    });
+    String destination = "Lab Pictures/Camera";
+    final _firebaseStorage = FirebaseStorage.instance;
+    PickedFile? image = await ImagePicker().getImage(source: ImageSource.camera);
+    if (image != null){
+      var file = File(image.path);
+      var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      print(downloadUrl);
+    } else {
+      print('No Image Path Received');
+    }
     Navigator.pop(context);
   }
 }
+
+// uploadImage() async {
+//   String destination = "Lab Pictures";
+//   final _firebaseStorage = FirebaseStorage.instance;
+//   PickedFile? image = await ImagePicker().getImage(source: ImageSource.gallery);
+//   if (image != null){
+//     var file = File(image.path);
+//     var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
+//     var downloadUrl = await snapshot.ref.getDownloadURL();
+//     print(downloadUrl);
+//   } else {
+//     print('No Image Path Received');
+//   }
+// }
