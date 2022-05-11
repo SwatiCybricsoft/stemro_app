@@ -54,6 +54,7 @@ class RegistrationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextField(
+
                           controller: nameController,
                           decoration: InputDecoration(
                             hintText:  "Engineer's Name",
@@ -84,6 +85,7 @@ class RegistrationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextField(
+
                           controller: schoolController,
                           decoration: InputDecoration(
                             hintText: 'School Name',
@@ -113,6 +115,7 @@ class RegistrationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextFormField(
+
                           controller: emailController,
                           validator: (val) => val!.contains("@") ? "Email Id is not Valid" : null ,
                           onSaved: (val) => _email = val!,
