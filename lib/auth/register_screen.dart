@@ -10,14 +10,24 @@ import 'package:firebase_database/firebase_database.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
 
-class RegistrationPage extends StatelessWidget {
+class RegistrationPage extends StatefulWidget {
+  @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
   late String _email, _password;
-  bool _passwordVisible = false;
+
   var authHandler = AuthService();
 
+  bool isLoading = false;
+
   final nameController = TextEditingController();
+
   final schoolController = TextEditingController();
+
   final emailController = TextEditingController();
+
   final passController = TextEditingController();
 
   @override
@@ -183,7 +193,17 @@ class RegistrationPage extends StatelessWidget {
                       HeightBox(20),
                       GestureDetector(
                           onTap: (){
-                            print("Register Clicked Event");
+                            setState(() {
+                              isLoading = true;
+                            });
+                            Future.delayed(const Duration(seconds: 3),(){
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
+                            );
+
+                            print("Login Clicked Event");
                             authHandler.handleSignUp(emailController.text, passController.text).then((user) {
                               if (!user.uid.endsWith("null")) {
                                 FirebaseDatabase.instance.reference().child(user.uid)
@@ -202,8 +222,29 @@ class RegistrationPage extends StatelessWidget {
                               }
                             }).catchError((e) => print(e));
                           },
-                          child: "Sign-Up".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.grey).
-                          color(Colors.teal).roundedLg.make().w(200).h(55)),
+                          child:isLoading?Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Loading...',style: TextStyle(
+                                  color: Colors.teal
+                              ),),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              CircularProgressIndicator(color: Colors.white,)
+                            ],
+                          ) :Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            width: 150,
+                            color: Colors.teal,
+                            child: Text('SignUp'),
+                          )
+
+                        // child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
+                        // color(Colors.teal).roundedLg.make().w(200).h(55)
+                      ),
+
                       HeightBox(140),
                       "Login with".text.black.makeCentered(),
                     ],

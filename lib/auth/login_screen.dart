@@ -128,7 +128,8 @@ class _LoginPageState extends State<LoginPage> {
                               setState(() {
                                 isLoading = false;
                               });
-                            });
+                            }
+                            );
 
                             print("Login Clicked Event");
                             authHandler.handleSignIn(emailController.text, passController.text).then((user) {
