@@ -37,9 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: 20,
             ),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
+            Text('Stemrobo Help Desk',style: TextStyle(
+              color: Colors.white
+            ),),
+            // CircularProgressIndicator(
+            //   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            // )
           ],
         ),
       ),

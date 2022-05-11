@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
+import 'package:stemro_app/form/submitpage.dart';
 import 'package:stemro_app/view/Lab_picture.dart';
 import 'package:stemro_app/view/component_verification.dart';
 import 'package:stemro_app/view/teachers_traing.dart';
@@ -16,7 +17,7 @@ class FormPage extends StatefulWidget {
   State<FormPage> createState() => _FormPageState();
 }
 class _FormPageState extends State<FormPage> {
-
+bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +105,7 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   int dropDownValue = 0;
-
+  bool isLoading = false;
   final dateController = TextEditingController();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -193,15 +194,21 @@ class MyCustomFormState extends State<MyCustomForm> {
               SizedBox(
                 height: 10,
               ),
-
               Center(
-                child: new Container(
+                child: Container(
                     padding: const EdgeInsets.only(top: 30),
                    child: RaisedButton.icon(onPressed:(){
-
+                     setState(() {
+                       isLoading = true;
+                     });
+                     Future.delayed(const Duration(seconds: 3),(){
+                       setState(() {
+                         isLoading = false;
+                       });
+                     }
+                     );
                      var now = DateTime.now();
                      String requestID = DateFormat('yyyyMMddhhmmss').format(now);
-                     
                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
                          .child('date').set(dateController.text);
                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
@@ -215,7 +222,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
                          .child('uid').set(AuthService().getUID());
                    },
-                       icon: Icon(Icons.login), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
+                       icon: GestureDetector(
+                         onTap: (){
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage')));
+                         },
+                           child: Icon(Icons.login)), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
                 ),
               ),
             ],

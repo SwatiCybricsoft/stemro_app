@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/auth/login_screen.dart';
-import 'package:stemro_app/form/attched_file.dart';
+import 'package:stemro_app/form/submitpage.dart';
 import 'package:stemro_app/form/visit_page.dart';
 class LabPicture extends StatefulWidget {
   const LabPicture({Key? key}) : super(key: key);
@@ -114,16 +114,7 @@ class _LabPictureState extends State<LabPicture> {
                 ),
               ),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     selectImages();
-            //   },
-            //   child: Text('Select Images',style: TextStyle(
-            //     color: Colors.teal.shade300,
-            //     fontSize: 15,
-            //     fontWeight: FontWeight.bold
-            //   ),),
-            // ),
+
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
@@ -159,9 +150,7 @@ class _LabPictureState extends State<LabPicture> {
                 ),
               ],
             )
-
           ],
-
         ),
       ),
     );
@@ -197,16 +186,3 @@ class _LabPictureState extends State<LabPicture> {
   }
 }
 
-// uploadImage() async {
-//   String destination = "Lab Pictures";
-//   final _firebaseStorage = FirebaseStorage.instance;
-//   PickedFile? image = await ImagePicker().getImage(source: ImageSource.gallery);
-//   if (image != null){
-//     var file = File(image.path);
-//     var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
-//     var downloadUrl = await snapshot.ref.getDownloadURL();
-//     print(downloadUrl);
-//   } else {
-//     print('No Image Path Received');
-//   }
-// }

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/visit_page.dart';
-
 import 'package:firebase_database/firebase_database.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   State<Home> createState() => _HomeState();
 }
-
 class _HomeState extends State<Home> {
   int i = 0;
   @override
@@ -298,7 +294,6 @@ class _HomeState extends State<Home> {
           },
         ));
   }
-
   void userDetails() {
     if (AuthService().getUser() != null) {
       var uid = AuthService().getUser()!.uid;

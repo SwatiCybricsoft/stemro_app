@@ -85,6 +85,8 @@ flutter:
    - assets/xing.svg
    - assets/backgroundUI.png
    - assets/unsplash.jpg
+   - assets/cardimage.png
+   - assets/unsplash.jpg
 
   #   - images/a_dot_ham.jpeg
 flutter_icons:
