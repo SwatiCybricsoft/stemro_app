@@ -7,11 +7,19 @@ import 'package:velocity_x/velocity_x.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
    var authHandler = AuthService();
+   bool isLoading = false;
    late String _email, _password;
+
   final emailController = TextEditingController();
+
   final passController = TextEditingController();
 
   @override
@@ -113,6 +121,15 @@ class LoginPage extends StatelessWidget {
                       HeightBox(20),
                       GestureDetector(
                           onTap: (){
+                            setState(() {
+                              isLoading = true;
+                            });
+                            Future.delayed(const Duration(seconds: 3),(){
+                              setState(() {
+                                isLoading = false;
+                              });
+                            });
+
                             print("Login Clicked Event");
                             authHandler.handleSignIn(emailController.text, passController.text).then((user) {
                               if(!user.uid.endsWith("null")){
@@ -124,19 +141,27 @@ class LoginPage extends StatelessWidget {
                               }
                             }).catchError((e) => print(e));
                           },
-                        // child: Container(
-                        //   padding: const EdgeInsets.all(10),
-                        //   // child: isLoading?SizedBox(
-                        //   //   height: 25,
-                        //   //   width: 25,
-                        //   //   child: CircularProgressIndicator(
-                        //   //     color: Colors.white,
-                        //   //     strokeWidth: 3,
-                        //   //   ),
-                        //   // ):Text('Login')
-                        // ),
-                          child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
-                          color(Colors.teal).roundedLg.make().w(200).h(55)
+                        child:isLoading?Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Loading...',style: TextStyle(
+                              color: Colors.teal
+                            ),),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CircularProgressIndicator(color: Colors.white,)
+                          ],
+                        ) :Container(
+                          alignment: Alignment.center,
+                          height: 50,
+                          width: 150,
+                          color: Colors.teal,
+                          child: Text('Login'),
+                        )
+
+                          // child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
+                          // color(Colors.teal).roundedLg.make().w(200).h(55)
                       ),
                       // HeightBox(30),
                       // "Login with".text.white.makeCentered(),
@@ -169,4 +194,19 @@ class LoginPage extends StatelessWidget {
         )
     );
   }
+}
+showLoaderDialog(BuildContext context){
+  AlertDialog alert=AlertDialog(
+    content: new Row(
+      children: [
+        CircularProgressIndicator(),
+        Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+      ],),
+  );
+  showDialog(barrierDismissible: false,
+    context:context,
+    builder:(BuildContext context){
+      return alert;
+    },
+  );
 }
