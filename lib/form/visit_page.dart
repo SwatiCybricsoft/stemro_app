@@ -122,26 +122,29 @@ class MyCustomFormState extends State<MyCustomForm> {
                     labelText: "Enter School Name"
                 ),
               ),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  filled: true
-                  // prefixIcon: Icon(Icons.person),
+              Padding(
+                padding: const EdgeInsets.only(right: 1),
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    filled: true
+                    // prefixIcon: Icon(Icons.person),
+                  ),
+                  hint: Text('Select Visit Purpose',style: TextStyle(
+                    letterSpacing: 1.0
+                  ),),
+                  items: options.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: new Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      typeIndex = options.indexOf(value!);
+                      print(options[typeIndex]);
+                    });
+                  },
                 ),
-                hint: Text('Select Visit Purpose',style: TextStyle(
-                  letterSpacing: 1.0
-                ),),
-                items: options.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: new Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    typeIndex = options.indexOf(value!);
-                    print(options[typeIndex]);
-                  });
-                },
               ),
               TextFormField(
                 controller: noteController,
@@ -152,45 +155,119 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 30,
               ),
-              Center(
-                child: Container(
-                    padding: const EdgeInsets.only(top: 30),
-                   child: RaisedButton.icon(onPressed:(){
-                     setState(() {
-                       isLoading = true;
-                     });
-                     Future.delayed(const Duration(seconds: 3),(){
-                       setState(() {
-                         isLoading = false;
-                       });
-                     }
-                     );
-                     var now = DateTime.now();
-                     String requestID = DateFormat('yyyyMMddhhmmss').format(now);
-                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                         .child('date').set(dateController.text);
-                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                         .child('name').set(nameController.text);
-                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                         .child('email').set(emailController.text);
-                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                         .child('school').set(schoolController.text);
-                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                         .child('type').set(options[typeIndex]);
-                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                         .child('note').set(noteController.text);
-                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                         .child('uid').set(AuthService().getUID());
-                   },
-                       icon: GestureDetector(
-                         onTap: (){
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage')));
-                         },
-                           child: Icon(Icons.login)), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
-                ),
+              GestureDetector(
+                  onTap: (){
+
+                    setState(() {
+                      isLoading = true;
+                    });
+                    Future.delayed(const Duration(seconds: 3),(){
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                    );
+
+                    print("Login Clicked Event");
+                    var now = DateTime.now();
+                    String requestID = DateFormat('yyyyMMddhhmmss').format(now);
+                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                        .child('date').set(dateController.text);
+                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                        .child('name').set(nameController.text);
+                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                        .child('email').set(emailController.text);
+                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                        .child('school').set(schoolController.text);
+                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                        .child('type').set(options[typeIndex]);
+                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                        .child('note').set(noteController.text);
+                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                        .child('uid').set(AuthService().getUID());
+                  },
+                  child:isLoading?Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Please Wait...',style: TextStyle(
+                          color: Colors.teal
+                      ),),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Center(
+                        heightFactor: 1,
+                        widthFactor: 1,
+                        child: SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                          ),
+                        ),
+                      )
+
+                    ],
+                  ) :Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: 150,
+                    color: Colors.teal,
+                    child: Text('SAVE',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  )
+
               ),
+              // Center(
+              //   child: Container(
+              //       padding: const EdgeInsets.only(top: 30),
+              //      child: RaisedButton.icon(onPressed:(){
+              //
+              //        setState(() {
+              //          isLoading = true;
+              //        });
+              //
+              //        var now = DateTime.now();
+              //        String requestID = DateFormat('yyyyMMddhhmmss').format(now);
+              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+              //            .child('date').set(dateController.text);
+              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+              //            .child('name').set(nameController.text);
+              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+              //            .child('email').set(emailController.text);
+              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+              //            .child('school').set(schoolController.text);
+              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+              //            .child('type').set(options[typeIndex]);
+              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+              //            .child('note').set(noteController.text);
+              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+              //            .child('uid').set(AuthService().getUID());
+              //      },
+              //          icon: GestureDetector(
+              //            onTap: (){
+              //              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage')));
+              //            },
+              //              child:isLoading?Row(
+              //                children: [
+              //                  Text('Please Wait...',style: TextStyle(
+              //                      color: Colors.teal
+              //                  ),),
+              //                  SizedBox(
+              //                    width: 10,
+              //                  ),
+              //                  CircularProgressIndicator(color: Colors.teal,)
+              //                ],
+              //              ): Icon(Icons.login)), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
+              //   ),
+              // ),
             ],
           ),
         ),

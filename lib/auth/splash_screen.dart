@@ -15,8 +15,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () async {
-      if (await FirebaseAuth.instance.currentUser! != null) {
+    Timer(Duration(seconds: 1), () async {
+      if (await FirebaseAuth.instance.currentUser != null) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => Home()));
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => LoginPage()));
@@ -42,14 +42,16 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: 20,
             ),
-            Text('Stemrobo Help Desk',style: TextStyle(
+            Text('Stemrobo Help Desk',
+              style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.bold
-            ),),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
+            ),
+            ),
+            // CircularProgressIndicator(
+            //   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            // )
           ],
         ),
       ),

@@ -35,8 +35,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final passController = TextEditingController();
   _showSnackbar() {
-    var snackBar = new SnackBar(content: Text("Login Successful"));
-
+    var snackBar = new SnackBar(content: Text("Register Successful"));
     scaffoldKey.currentState!.showSnackBar(snackBar);
   }
   @override
@@ -67,7 +66,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           width: 100,
                           child: SvgPicture.asset("assets/xing.svg")),
                       HeightBox(10),
-                      "Login".text.color(Colors.white).size(20).make(),
+                      "SignUp".text.color(Colors.white).size(20).make(),
                       HeightBox(
                           20
                       ),
@@ -208,7 +207,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             setState(() {
                               isLoading = true;
                             });
-                            Future.delayed(const Duration(seconds: 3),(){
+                            Future.delayed(const Duration(seconds: 1),(){
                               setState(() {
                                 isLoading = false;
                               });
@@ -228,7 +227,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 FirebaseDatabase.instance.reference().child(uid)
                                     .child('school').set(schoolController.text);
                                 print("Registration success");
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
                               }else{
                                 print("Res:"+response);
                                 //Show error message to user
@@ -244,22 +243,30 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               SizedBox(
                                 width: 10,
                               ),
-                              CircularProgressIndicator(color: Colors.white,)
+                              Center(
+                                heightFactor: 1,
+                                widthFactor: 1,
+                                child: SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 1.5,
+                                  ),
+                                ),
+                              )
                             ],
                           ) :Container(
                             alignment: Alignment.center,
                             height: 50,
                             width: 150,
                             color: Colors.teal,
-                            child: Text('SignUp'),
+                            child: Text('SIGNUP', style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold
+                            ),),
                           )
-
-                        // child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
-                        // color(Colors.teal).roundedLg.make().w(200).h(55)
                       ),
-
-                      HeightBox(140),
-                      "Login with".text.black.makeCentered(),
                     ],
                   ),
                 )

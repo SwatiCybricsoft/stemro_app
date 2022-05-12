@@ -162,18 +162,32 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 width: 10,
                               ),
-                              CircularProgressIndicator(color: Colors.white,)
+                              Center(
+                                heightFactor: 1,
+                                widthFactor: 1,
+                                child: SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 1.5,
+                                  ),
+                                ),
+                              )
                             ],
                           ) :Container(
                             alignment: Alignment.center,
                             height: 50,
                             width: 150,
                             color: Colors.teal,
-                            child: Text('Login'),
+                            child: Text('LOGIN',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
                           )
 
-                            // child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
-                            // color(Colors.teal).roundedLg.make().w(200).h(55)
                         ),
                         // HeightBox(30),
                         // "Login with".text.white.makeCentered(),

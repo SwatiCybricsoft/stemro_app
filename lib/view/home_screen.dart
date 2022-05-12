@@ -326,13 +326,13 @@ class _HomeState extends State<Home> {
   void onSelected(BuildContext context ,int item){
     switch (item){
       case 0:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>LabPicture()));
         break;
       case 1:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ComponentVerify()));
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>TeachersTraning()));
         break;
       case 3:
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>LoginPage()), (route) => false);
