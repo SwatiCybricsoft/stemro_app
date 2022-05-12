@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/visit_page.dart';
@@ -75,8 +76,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => FormPage()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>FormPage()));
               },
               child: Container(
                 margin: const EdgeInsets.all(0.0),
@@ -323,6 +323,8 @@ class _HomeState extends State<Home> {
           },
         ));
   }
+  var authHandler = AuthService();
+
   void onSelected(BuildContext context ,int item){
     switch (item){
       case 0:
@@ -335,10 +337,16 @@ class _HomeState extends State<Home> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
         break;
       case 3:
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>LoginPage()), (route) => false);
+        _signOut();
         break;
     }
   }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>LoginPage()), (route) => false);
+  }
+
   void userDetails() {
     if (AuthService().getUser() != null) {
       var uid = AuthService().getUser()!.uid;
