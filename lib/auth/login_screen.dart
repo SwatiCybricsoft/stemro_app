@@ -143,12 +143,12 @@ class _LoginPageState extends State<LoginPage> {
                               );
 
                               print("Login Clicked Event");
-                              authHandler.handleSignIn(emailController.text, passController.text).then((user) {
-                                if(!user.uid.endsWith("null")){
+                              authHandler.handleSignIn(emailController.text, passController.text).then((response) {
+                                if(response.toString().endsWith("Success")){
                                   print("Login success");
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
                                 }else{
-                                  print("Login failed");
+                                  print("res:"+response.toString());
                                   //Show some error to user
                                 }
                               }).catchError((e) => print(e));
