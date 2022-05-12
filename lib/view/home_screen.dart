@@ -323,6 +323,7 @@ class _HomeState extends State<Home> {
           },
         ));
   }
+
   var authHandler = AuthService();
 
   void onSelected(BuildContext context ,int item){
