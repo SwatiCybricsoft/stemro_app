@@ -114,6 +114,11 @@ class MyCustomFormState extends State<MyCustomForm> {
   final typeController = TextEditingController();
   final noteController = TextEditingController();
 
+  late int typeIndex;
+
+  var options = <String>['ComponentVerification',
+    'TeachersTraining', 'RegularVisit', 'PreSalesDemo/Meeting','Technical/DocumentationSupport'];
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -175,14 +180,18 @@ class MyCustomFormState extends State<MyCustomForm> {
                 hint: Text('Select Visit Purpose',style: TextStyle(
                   letterSpacing: 1.0
                 ),),
-                items: <String>['ComponentVerification',
-                  'TeachersTraining', 'RegularVisit', 'PreSalesDemo/Meeting','Technical/DocumentationSupport'].map((String value) {
+                items: options.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: new Text(value),
                   );
                 }).toList(),
-                onChanged: (_) {},
+                onChanged: (value) {
+                  setState(() {
+                    typeIndex = options.indexOf(value!);
+                    print(options[typeIndex]);
+                  });
+                },
               ),
               TextFormField(
                 controller: noteController,
@@ -218,6 +227,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                          .child('email').set(emailController.text);
                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
                          .child('school').set(schoolController.text);
+                     FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                         .child('type').set(options[typeIndex]);
                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
                          .child('note').set(noteController.text);
                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
