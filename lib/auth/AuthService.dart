@@ -21,11 +21,19 @@ class AuthService {
   }
 
   //2
-  Future<User> handleSignUp(email, password) async {
-    UserCredential userCredential = await _firebaseAuth
-        .createUserWithEmailAndPassword(email: email, password: password);
-    User user = userCredential.user!;
-    return user;
+  Future<String> handleSignUp(email, password) async {
+    try{
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      User user = userCredential.user!;
+      if (user != null) {
+        return "Success";
+      }else{
+        return "Failed";
+      }
+    }catch (error){
+      return error.toString();
+    }
   }
 
   //3

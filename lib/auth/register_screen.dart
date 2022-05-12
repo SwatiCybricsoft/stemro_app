@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stemro_app/view/home_screen.dart';
@@ -204,20 +205,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             );
 
                             print("Login Clicked Event");
-                            authHandler.handleSignUp(emailController.text, passController.text).then((user) {
-                              if (!user.uid.endsWith("null")) {
-                                FirebaseDatabase.instance.reference().child(user.uid)
+                            authHandler.handleSignUp(emailController.text, passController.text).then((response) {
+                              if (response.endsWith("Success")) {
+                                String uid = FirebaseAuth.instance.currentUser!.uid;
+                                FirebaseDatabase.instance.reference().child(uid)
                                     .child('email').set(emailController.text);
-                                FirebaseDatabase.instance.reference().child(user.uid)
+                                FirebaseDatabase.instance.reference().child(uid)
                                     .child('password').set(passController.text);
-                                FirebaseDatabase.instance.reference().child(user.uid)
+                                FirebaseDatabase.instance.reference().child(uid)
                                     .child('name').set(nameController.text);
-                                FirebaseDatabase.instance.reference().child(user.uid)
+                                FirebaseDatabase.instance.reference().child(uid)
                                     .child('school').set(schoolController.text);
                                 print("Registration success");
                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
                               }else{
-                                print("Registration failed");
+                                print("Res:"+response);
                                 //Show error message to user
                               }
                             }).catchError((e) => print(e));
