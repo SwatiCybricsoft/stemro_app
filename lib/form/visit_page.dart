@@ -22,10 +22,8 @@ bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.teal,
@@ -55,6 +53,9 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final formKey = new GlobalKey<FormState>();
+
   int dropDownValue = 0;
   bool isLoading = false;
   final dateController = TextEditingController();
@@ -63,7 +64,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   final schoolController = TextEditingController();
   final typeController = TextEditingController();
   final noteController = TextEditingController();
-
+  late String _date, _name,_email,_school,_note;
   late int typeIndex;
 
   var options = <String>['ComponentVerification',
@@ -74,63 +75,70 @@ class MyCustomFormState extends State<MyCustomForm> {
     // Build a Form widget using the _formKey created above.
     return Padding(
       padding: const EdgeInsets.only(left: 20,right: 20,top: 20),
-      child: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-           child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 5,bottom: 10,left: 0),
-                child: Text('School Visit Form',style: TextStyle(
-                    decoration: TextDecoration.underline,fontSize: 20,
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold
-                ),),
-              ),
-              TextFormField(
-                controller: dateController,
-                decoration: const InputDecoration(
-                    filled: true,
-                    hintText:"Today's Date",
-                    labelText: "Today's Date"
+      child: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 5,bottom: 10,left: 0),
+                  child: Text('School Visit Form',style: TextStyle(
+                      decoration: TextDecoration.underline,fontSize: 20,
+                      color: Colors.teal,
+                      fontWeight: FontWeight.bold
+                  ),),
                 ),
-              ),
-              TextFormField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                    filled: true,
-                    hintText: "Engineer's Name",
-                    labelText: "Engineer's Name"
+                TextFormField(
+                  onSaved: (val) => _date = val!,
+                  validator: (val) => val!.length < 1  ? "Enter Date" : null ,
+                  controller: dateController,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      hintText:"Today's Date",
+                      labelText: "Today's Date"
+                  ),
                 ),
-              ),
-              TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                    filled: true,
-                    hintText: "Engineer's EmailID",
-                    labelText: "Engineer's EmailID"
+                TextFormField(
+                  controller: nameController,
+                  onSaved: (val) => _name = val!,
+                  validator: (val) => val!.length < 1  ? "Enter Name" : null ,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      hintText: "Engineer's Name",
+                      labelText: "Engineer's Name"
+                  ),
                 ),
-              ),
-              TextFormField(
-                controller: schoolController,
-                decoration: const InputDecoration(
-                    filled: true,
-                    hintText: 'Enter School Name',
-                    labelText: "Enter School Name"
+                TextFormField(
+                  controller: emailController,
+                  validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
+                  onSaved: (val) => _email = val!,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      hintText: "Engineer's EmailID",
+                      labelText: "Engineer's EmailID"
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 1),
-                child: DropdownButtonFormField<String>(
+                TextFormField(
+                  controller: schoolController,
+                  onSaved: (val) => _school = val!,
+                  validator: (val) => val!.length < 2  ? "Enter School Name" : null ,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      hintText: 'Enter School Name',
+                      labelText: "Enter School Name"
+                  ),
+                ),
+                DropdownButtonFormField<String>(
+                  isExpanded: true,
                   decoration: InputDecoration(
-                    filled: true
+                      filled: true
                     // prefixIcon: Icon(Icons.person),
                   ),
                   hint: Text('Select Visit Purpose',style: TextStyle(
-                    letterSpacing: 1.0
+                      letterSpacing: 1.0
                   ),),
                   items: options.map((String value) {
                     return DropdownMenuItem<String>(
@@ -145,132 +153,137 @@ class MyCustomFormState extends State<MyCustomForm> {
                     });
                   },
                 ),
-              ),
-              TextFormField(
-                controller: noteController,
-                decoration: const InputDecoration(
-                    filled: true,
-                    hintText: 'Add a note',
-                    labelText: " Add a note"
+
+                TextFormField(
+                  onSaved: (val) => _note = val!,
+                  validator: (val) => val!.length < 4  ? "Enter Notes" : null ,
+                  controller: noteController,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      hintText: 'Add a note',
+                      labelText: " Add a note"
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                  onTap: (){
+                SizedBox(
+                  height: 30,
+                ),
+                GestureDetector(
+                    onTap: (){
+                      if(formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                      }
 
-                    setState(() {
-                      isLoading = true;
-                    });
-                    Future.delayed(const Duration(seconds: 3),(){
                       setState(() {
-                        isLoading = false;
+                        isLoading = true;
                       });
-                    }
-                    );
+                      Future.delayed(const Duration(seconds: 3),(){
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                      );
 
-                    print("Login Clicked Event");
-                    var now = DateTime.now();
-                    String requestID = DateFormat('yyyyMMddhhmmss').format(now);
-                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                        .child('date').set(dateController.text);
-                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                        .child('name').set(nameController.text);
-                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                        .child('email').set(emailController.text);
-                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                        .child('school').set(schoolController.text);
-                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                        .child('type').set(options[typeIndex]);
-                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                        .child('note').set(noteController.text);
-                    FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                        .child('uid').set(AuthService().getUID());
-                  },
-                  child:isLoading?Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Please Wait...',style: TextStyle(
-                          color: Colors.teal
-                      ),),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Center(
-                        heightFactor: 1,
-                        widthFactor: 1,
-                        child: SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1.5,
-                          ),
+                      print("Login Clicked Event");
+                      var now = DateTime.now();
+                      String requestID = DateFormat('yyyyMMddhhmmss').format(now);
+                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                          .child('date').set(dateController.text);
+                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                          .child('name').set(nameController.text);
+                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                          .child('email').set(emailController.text);
+                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                          .child('school').set(schoolController.text);
+                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                          .child('type').set(options[typeIndex]);
+                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                          .child('note').set(noteController.text);
+                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                          .child('uid').set(AuthService().getUID());
+                    },
+                    child:isLoading?Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Please Wait...',style: TextStyle(
+                            color: Colors.teal
+                        ),),
+                        SizedBox(
+                          width: 10,
                         ),
-                      )
+                        Center(
+                          heightFactor: 1,
+                          widthFactor: 1,
+                          child: SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                            ),
+                          ),
+                        )
 
-                    ],
-                  ) :Container(
-                    alignment: Alignment.center,
-                    height: 50,
-                    width: 150,
-                    color: Colors.teal,
-                    child: Text('SAVE',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
+                      ],
+                    ) :Container(
+                      alignment: Alignment.center,
+                      height: 50,
+                      width: 150,
+                      color: Colors.teal,
+                      child: Text('SAVE',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
-                    ),
-                  )
+                    )
 
-              ),
-              // Center(
-              //   child: Container(
-              //       padding: const EdgeInsets.only(top: 30),
-              //      child: RaisedButton.icon(onPressed:(){
-              //
-              //        setState(() {
-              //          isLoading = true;
-              //        });
-              //
-              //        var now = DateTime.now();
-              //        String requestID = DateFormat('yyyyMMddhhmmss').format(now);
-              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-              //            .child('date').set(dateController.text);
-              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-              //            .child('name').set(nameController.text);
-              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-              //            .child('email').set(emailController.text);
-              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-              //            .child('school').set(schoolController.text);
-              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-              //            .child('type').set(options[typeIndex]);
-              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-              //            .child('note').set(noteController.text);
-              //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-              //            .child('uid').set(AuthService().getUID());
-              //      },
-              //          icon: GestureDetector(
-              //            onTap: (){
-              //              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage')));
-              //            },
-              //              child:isLoading?Row(
-              //                children: [
-              //                  Text('Please Wait...',style: TextStyle(
-              //                      color: Colors.teal
-              //                  ),),
-              //                  SizedBox(
-              //                    width: 10,
-              //                  ),
-              //                  CircularProgressIndicator(color: Colors.teal,)
-              //                ],
-              //              ): Icon(Icons.login)), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
-              //   ),
-              // ),
-            ],
+                ),
+                // Center(
+                //   child: Container(
+                //       padding: const EdgeInsets.only(top: 30),
+                //      child: RaisedButton.icon(onPressed:(){
+                //
+                //        setState(() {
+                //          isLoading = true;
+                //        });
+                //
+                //        var now = DateTime.now();
+                //        String requestID = DateFormat('yyyyMMddhhmmss').format(now);
+                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                //            .child('date').set(dateController.text);
+                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                //            .child('name').set(nameController.text);
+                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                //            .child('email').set(emailController.text);
+                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                //            .child('school').set(schoolController.text);
+                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                //            .child('type').set(options[typeIndex]);
+                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                //            .child('note').set(noteController.text);
+                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
+                //            .child('uid').set(AuthService().getUID());
+                //      },
+                //          icon: GestureDetector(
+                //            onTap: (){
+                //              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage')));
+                //            },
+                //              child:isLoading?Row(
+                //                children: [
+                //                  Text('Please Wait...',style: TextStyle(
+                //                      color: Colors.teal
+                //                  ),),
+                //                  SizedBox(
+                //                    width: 10,
+                //                  ),
+                //                  CircularProgressIndicator(color: Colors.teal,)
+                //                ],
+                //              ): Icon(Icons.login)), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
+                //   ),
+                // ),
+              ],
+            ),
           ),
-        ),
         ),
       )
     );

@@ -173,9 +173,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     GestureDetector(
                         onTap: () {
                           print("cliiked");
-                          // if (formKey.currentState!.validate()) {
-                          //   formKey.currentState!.save();
-                          // }
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                          }
                           setState(() {
                             isLoading = true;
                           });
