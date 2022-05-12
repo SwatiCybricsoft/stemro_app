@@ -8,7 +8,6 @@ import 'package:stemro_app/form/submitpage.dart';
 import 'package:stemro_app/form/visit_page.dart';
 class LabPicture extends StatefulWidget {
   const LabPicture({Key? key}) : super(key: key);
-
   @override
   State<LabPicture> createState() => _LabPictureState();
 }

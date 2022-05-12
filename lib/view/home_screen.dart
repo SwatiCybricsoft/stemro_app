@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/visit_page.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:stemro_app/view/Lab_picture.dart';
+import 'package:stemro_app/view/component_verification.dart';
+import 'package:stemro_app/view/teachers_traing.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
 class Home extends StatefulWidget {
@@ -19,18 +22,42 @@ class _HomeState extends State<Home> {
           brightness: Brightness.light,
           backgroundColor: Colors.teal,
           centerTitle: true,
-          // leading: IconButton(
-          //     onPressed: () {
-          //       Navigator.pushReplacement(context,
-          //           MaterialPageRoute(builder: (context) => LoginPage()));
-          //     },
-          //     icon: Icon(
-          //       Icons.arrow_back_ios,
-          //       size: 20,
-          //       color: Colors.white,
-          //     )
-          //
-          // ),
+          actions: [
+            PopupMenuButton<int>(
+              onSelected: (item) =>onSelected(context,item),
+              itemBuilder: (context) =>[
+                PopupMenuItem<int>(
+                  value: 0,
+                  child: Text('Lab Picture',style: TextStyle(
+                    color: Colors.teal,fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),),
+                ),
+                PopupMenuItem<int>(
+                  value: 1,
+                  child: Text('Component Verification Docs',style: TextStyle(
+                    color: Colors.teal,fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),),
+                ),
+                PopupMenuItem<int>(
+                  value: 2,
+                  child: Text("Teacher's Training Report",style: TextStyle(
+                    color: Colors.teal,fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),),
+                ),
+                PopupMenuItem<int>(
+                  value: 3,
+                  child: Text("Logout",style: TextStyle(
+                    color: Colors.teal,fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),),
+                ),
+
+              ],
+            ),
+          ],
           title: Text(
             'User Dashboard',
             maxLines: 1,
@@ -295,6 +322,22 @@ class _HomeState extends State<Home> {
             });
           },
         ));
+  }
+  void onSelected(BuildContext context ,int item){
+    switch (item){
+      case 0:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+        break;
+      case 3:
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>LoginPage()), (route) => false);
+        break;
+    }
   }
   void userDetails() {
     if (AuthService().getUser() != null) {

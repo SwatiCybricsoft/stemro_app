@@ -17,7 +17,11 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  late String _email, _password;
+  late String _email,_pass,_name,_school;
+
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final formKey = new GlobalKey<FormState>();
+
 
   var authHandler = AuthService();
 
@@ -30,10 +34,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final emailController = TextEditingController();
 
   final passController = TextEditingController();
+  _showSnackbar() {
+    var snackBar = new SnackBar(content: Text("Login Successful"));
 
+    scaffoldKey.currentState!.showSnackBar(snackBar);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.teal.shade300,
         body: SafeArea(
           child: SingleChildScrollView(
@@ -64,12 +73,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: TextField(
-
+                        child: TextFormField(
+                          onSaved: (val) => _name = val!,
+                          validator: (val) => val!.length < 2  ? "Enter Engineer's Name" : null ,
                           controller: nameController,
                           decoration: InputDecoration(
                             hintText:  "Engineer's Name",
-                            labelText: "Engineer's Name",
+                            labelText: " Enter Engineer's Name",
                             // hintStyle: TextStyle(color: Colors.black),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
@@ -95,12 +105,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: TextField(
-
+                        child: TextFormField(
+                          onSaved: (val) => _school = val!,
+                          validator: (val) => val!.length < 2  ? "Enter School Name" : null ,
                           controller: schoolController,
                           decoration: InputDecoration(
                             hintText: 'School Name',
-                             labelText: 'School Name',
+                             labelText: ' Enter School Name',
                              enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -126,13 +137,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextFormField(
-
                           controller: emailController,
                           validator: (val) => val!.contains("@") ? "Email Id is not Valid" : null ,
                           onSaved: (val) => _email = val!,
                           decoration: InputDecoration(
                             hintText: 'Email',
-                             labelText:'Email' ,
+                             labelText:' Enter Email' ,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -158,12 +168,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextFormField(
-
                           controller: passController,
                           decoration: InputDecoration(
                             hintText: 'Password',
-                            labelText: "Password",
-
+                            labelText: " Enter Password",
                             hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
@@ -185,15 +193,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           cursorColor: Colors.white,
                           style: TextStyle(color: Colors.white),
                           obscureText: true,
-
-                          validator: (val)=>val!.length <6 ? 'Password too short.':null,
-                          onSaved: (val) =>_password = val!,
-
+                          onSaved: (val) => _pass = val!,
+                          validator: (val) => val!.length < 6  ? "Password length should be Greater than 6" : null ,
                         ),
                       ),
                       HeightBox(20),
                       GestureDetector(
                           onTap: (){
+                            if(formKey.currentState!.validate()) {
+                              formKey.currentState!.save();
+
+                              _showSnackbar();
+                            }
                             setState(() {
                               isLoading = true;
                             });
