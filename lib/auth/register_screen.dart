@@ -225,7 +225,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           child:isLoading?Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Loading...',style: TextStyle(
+                              Text('Please Wait...',style: TextStyle(
                                   color: Colors.teal
                               ),),
                               SizedBox(

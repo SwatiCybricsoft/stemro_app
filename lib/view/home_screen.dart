@@ -19,16 +19,18 @@ class _HomeState extends State<Home> {
           brightness: Brightness.light,
           backgroundColor: Colors.teal,
           centerTitle: true,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                size: 20,
-                color: Colors.white,
-              )),
+          // leading: IconButton(
+          //     onPressed: () {
+          //       Navigator.pushReplacement(context,
+          //           MaterialPageRoute(builder: (context) => LoginPage()));
+          //     },
+          //     icon: Icon(
+          //       Icons.arrow_back_ios,
+          //       size: 20,
+          //       color: Colors.white,
+          //     )
+          //
+          // ),
           title: Text(
             'User Dashboard',
             maxLines: 1,
