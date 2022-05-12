@@ -20,10 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   final passController = TextEditingController();
    final scaffoldKey = new GlobalKey<ScaffoldState>();
    final formKey = new GlobalKey<FormState>();
-   _showSnackbar() {
-     var snackBar = new SnackBar(content: Text("Login Successful"));
-     scaffoldKey.currentState?.showSnackBar(snackBar);
-   }
 
    @override
   Widget build(BuildContext context) {
@@ -129,8 +125,6 @@ class _LoginPageState extends State<LoginPage> {
                             onTap: (){
                               if(formKey.currentState!.validate()) {
                                 formKey.currentState!.save();
-
-                                _showSnackbar();
                               }
                               setState(() {
                                 isLoading = true;
@@ -141,15 +135,15 @@ class _LoginPageState extends State<LoginPage> {
                                 });
                               }
                               );
-
-                              print("Login Clicked Event");
                               authHandler.handleSignIn(emailController.text, passController.text).then((response) {
+                                print(response.toString());
                                 if(response.toString().endsWith("Success")){
-                                  print("Login success");
+                                  var snackBar = new SnackBar(content: Text("Login success"));
+                                  scaffoldKey.currentState?.showSnackBar(snackBar);
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
                                 }else{
-                                  print("res:"+response.toString());
-                                  //Show some error to user
+                                  var snackBar = new SnackBar(content: Text(response.toString()));
+                                  scaffoldKey.currentState?.showSnackBar(snackBar);
                                 }
                               }).catchError((e) => print(e));
                             },
