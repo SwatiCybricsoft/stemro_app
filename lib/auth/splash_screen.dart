@@ -38,11 +38,13 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 20,
             ),
             Text('Stemrobo Help Desk',style: TextStyle(
-              color: Colors.white
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold
             ),),
-            // CircularProgressIndicator(
-            //   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            // )
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
           ],
         ),
       ),

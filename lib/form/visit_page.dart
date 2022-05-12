@@ -25,42 +25,7 @@ bool isLoading = false;
 
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        actions: [
-          PopupMenuButton<int>(
-            onSelected: (item) =>onSelected(context,item),
-            itemBuilder: (context) =>[
-              PopupMenuItem<int>(
-                value: 0,
-                child: Text('Lab Picture',style: TextStyle(
-                  color: Colors.teal,fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),),
-              ),
-              PopupMenuItem<int>(
-                value: 1,
-                child: Text('Component Verification Docs',style: TextStyle(
-                  color: Colors.teal,fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),),
-              ),
-              PopupMenuItem<int>(
-                value: 2,
-                child: Text("Teacher's Training Report",style: TextStyle(
-                  color: Colors.teal,fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),),
-              ),
-              PopupMenuItem<int>(
-                value: 3,
-                child: Text("Logout",style: TextStyle(
-                  color: Colors.teal,fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),),
-              ),
 
-            ],
-          ),
-        ],
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.teal,
@@ -78,22 +43,7 @@ bool isLoading = false;
       body:MyCustomForm() ,
     );
   }
-  void onSelected(BuildContext context ,int item){
-    switch (item){
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>LabPicture()));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ComponentVerify()));
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>TeachersTraning()));
-        break;
-      case 3:
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>LoginPage()), (route) => false);
-        break;
-    }
-  }
+
 }
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {

@@ -7,7 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
-import 'package:email_validator/email_validator.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -15,15 +15,23 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
    var authHandler = AuthService();
    bool isLoading = false;
-   late String _email, _password;
+   late String _email, _pass;
   final emailController = TextEditingController();
   final passController = TextEditingController();
-   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-  @override
+   final scaffoldKey = new GlobalKey<ScaffoldState>();
+   final formKey = new GlobalKey<FormState>();
+   _showSnackbar() {
+     var snackBar = new SnackBar(content: Text("Login Successful"));
+     scaffoldKey.currentState?.showSnackBar(snackBar);
+   }
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.teal.shade300,
         body: Form(
+          key: formKey,
           child: SingleChildScrollView(
             child: SafeArea(
               child: Stack(
@@ -55,12 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: TextFormField(
                             controller: emailController,
-                            // validator: (val) => !EmailValidator.Validate(val,true)
-                            //   ?'Please Provide a vaild email.':null,
+                            validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
                             onSaved: (val) => _email = val!,
                             decoration: InputDecoration(
-                              hintText: 'Email',
-                              labelText: 'Enter Email',
+                              hintText: 'Enter Email',
+                              labelText: ' Email',
 
                               hintStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
@@ -90,11 +97,11 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextFormField(
 
                             controller: passController,
-                            validator: (val)=>val!.length <6 ? 'Password too short.':null,
-                            onSaved: (val) =>_password = val!,
+                            onSaved: (val) => _pass = val!,
+                            validator: (val) => val!.length < 6  ? "Password length should be Greater than 6" : null ,
                             decoration: InputDecoration(
-                              hintText: 'Password',
-                              labelText: 'Enter Password',
+                                labelText: "Password",
+                                hintText: "Enter Password",
                               hintStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(10.0),
@@ -120,6 +127,11 @@ class _LoginPageState extends State<LoginPage> {
                         HeightBox(20),
                         GestureDetector(
                             onTap: (){
+                              if(formKey.currentState!.validate()) {
+                                formKey.currentState!.save();
+
+                                _showSnackbar();
+                              }
                               setState(() {
                                 isLoading = true;
                               });
