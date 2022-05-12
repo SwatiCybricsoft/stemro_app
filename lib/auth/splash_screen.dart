@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
+import 'package:stemro_app/view/home_screen.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -13,9 +15,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => LoginPage()));
+    Timer(Duration(seconds: 3), () async {
+      if (await FirebaseAuth.instance.currentUser! != null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => Home()));
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => LoginPage()));
+      }
     });
   }
   @override

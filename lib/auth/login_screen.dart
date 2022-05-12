@@ -7,7 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
-import 'package:email_validator/email_validator.dart';
+// import 'package:email_validator/email_validator.dart';
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
