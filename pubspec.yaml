@@ -42,14 +42,14 @@ dependencies:
   dropdown_button2: ^1.4.0
   flutter_easyloading: ^3.0.3
   form_field_validator: ^1.1.0
-#  email_validator: "0.1.4"
+  email_validator: "0.1.4"
 
   fluttertoast: ^8.0.9
   #API requests
   http: 0.13.4
   # Firebase
   firebase_core: ^1.0.3
-  firebase_auth: ^3.3.1
+  firebase_auth: ^3.3.17
   firebase_database: ^9.0.1
   firebase_storage: ^10.2.15
 

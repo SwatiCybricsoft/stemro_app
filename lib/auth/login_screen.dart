@@ -7,7 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
-// import 'package:email_validator/email_validator.dart';
+import 'package:email_validator/email_validator.dart';
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -131,12 +131,12 @@ class _LoginPageState extends State<LoginPage> {
                               );
 
                               print("Login Clicked Event");
-                              authHandler.handleSignIn(emailController.text, passController.text).then((user) {
-                                if(!user.uid.endsWith("null")){
+                              authHandler.handleSignIn(emailController.text, passController.text).then((response) {
+                                if(response.toString().endsWith("Success")){
                                   print("Login success");
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
                                 }else{
-                                  print("Login failed");
+                                  print("res:"+response.toString());
                                   //Show some error to user
                                 }
                               }).catchError((e) => print(e));
