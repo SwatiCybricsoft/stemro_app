@@ -291,6 +291,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     updates['/Users/$uid/School Visits/$newVisitKey'] = visitData;
     updates['/School Visits/$newVisitKey'] = visitData;
 
-    return FirebaseDatabase.instance.ref().update(updates);
+    FirebaseDatabase.instance.ref().update(updates);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage',)));
   }
 }
