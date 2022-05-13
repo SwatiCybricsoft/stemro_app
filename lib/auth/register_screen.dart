@@ -20,7 +20,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final formKey = new GlobalKey<FormState>();
-
+  late String _email, _pass,_name, _school  ;
   var authHandler = AuthService();
 
   bool isLoading = false;

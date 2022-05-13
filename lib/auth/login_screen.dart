@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stemro_app/auth/register_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
-import 'package:stemro_app/widgets/validation.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
 
@@ -20,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   final passController = TextEditingController();
    final scaffoldKey = new GlobalKey<ScaffoldState>();
    final formKey = new GlobalKey<FormState>();
-
    @override
   Widget build(BuildContext context) {
     return Scaffold(
