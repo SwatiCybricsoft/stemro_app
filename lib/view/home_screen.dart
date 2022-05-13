@@ -117,7 +117,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               onTap: () {
                 if(isLogin()){
-                  loadUserData();
+                  loadSchoolVisits();
                 }else{
                   var snackBar = new SnackBar(content: Text("Login required !"));
                   scaffoldKey.currentState?.showSnackBar(snackBar);
@@ -376,13 +376,12 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void loadUserData(){
-    var uid = AuthService().getUser()!.uid;
+  void loadSchoolVisits(){
+    var uid = AuthService().getUser()!.uid;//Show only items who have the same uid
     DatabaseReference reference = FirebaseDatabase.instance.ref("School Visits");
     reference.onValue.listen((DatabaseEvent event) {
       if (event.snapshot.exists) {
         final data = event.snapshot.value;
-        print(event.snapshot.child('-N1wCn1LA8TFKl-oJtlY').value.toString());
         print(data);
       } else {
         print('No data available.');

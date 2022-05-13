@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/ImageUploader.dart';
+
+import '../auth/AuthService.dart';
 
 class LabPicture extends StatefulWidget {
   const LabPicture({Key? key}) : super(key: key);
@@ -200,5 +203,19 @@ class _LabPictureState extends State<LabPicture> {
         ),
       ),
     );
+  }
+
+  void loadImages(){
+    var uid = AuthService().getUser()!.uid;//Show only items who have the same uid
+    DatabaseReference reference = FirebaseDatabase.instance.ref('Users/$uid/Images/');
+    reference.onValue.listen((DatabaseEvent event) {
+      if (event.snapshot.exists) {
+        //Show only who's category Lab Picture
+        final data = event.snapshot.value;
+        print(data);
+      } else {
+        print('No data available.');
+      }
+    });
   }
 }
