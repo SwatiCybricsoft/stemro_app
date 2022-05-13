@@ -69,8 +69,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             val!.length < 2 ? "Enter Engineer's Name" : null,
                         controller: nameController,
                         decoration: InputDecoration(
-                          hintText: "Engineer's Name",
-                          labelText: " Enter Engineer's Name",
+                          hintText: " Enter Engineer's Name",
+                          labelText: "Engineer's Name",
                           // hintStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
@@ -95,8 +95,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             val!.length < 2 ? "Enter School Name" : null,
                         controller: schoolController,
                         decoration: InputDecoration(
-                          hintText: 'School Name',
-                          labelText: ' Enter School Name',
+                          hintText: 'Enter School Name',
+                          labelText: '  School Name',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: Colors.white),
@@ -122,8 +122,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             val!.contains("@") ? "Email Id is not Valid" : null,
                         onSaved: (val) => _email = val!,
                         decoration: InputDecoration(
-                          hintText: 'Email',
-                          labelText: ' Enter Email',
+                          hintText: ' Enter Email',
+                          labelText: ' Email',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: Colors.white),
@@ -144,8 +144,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       child: TextFormField(
                         controller: passController,
                         decoration: InputDecoration(
-                          hintText: 'Password',
-                          labelText: " Enter Password",
+                          hintText: 'Enter Password',
+                          labelText: "  Password",
                           hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
