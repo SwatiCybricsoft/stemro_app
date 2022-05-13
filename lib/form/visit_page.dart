@@ -55,7 +55,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final formKey = new GlobalKey<FormState>();
-
   int dropDownValue = 0;
   bool isLoading = false;
   final dateController = TextEditingController();
@@ -92,8 +91,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   ),),
                 ),
                 TextFormField(
-                  onSaved: (val) => _date = val!,
-                  validator: (val) => val!.length < 1  ? "Enter Date" : null ,
+                  // onSaved: (val) => _date = val!,
+                  // validator: (val) => val!.length < 1  ? "Enter Date" : null ,
                   controller: dateController,
                   decoration: const InputDecoration(
                       filled: true,
@@ -103,8 +102,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 TextFormField(
                   controller: nameController,
-                  onSaved: (val) => _name = val!,
-                  validator: (val) => val!.length < 1  ? "Enter Name" : null ,
+                  // onSaved: (val) => _name = val!,
+                  // validator: (val) => val!.length < 1  ? "Enter Name" : null ,
                   decoration: const InputDecoration(
                       filled: true,
                       hintText: "Engineer's Name",
@@ -113,8 +112,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 TextFormField(
                   controller: emailController,
-                  validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
-                  onSaved: (val) => _email = val!,
+                  // validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
+                  // onSaved: (val) => _email = val!,
                   decoration: const InputDecoration(
                       filled: true,
                       hintText: "Engineer's EmailID",
@@ -123,8 +122,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 TextFormField(
                   controller: schoolController,
-                  onSaved: (val) => _school = val!,
-                  validator: (val) => val!.length < 2  ? "Enter School Name" : null ,
+                  // onSaved: (val) => _school = val!,
+                  // validator: (val) => val!.length < 2  ? "Enter School Name" : null ,
                   decoration: const InputDecoration(
                       filled: true,
                       hintText: 'Enter School Name',
@@ -153,10 +152,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     });
                   },
                 ),
-
                 TextFormField(
-                  onSaved: (val) => _note = val!,
-                  validator: (val) => val!.length < 4  ? "Enter Notes" : null ,
+                  // onSaved: (val) => _note = val!,
+                  // validator: (val) => val!.length < 4  ? "Enter Notes" : null ,
                   controller: noteController,
                   decoration: const InputDecoration(
                       filled: true,

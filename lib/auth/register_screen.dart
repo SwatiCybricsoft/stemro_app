@@ -20,9 +20,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final formKey = new GlobalKey<FormState>();
-
-  late String _name, _email, _pass, _school;
-
+  late String _email, _pass,_name, _school  ;
   var authHandler = AuthService();
 
   bool isLoading = false;
@@ -57,11 +55,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        height: 100,
-                        width: 100,
+                        height: 80,
+                        width: 70,
                         child: SvgPicture.asset("assets/xing.svg")),
                     HeightBox(10),
-                    "Login".text.color(Colors.white).size(20).make(),
+                    "Sign Up".text.color(Colors.white).size(20).make(),
                     HeightBox(20),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -233,14 +231,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 height: 50,
                                 width: 150,
                                 color: Colors.teal,
-                                child: Text('SignUp'),
+                                child: Text('SignUp',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
                               )
-
-                        // child: "Login".text.white.light.xl.makeCentered().box.white.shadowOutline(outlineColor: Colors.white).
-                        // color(Colors.teal).roundedLg.make().w(200).h(55)
                         ),
-                    HeightBox(140),
-                    "Login with".text.black.makeCentered(),
                   ],
                 ),
               )

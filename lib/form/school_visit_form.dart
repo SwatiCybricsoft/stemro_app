@@ -77,7 +77,6 @@ class CameraWidgetState extends State{
       ),
     );
   }
-
   void _openGallery(BuildContext context) async{
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery ,
@@ -85,10 +84,8 @@ class CameraWidgetState extends State{
     setState(() {
       imageFile = pickedFile!;
     });
-
     Navigator.pop(context);
   }
-
   void _openCamera(BuildContext context)  async{
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera ,

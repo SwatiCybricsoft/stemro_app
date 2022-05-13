@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'stemro_app',
+      title: 'Stemrobo Help Desk',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -21,4 +21,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
