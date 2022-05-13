@@ -44,8 +44,8 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                            height: 100,
-                            width: 100,
+                            height: 80,
+                            width: 70,
                             child: SvgPicture.asset("assets/xing.svg")),
                         HeightBox(10),
                         "Login".text.color(Colors.white).size(20).make(),
@@ -178,11 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           )
-
                         ),
-                        // HeightBox(30),
-                        // "Login with".text.white.makeCentered(),
-                        // // SocialSignWidgetRow()
                       ], // "L
                     ),
                   )
