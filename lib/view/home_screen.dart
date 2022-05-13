@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:stemro_app/view/Lab_picture.dart';
 import 'package:stemro_app/view/component_verification.dart';
 import 'package:stemro_app/view/teachers_traing.dart';
+import 'package:stemro_app/form/old_visit_form.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
 
@@ -358,7 +359,8 @@ class _HomeState extends State<Home> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) =>TeachersTraning()));
         break;
       case 3:
-        _signOut();
+        // _signOut();
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>OldVisits()));
         break;
     }
   }
