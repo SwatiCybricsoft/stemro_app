@@ -71,6 +71,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         decoration: InputDecoration(
                           hintText: " Enter Engineer's Name",
                           labelText: "Engineer's Name",
+                          labelStyle: TextStyle(color: Colors.white),
+                          hintStyle: TextStyle(color: Colors.white),
                           // hintStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
@@ -78,7 +80,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.black)),
+                              borderSide: BorderSide(color: Colors.white)),
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                         ),
@@ -90,22 +92,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextFormField(
-                        onSaved: (val) => _school = val!,
+                        onSaved: (val) => _name = val!,
                         validator: (val) =>
-                            val!.length < 2 ? "Enter School Name" : null,
-                        controller: schoolController,
+                        val!.length < 2 ? "Enter School Name" : null,
+                        controller: nameController,
                         decoration: InputDecoration(
-                          hintText: 'Enter School Name',
-                          labelText: '  School Name',
+                          hintText: " Enter School Name",
+                          labelText: "School Name",
+                          labelStyle: TextStyle(color: Colors.white),
+                          hintStyle: TextStyle(color: Colors.white),
+                          // hintStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.black,
-                              )),
+                              borderSide: BorderSide(color: Colors.white)),
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                         ),
@@ -124,13 +127,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         decoration: InputDecoration(
                           hintText: ' Enter Email',
                           labelText: ' Email',
+                          labelStyle: TextStyle(color: Colors.white),
+                          hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.black)),
+                              borderSide: BorderSide(color: Colors.white)),
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                         ),
@@ -146,6 +151,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         decoration: InputDecoration(
                           hintText: 'Enter Password',
                           labelText: "  Password",
+                          labelStyle: TextStyle(color: Colors.white),
                           hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(10.0),
@@ -153,7 +159,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.black)),
+                              borderSide: BorderSide(color: Colors.white)),
                           isDense: true,
 
                           // Added this
@@ -231,7 +237,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 height: 50,
                                 width: 150,
                                 color: Colors.teal,
-                                child: Text('SignUp',
+                                child: Text('SIGNUP',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -260,9 +266,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
             TextSpan(
               text: ' Login Now',
               style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Colors.teal),
+                  color: Colors.white70,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold
+              ),
             ),
           ],
         )).pLTRB(20, 0, 0, 15),

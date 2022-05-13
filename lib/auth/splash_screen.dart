@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
-
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/unsplash.jpg"),
+                      image: AssetImage("assets/stemrobo.png"),
                       fit: BoxFit.cover)),
             ),
             Text(

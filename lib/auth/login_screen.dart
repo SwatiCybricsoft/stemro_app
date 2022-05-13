@@ -18,10 +18,12 @@ class _LoginPageState extends State<LoginPage> {
   final passController = TextEditingController();
    final scaffoldKey = new GlobalKey<ScaffoldState>();
    final formKey = new GlobalKey<FormState>();
+
    @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+
       backgroundColor: Colors.teal.shade300,
         body: Form(
           key: formKey,
@@ -61,8 +63,8 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               hintText: 'Enter Email',
                               labelText: ' Email',
-
                               hintStyle: TextStyle(color: Colors.white),
+                              labelStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
@@ -95,7 +97,9 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                                 labelText: "Password",
                                 hintText: "Enter Password",
+
                               hintStyle: TextStyle(color: Colors.white),
+                              labelStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(10.0),
                                 borderSide: BorderSide(
@@ -113,7 +117,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             cursorColor: Colors.white,
                             obscureText: true,
-
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -198,9 +201,10 @@ class _LoginPageState extends State<LoginPage> {
               TextSpan(
                 text: ' Register Now',
                 style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                    color:Colors.teal),
+                    color: Colors.white70,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold
+                ),
               ),
             ],
           )
