@@ -16,11 +16,12 @@ class ImageUploader{
     final _firebaseStorage = FirebaseStorage.instance;
     PickedFile? image = await ImagePicker().getImage(source: ImageSource.gallery);
     if (image != null){
+      showAlertDialog(context);
       var file = File(image.path);
       var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       print(downloadUrl);
-      SaveDatabase(category, subcategory, downloadUrl);
+      SaveDatabase(context, category, subcategory, downloadUrl);
     } else {
       print('No Image Path Received');
     }
@@ -33,17 +34,18 @@ class ImageUploader{
     final _firebaseStorage = FirebaseStorage.instance;
     PickedFile? image = await ImagePicker().getImage(source: ImageSource.camera);
     if (image != null){
+      showAlertDialog(context);
       var file = File(image.path);
       var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       print(downloadUrl);
-      SaveDatabase(category, subcategory, downloadUrl);
+      SaveDatabase(context, category, subcategory, downloadUrl);
     } else {
       print('No Image Path Received');
     }
   }
 
-  void SaveDatabase(String category, String subcategory, String downloadUrl){
+  void SaveDatabase(BuildContext context, String category, String subcategory, String downloadUrl){
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
     final imageData = {
@@ -60,8 +62,23 @@ class ImageUploader{
 
     FirebaseDatabase.instance.ref().update(updates);
 
-    var snackBar = new SnackBar(content: Text("Image Uploaded"));
-    new GlobalKey<ScaffoldState>().currentState?.showSnackBar(snackBar);
+    Navigator.pop(context);
+  }
+
+  showAlertDialog(BuildContext context){
+    AlertDialog alert=AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(margin: EdgeInsets.only(left: 8),child:Text("Uploading..." )),
+        ],),
+    );
+    showDialog(barrierDismissible: false,
+      context:context,
+      builder:(BuildContext context){
+        return alert;
+      },
+    );
   }
 
 }
