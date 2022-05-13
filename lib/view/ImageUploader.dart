@@ -45,14 +45,21 @@ class ImageUploader{
 
   void SaveDatabase(String category, String subcategory, String downloadUrl){
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    var now = DateTime.now();
-    String requestID = DateFormat('yyyyMMddhhmmss').format(now);
-    FirebaseDatabase.instance.reference().child(uid).child("Images").child(requestID)
-        .child('imageURL').set(downloadUrl);
-    FirebaseDatabase.instance.reference().child(uid).child("Images").child(requestID)
-        .child('Category').set(category);
-    FirebaseDatabase.instance.reference().child(uid).child("Images").child(requestID)
-        .child('Subcategory').set(subcategory);
+
+    final imageData = {
+      'imageURL': downloadUrl,
+      'Category': category,
+      'Subcategory': subcategory,
+    };
+
+    final newVisitKey =
+        FirebaseDatabase.instance.ref().push().key;
+
+    final Map<String, Map> updates = {};
+    updates['/Users/$uid/Images/$newVisitKey'] = imageData;
+
+    FirebaseDatabase.instance.ref().update(updates);
+
     var snackBar = new SnackBar(content: Text("Image Uploaded"));
     new GlobalKey<ScaffoldState>().currentState?.showSnackBar(snackBar);
   }

@@ -188,17 +188,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           authHandler.handleSignUp(emailController.text, passController.text).then((response) {
                             print(response);
                             if (response.endsWith("Success")) {
+
+                              final userData = {
+                                'email': emailController.text,
+                                'password': passController.text,
+                                'name': nameController.text,
+                                'school': schoolController.text,
+                              };
+
                               String uid = FirebaseAuth.instance.currentUser!.uid;
-                              FirebaseDatabase.instance.reference().child(uid).child('email').set(emailController.text);
-                              FirebaseDatabase.instance.reference().child(uid).child('password').set(passController.text);
-                              FirebaseDatabase.instance.reference().child(uid).child('name').set(nameController.text);
-                              FirebaseDatabase.instance.reference().child(uid).child('school').set(schoolController.text);
+                              final Map<String, Map> updates = {};
+                              updates['/Users/$uid'] = userData;
+
+                              FirebaseDatabase.instance.ref().update(updates);
+
                               var snackBar = new SnackBar(content: Text("Registration successful"));
                               scaffoldKey.currentState?.showSnackBar(snackBar);
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
                             } else {
                               //Show error message to user
-                              var snackBar = new SnackBar(content: Text(response));scaffoldKey.currentState?.showSnackBar(snackBar);
+                              var snackBar = new SnackBar(content: Text(response));
+                              scaffoldKey.currentState?.showSnackBar(snackBar);
                             }
                           }).catchError((e) => print(e));
                         },

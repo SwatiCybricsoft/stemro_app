@@ -114,30 +114,40 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(0.0),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.0),
-                  )),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.add_to_photos_rounded,
-                    size: 40,
-                    color: Colors.black54,
-                  ),
-                  Text(
-                    "View Old Form",
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
+            GestureDetector(
+              onTap: () {
+                if(isLogin()){
+                  loadUserData();
+                }else{
+                  var snackBar = new SnackBar(content: Text("Login required !"));
+                  scaffoldKey.currentState?.showSnackBar(snackBar);
+                }
+              },
+              child: Container(
+                margin: const EdgeInsets.all(0.0),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 3.0, color: Colors.black26),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    )),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.add_to_photos_rounded,
+                      size: 40,
+                      color: Colors.black54,
                     ),
-                  ),
-                ],
+                    Text(
+                      "View Old Form",
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -368,9 +378,15 @@ class _HomeState extends State<Home> {
 
   void loadUserData(){
     var uid = AuthService().getUser()!.uid;
-    FirebaseDatabase.instance.reference().child(uid)
-        .once().then((snapshot) {
-          print('Server response: ${snapshot}');
-        });
+    DatabaseReference reference = FirebaseDatabase.instance.ref("School Visits");
+    reference.onValue.listen((DatabaseEvent event) {
+      if (event.snapshot.exists) {
+        final data = event.snapshot.value;
+        print(event.snapshot.child('-N1wCn1LA8TFKl-oJtlY').value.toString());
+        print(data);
+      } else {
+        print('No data available.');
+      }
+    });
   }
 }

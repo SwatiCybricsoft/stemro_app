@@ -182,24 +182,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         });
                       }
                       );
-
-                      print("Login Clicked Event");
-                      var now = DateTime.now();
-                      String requestID = DateFormat('yyyyMMddhhmmss').format(now);
-                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                          .child('date').set(dateController.text);
-                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                          .child('name').set(nameController.text);
-                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                          .child('email').set(emailController.text);
-                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                          .child('school').set(schoolController.text);
-                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                          .child('type').set(options[typeIndex]);
-                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                          .child('note').set(noteController.text);
-                      FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                          .child('uid').set(AuthService().getUID());
+                      writeNewVisit();
                     },
                     child:isLoading?Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -287,5 +270,29 @@ class MyCustomFormState extends State<MyCustomForm> {
         ),
       )
     );
+  }
+
+  void writeNewVisit() async {
+
+    var uid = AuthService().getUID();
+
+    final visitData = {
+      'date': dateController.text,
+      'name': nameController.text,
+      'email': emailController.text,
+      'school': schoolController.text,
+      'type': options[typeIndex],
+      'note': noteController.text,
+      'uid': uid,
+    };
+
+    final newVisitKey =
+        FirebaseDatabase.instance.ref().push().key;
+
+    final Map<String, Map> updates = {};
+    updates['/Users/$uid/School Visits/$newVisitKey'] = visitData;
+    updates['/School Visits/$newVisitKey'] = visitData;
+
+    return FirebaseDatabase.instance.ref().update(updates);
   }
 }
