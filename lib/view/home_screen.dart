@@ -8,13 +8,17 @@ import 'package:stemro_app/view/component_verification.dart';
 import 'package:stemro_app/view/teachers_traing.dart';
 import '../auth/AuthService.dart';
 import 'dart:developer';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
   @override
   State<Home> createState() => _HomeState();
 }
 class _HomeState extends State<Home> {
+
   int i = 0;
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +80,12 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>FormPage()));
+                if(isLogin()){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>FormPage()));
+                }else{
+                  var snackBar = new SnackBar(content: Text("Login required !"));
+                  scaffoldKey.currentState?.showSnackBar(snackBar);
+                }
               },
               child: Container(
                 margin: const EdgeInsets.all(0.0),
@@ -348,16 +357,20 @@ class _HomeState extends State<Home> {
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>LoginPage()), (route) => false);
   }
 
-  void userDetails() {
-    if (AuthService().getUser() != null) {
-      var uid = AuthService().getUser()!.uid;
-      FirebaseDatabase.instance
-          .reference()
-          .child(uid)
-          .once()
-          .then((snapshot) {
-        log('Server response: ${snapshot}');
-      });
+  bool isLogin() {
+    var authService = AuthService();
+    if (authService.getUser() != null) {
+      return true;
+    }else{
+      return false;
     }
+  }
+
+  void loadUserData(){
+    var uid = AuthService().getUser()!.uid;
+    FirebaseDatabase.instance.reference().child(uid)
+        .once().then((snapshot) {
+          print('Server response: ${snapshot}');
+        });
   }
 }

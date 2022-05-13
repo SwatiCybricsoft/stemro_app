@@ -3,6 +3,8 @@ import 'package:stemro_app/auth/login_screen.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/form/visit_page.dart';
+import 'package:stemro_app/view/ImageUploader.dart';
+
 class ComponentVerify extends StatefulWidget {
   const ComponentVerify({Key? key}) : super(key: key);
 
@@ -10,7 +12,9 @@ class ComponentVerify extends StatefulWidget {
   State<ComponentVerify> createState() => _ComponentVerifyState();
 }
 class _ComponentVerifyState extends State<ComponentVerify> {
-  PickedFile? imageFile=null;
+
+  var imageUploader = ImageUploader();
+
   Future<void>_showChoiceDialog(BuildContext context)
   {
     return showDialog(context: context,builder: (BuildContext context){
@@ -22,7 +26,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
               Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
-                  _openGallery(context);
+                  imageUploader.openGallery(context);
                 },
                 title: Text("Gallery"),
                 leading: Icon(Icons.account_box,color: Colors.teal,),
@@ -31,7 +35,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
               Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
-                  _openCamera(context);
+                  imageUploader.openCamera(context);
                 },
                 title: Text("Camera"),
                 leading: Icon(Icons.camera,color: Colors.teal,),
@@ -157,33 +161,10 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 ),
               ],
             )
-
           ],
-
         ),
       ),
     );
-
-  }
-  void _openGallery(BuildContext context) async{
-    final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery ,
-    );
-    setState(() {
-      imageFile = pickedFile!;
-    });
-
-    Navigator.pop(context);
-  }
-
-  void _openCamera(BuildContext context)  async{
-    final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera ,
-    );
-    setState(() {
-      imageFile = pickedFile!;
-    });
-    Navigator.pop(context);
   }
 }
 
