@@ -4,7 +4,7 @@ import 'package:stemro_app/auth/register_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../auth/AuthService.dart';
-import 'dart:developer';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-
       backgroundColor: Colors.teal.shade300,
         body: Form(
           key: formKey,
@@ -35,8 +34,9 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage("assets/unsplash.jpg"),
-                            fit: BoxFit.cover
-                        )
+                            fit: BoxFit.cover,
+                        ),
+
                     ),
                   ),
                   Padding(
@@ -98,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                                 labelText: "Password",
                                 hintText: "Enter Password",
 
+
                               hintStyle: TextStyle(color: Colors.white),
                               labelStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
@@ -150,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                           child:isLoading?Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+
                               Text('Please Wait...',style: TextStyle(
                                 color: Colors.teal
                               ),),

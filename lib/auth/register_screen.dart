@@ -92,7 +92,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextFormField(
-                        onSaved: (val) => _name = val!,
+                        onSaved: (val) => _school = val!,
                         validator: (val) =>
                         val!.length < 2 ? "Enter School Name" : null,
                         controller: nameController,

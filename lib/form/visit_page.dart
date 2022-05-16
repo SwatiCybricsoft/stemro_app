@@ -27,16 +27,32 @@ bool isLoading = false;
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.teal,
-        centerTitle: true,
+         centerTitle: true,
         leading: IconButton(onPressed: (){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home ()));
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
-        title: Text('School Visit Form',maxLines: 1,style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-        ),),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/stemrobo.png',
+                fit: BoxFit.contain,
+                height: 32,
+              ),
+              Container(
+                  padding: const EdgeInsets.all(8.0), child: Text('📝')
+              )
+            ],
+          ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.tealAccent, Colors.teal]),
+          ),
+        ),
       ),
       body:MyCustomForm() ,
     );

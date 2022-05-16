@@ -71,11 +71,23 @@ class _TeachersTraningState extends State<TeachersTraning> {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage ()));
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
-        title: Text("Teacher Traning",maxLines: 1,style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-        ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/stemrobo.png',
+                fit: BoxFit.contain,
+                height: 32,
+              ),
+            ],
+          ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.tealAccent, Colors.teal]),
+          ),
         ),
       ),
       body: SafeArea(
@@ -101,7 +113,21 @@ class _TeachersTraningState extends State<TeachersTraning> {
                   ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10.0),
-                  )
+                  ),
+                  gradient: LinearGradient(
+                      colors: [
+                        Colors.tealAccent,
+                        Colors.teal
+                      ]
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey ,
+                        blurRadius: 2.0,
+                        offset: Offset(2.0,2.0)
+                    )
+                  ]
+
               ),
               child: GestureDetector(
                 onTap: (){

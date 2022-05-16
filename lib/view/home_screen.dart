@@ -17,7 +17,6 @@ class Home extends StatefulWidget {
 }
 class _HomeState extends State<Home> {
 
-  int i = 0;
   final scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -29,6 +28,7 @@ class _HomeState extends State<Home> {
           brightness: Brightness.light,
           backgroundColor: Colors.teal,
           centerTitle: true,
+
           actions: [
             PopupMenuButton<int>(
               onSelected: (item) =>onSelected(context,item),
@@ -65,11 +65,28 @@ class _HomeState extends State<Home> {
               ],
             ),
           ],
-          title: Text(
-            'User Dashboard',
-            maxLines: 1,
-            style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/stemrobo.png',
+                fit: BoxFit.contain,
+                height: 32,
+              ),
+              Container(
+                  padding: const EdgeInsets.all(10.0), child: Text('User Dashboard',style: TextStyle(
+                fontSize: 18,
+              ),)
+              )
+            ],
+          ),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.tealAccent, Colors.teal]),
+            ),
           ),
         ),
         body:
@@ -330,19 +347,20 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            size: 20,
-            color: Colors.red,
-          ),
-          backgroundColor: Colors.teal,
-          onPressed: () {
-            setState(() {
-              i++;
-            });
-          },
-        ));
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(
+        //     Icons.add,
+        //     size: 20,
+        //     color: Colors.red,
+        //   ),
+        //   backgroundColor: Colors.teal,
+        //   onPressed: () {
+        //     setState(() {
+        //       i++;
+        //     });
+        //   },
+        // )
+    );
   }
 
   var authHandler = AuthService();
@@ -360,7 +378,7 @@ class _HomeState extends State<Home> {
         break;
       case 3:
         // _signOut();
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>OldVisits()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
         break;
     }
   }

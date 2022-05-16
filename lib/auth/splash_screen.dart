@@ -29,32 +29,46 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.teal[300],
-      body: Center(
+      body:Container(
+        width: double.infinity,
+        height:  double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.tealAccent,
+                Colors.teal
+              ]),
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/stemrobo.png"),
-                      fit: BoxFit.cover)),
+            Image.asset(
+              "assets/stemrobo.png",
+              height: 300.0,
+              width: 300.0,
+            ),
+            Center(
+              child: CircularProgressIndicator(
+                valueColor:  AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
             ),
             Text(
-              'Stemrobo Help Desk',
+              "Stemrobo Help Desk",
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+              ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
+
           ],
         ),
+
       ),
+
     );
   }
 }
