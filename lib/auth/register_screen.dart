@@ -65,8 +65,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextFormField(
                         onSaved: (val) => _name = val!,
-                        validator: (val) =>
-                            val!.length < 2 ? "Enter Engineer's Name" : null,
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter Engineer\s Name.';
+                          }
+                          return null;
+                        },
                         controller: nameController,
                         decoration: InputDecoration(
                           hintText: " Enter Engineer's Name",
@@ -93,9 +97,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextFormField(
                         onSaved: (val) => _school = val!,
-                        validator: (val) =>
-                        val!.length < 2 ? "Enter School Name" : null,
-                        controller: nameController,
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter School Name.';
+                          }
+                          return null;
+                        },
+                        controller: schoolController,
                         decoration: InputDecoration(
                           hintText: " Enter School Name",
                           labelText: "School Name",
@@ -121,8 +129,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextFormField(
                         controller: emailController,
-                        validator: (val) =>
-                            val!.contains("@") ? "Email Id is not Valid" : null,
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter EmailId.';
+                          }
+                          return null;
+                        },
                         onSaved: (val) => _email = val!,
                         decoration: InputDecoration(
                           hintText: ' Enter Email',
@@ -169,9 +181,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         style: TextStyle(color: Colors.white),
                         obscureText: true,
                         onSaved: (val) => _pass = val!,
-                        validator: (val) => val!.length < 6
-                            ? "Password length should be Greater than 6"
-                            : null,
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter  Password .';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     HeightBox(20),

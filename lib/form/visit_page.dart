@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/submitpage.dart';
-import 'package:stemro_app/view/Lab_picture.dart';
-import 'package:stemro_app/view/component_verification.dart';
 import 'package:stemro_app/view/home_screen.dart';
-import 'package:stemro_app/view/teachers_traing.dart';
-
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../auth/AuthService.dart';
-import 'dart:developer';
 import 'package:intl/intl.dart';
 
 class FormPage extends StatefulWidget {
@@ -107,53 +102,103 @@ class MyCustomFormState extends State<MyCustomForm> {
                   ),),
                 ),
                 TextFormField(
+                  readOnly:  true,
                   // onSaved: (val) => _date = val!,
                   // validator: (val) => val!.length < 1  ? "Enter Date" : null ,
                   controller: dateController,
-                  decoration: const InputDecoration(
-                      filled: true,
-                      hintText:"Today's Date",
-                      labelText: "Today's Date"
+                  decoration: InputDecoration(
+                    hintText: "Today Date",
+                    labelText: 'Date',
+                    hintStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
                   ),
+                  onTap: ()async{
+                    await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2021),
+                        lastDate: DateTime(2031),
+                    ).then((selectedDate) {
+                      if(selectedDate !=null){
+                        dateController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+                      }
+                    });
+                  },
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter date.';
+                    }
+                    return null;
+                  },
                 ),
+
                 TextFormField(
                   controller: nameController,
-                  // onSaved: (val) => _name = val!,
+                   onSaved: (val) => _name = val!,
                   // validator: (val) => val!.length < 1  ? "Enter Name" : null ,
-                  decoration: const InputDecoration(
-                      filled: true,
-                      hintText: "Engineer's Name",
-                      labelText: "Engineer's Name"
+                  decoration: InputDecoration(
+                    hintText: "Enter Engineer Name",
+                    labelText: "Engineer Name",
+                    hintStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
+
                   ),
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter Engineer\s name.';
+                    }
+                    return null;
+                  },
                 ),
+
                 TextFormField(
                   controller: emailController,
+
                   // validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
                   // onSaved: (val) => _email = val!,
-                  decoration: const InputDecoration(
-                      filled: true,
-                      hintText: "Engineer's EmailID",
-                      labelText: "Engineer's EmailID"
+                  decoration: InputDecoration(
+                    hintText: 'Enter Email',
+                    fillColor: Colors.black,
+                    labelText: ' Email',
+                    hintStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
                   ),
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter  EmailId.';
+                    }
+                    return null;
+                  },
                 ),
+
                 TextFormField(
                   controller: schoolController,
-                  // onSaved: (val) => _school = val!,
-                  // validator: (val) => val!.length < 2  ? "Enter School Name" : null ,
-                  decoration: const InputDecoration(
-                      filled: true,
-                      hintText: 'Enter School Name',
-                      labelText: "Enter School Name"
+                   onSaved: (val) => _school = val!,
+                  decoration: InputDecoration(
+                    hintText: 'Enter  School Name',
+                    labelText: 'School Name',
+                    hintStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
                   ),
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter  School Name.';
+                    }
+                    return null;
+                  },
                 ),
+
+
                 DropdownButtonFormField<String>(
                   isExpanded: true,
                   decoration: InputDecoration(
-                      filled: true
+                      filled: false
                     // prefixIcon: Icon(Icons.person),
                   ),
                   hint: Text('Select Visit Purpose',style: TextStyle(
+                    color: Colors.black,
                       letterSpacing: 1.0
+
                   ),),
                   items: options.map((String value) {
                     return DropdownMenuItem<String>(
@@ -167,16 +212,30 @@ class MyCustomFormState extends State<MyCustomForm> {
                       print(options[typeIndex]);
                     });
                   },
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter Visit Of Purpose.';
+                    }
+                    return null;
+                  },
                 ),
                 TextFormField(
-                  // onSaved: (val) => _note = val!,
-                  // validator: (val) => val!.length < 4  ? "Enter Notes" : null ,
+                   onSaved: (val) => _note = val!,
                   controller: noteController,
-                  decoration: const InputDecoration(
-                      filled: true,
-                      hintText: 'Add a note',
-                      labelText: " Add a note"
+                  decoration: InputDecoration(
+                    hintText: 'Enter Note',
+                    labelText: ' Note',
+                    hintStyle: TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
+                    isDense: true,                      // Added this
+                    contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                   ),
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter  Note.';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 30,

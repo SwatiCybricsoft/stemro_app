@@ -89,8 +89,8 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        body:
-        GridView.count(
+
+        body: GridView.count(
           primary: false,
           padding: const EdgeInsets.all(20),
           crossAxisSpacing: 10,
@@ -347,6 +347,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
+
         // floatingActionButton: FloatingActionButton(
         //   child: Icon(
         //     Icons.add,

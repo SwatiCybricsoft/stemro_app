@@ -18,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   final passController = TextEditingController();
    final scaffoldKey = new GlobalKey<ScaffoldState>();
    final formKey = new GlobalKey<FormState>();
-
    @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,6 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                                   width: 16,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 1.5,
+                                    color: Colors.white,
                                   ),
                                 ),
                               )
@@ -219,7 +219,7 @@ showLoaderDialog(BuildContext context){
   AlertDialog alert=AlertDialog(
     content: new Row(
       children: [
-        CircularProgressIndicator(),
+        CircularProgressIndicator(color: Colors.white,),
         Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
       ],),
   );
