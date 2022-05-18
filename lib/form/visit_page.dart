@@ -76,10 +76,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   final noteController = TextEditingController();
   late String _date, _name,_email,_school,_note;
   late int typeIndex;
-
   var options = <String>['ComponentVerification',
     'TeachersTraining', 'RegularVisit', 'PreSalesDemo/Meeting','Technical/DocumentationSupport'];
-
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -88,9 +86,8 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Form(
         key: formKey,
         child: SingleChildScrollView(
-
           child: Container(
-
+            width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +100,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                       fontWeight: FontWeight.bold
                   ),),
                 ),
-
                 TextFormField(
                   readOnly:  true,
                   // onSaved: (val) => _date = val!,
@@ -134,7 +130,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return null;
                   },
                 ),
-
                 TextFormField(
                   controller: nameController,
                    onSaved: (val) => _name = val!,
@@ -153,7 +148,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return null;
                   },
                 ),
-
                 TextFormField(
                   controller: emailController,
 
@@ -173,7 +167,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return null;
                   },
                 ),
-
                 TextFormField(
                   controller: schoolController,
                    onSaved: (val) => _school = val!,
@@ -190,8 +183,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return null;
                   },
                 ),
-
-
                 DropdownButtonFormField<String>(
                   isExpanded: true,
                   decoration: InputDecoration(
@@ -248,7 +239,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                       if(formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                       }
-
                       setState(() {
                         isLoading = true;
                       });
@@ -347,11 +337,8 @@ class MyCustomFormState extends State<MyCustomForm> {
       )
     );
   }
-
   void writeNewVisit() async {
-
     var uid = AuthService().getUID();
-
     final visitData = {
       'date': dateController.text,
       'name': nameController.text,
@@ -361,14 +348,11 @@ class MyCustomFormState extends State<MyCustomForm> {
       'note': noteController.text,
       'uid': uid,
     };
-
     final newVisitKey =
         FirebaseDatabase.instance.ref().push().key;
-
     final Map<String, Map> updates = {};
     updates['/Users/$uid/School Visits/$newVisitKey'] = visitData;
     updates['/School Visits/$newVisitKey'] = visitData;
-
     FirebaseDatabase.instance.ref().update(updates);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage',)));
   }

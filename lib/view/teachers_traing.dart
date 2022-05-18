@@ -6,16 +6,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/ImageUploader.dart';
+import 'package:stemro_app/view/home_screen.dart';
 
 import '../auth/AuthService.dart';
 
-class TeachersTraning extends StatefulWidget {
-  const TeachersTraning({Key? key}) : super(key: key);
+class TeachersTraining extends StatefulWidget {
+  const TeachersTraining({Key? key}) : super(key: key);
 
   @override
-  State<TeachersTraning> createState() => _TeachersTraningState();
+  State<TeachersTraining> createState() => _TeachersTrainingState();
 }
-class _TeachersTraningState extends State<TeachersTraning> {
+class _TeachersTrainingState extends State<TeachersTraining> {
 
   var imageUploader = ImageUploader();
 
@@ -23,26 +24,27 @@ class _TeachersTraningState extends State<TeachersTraning> {
   {
     return showDialog(context: context,builder: (BuildContext context){
       return AlertDialog(
-        title: Text("Choose option",style: TextStyle(color: Colors.teal),),
+        title: Text("File Upload",style: TextStyle(color: Colors.teal),),
         content: SingleChildScrollView(
           child: ListBody(
             children: [
-              Divider(height: 1,color: Colors.teal,),
-              ListTile(
-                onTap: (){
-                  imageUploader.openGallery(context, "Teachers Training");
-                },
-                title: Text("Gallery"),
-                leading: Icon(Icons.account_box,color: Colors.teal,),
-              ),
-              Divider(height: 1,color: Colors.teal,),
-              ListTile(
-                onTap: (){
-                  imageUploader.openCamera(context, "Teachers Training");
-                },
-                title: Text("Camera"),
-                leading: Icon(Icons.camera,color: Colors.teal,),
-              ),
+              // Divider(height: 1,color: Colors.teal,),
+              // ListTile(
+              //   onTap: (){
+              //     imageUploader.openGallery(context, "Component Verification");
+              //   },
+              //   title: Text("Gallery"),
+              //   leading: Icon(Icons.account_box,color: Colors.teal,),
+              // ),
+
+              // Divider(height: 1,color: Colors.teal,),
+              // ListTile(
+              //   onTap: (){
+              //     imageUploader.openCamera(context, "Component Verification");
+              //   },
+              //   title: Text("Camera"),
+              //   leading: Icon(Icons.camera,color: Colors.teal,),
+              // ),
             ],
           ),
         ),);
@@ -68,19 +70,19 @@ class _TeachersTraningState extends State<TeachersTraning> {
         backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage ()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home ()));
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/stemrobo.png',
-                fit: BoxFit.contain,
-                height: 32,
-              ),
-            ],
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/stemrobo.png',
+              fit: BoxFit.contain,
+              height: 32,
+            ),
+          ],
+        ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -93,7 +95,7 @@ class _TeachersTraningState extends State<TeachersTraning> {
       body: SafeArea(
         child: Column(
           children: [
-            Text("Teacher Traning",textAlign: TextAlign.center,style: TextStyle(
+            Text("Teacher's Training",textAlign: TextAlign.center,style: TextStyle(
               decoration: TextDecoration.underline,fontSize: 20,
               color: Colors.teal,
               fontWeight: FontWeight.bold,
@@ -131,8 +133,8 @@ class _TeachersTraningState extends State<TeachersTraning> {
               ),
               child: GestureDetector(
                 onTap: (){
-                  _showChoiceDialog(context);
-                  // selectImages();
+                  // _showChoiceDialog(context);
+                  selectImages();
                 },
                 child: Column(
                   children: [
@@ -176,7 +178,7 @@ class _TeachersTraningState extends State<TeachersTraning> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>FormPage()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
                     },
                         icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
                 ),
@@ -184,7 +186,7 @@ class _TeachersTraningState extends State<TeachersTraning> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>FormPage()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
                     },
                         icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
                 ),
@@ -201,7 +203,7 @@ class _TeachersTraningState extends State<TeachersTraning> {
     DatabaseReference reference = FirebaseDatabase.instance.ref('Users/$uid/Images/');
     reference.onValue.listen((DatabaseEvent event) {
       if (event.snapshot.exists) {
-        //Show only who's category Teachers Training
+        //Show only who's category Component Verification
         final data = event.snapshot.value;
         print(data);
       } else {

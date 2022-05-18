@@ -373,7 +373,7 @@ class _HomeState extends State<Home> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ComponentVerify()));
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>TeachersTraning()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>TeachersTraining()));
         break;
       case 3:
         // _signOut();

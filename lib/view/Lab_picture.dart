@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/ImageUploader.dart';
+import 'package:stemro_app/view/home_screen.dart';
 
 import '../auth/AuthService.dart';
 
@@ -17,7 +18,7 @@ class LabPicture extends StatefulWidget {
 }
 
 class _LabPictureState extends State<LabPicture> {
-
+  File? _image;
   var imageUploader = ImageUploader();
 
   Future<void> _showChoiceDialog(BuildContext context) {
@@ -26,42 +27,42 @@ class _LabPictureState extends State<LabPicture> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "Choose option",
+              "File Upload",
               style: TextStyle(color: Colors.teal),
             ),
             content: SingleChildScrollView(
-              child: ListBody(
-                children: [
-                  Divider(
-                    height: 1,
-                    color: Colors.teal,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      imageUploader.openGallery(context, "Lab Pictures");
-                    },
-                    title: Text("Gallery"),
-                    leading: Icon(
-                      Icons.account_box,
-                      color: Colors.teal,
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.teal,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      imageUploader.openCamera(context, "Lab Pictures");
-                    },
-                    title: Text("Camera"),
-                    leading: Icon(
-                      Icons.camera,
-                      color: Colors.teal,
-                    ),
-                  ),
-                ],
-              ),
+              // child: ListBody(
+              //   children: [
+              //     Divider(
+              //       height: 1,
+              //       color: Colors.teal,
+              //     ),
+              //     ListTile(
+              //       onTap: () {
+              //         // imageUploader.openGallery(context, "Lab Pictures");
+              //       },
+              //       title: Text("Gallery"),
+              //       leading: Icon(
+              //         Icons.account_box,
+              //         color: Colors.teal,
+              //       ),
+              //     ),
+              //     // Divider(
+              //     //   height: 1,
+              //     //   color: Colors.teal,
+              //     // ),
+              //     // ListTile(
+              //     //   onTap: () {
+              //     //     imageUploader.openCamera(context, "Lab Pictures");
+              //     //   },
+              //     //   title: Text("Camera"),
+              //     //   leading: Icon(
+              //     //     Icons.camera,
+              //     //     color: Colors.teal,
+              //     //   ),
+              //     // ),
+              //   ],
+              // ),
             ),
           );
         });
@@ -77,7 +78,9 @@ class _LabPictureState extends State<LabPicture> {
       imageFileList!.addAll(selectedImages);
     }
     print("Image List Length:" + imageFileList!.length.toString());
-    setState(() {});
+    setState(() {
+
+    });
   }
 
   @override
@@ -91,7 +94,7 @@ class _LabPictureState extends State<LabPicture> {
         leading: IconButton(
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+                  MaterialPageRoute(builder: (context) =>Home()));
             },
             icon: Icon(
               Icons.arrow_back_ios,
@@ -158,8 +161,8 @@ class _LabPictureState extends State<LabPicture> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  _showChoiceDialog(context);
-                  // selectImages();
+                  // _showChoiceDialog(context);
+                   selectImages();
                 },
                 child: Column(
                   children: [
@@ -204,7 +207,7 @@ class _LabPictureState extends State<LabPicture> {
                     child: RaisedButton.icon(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FormPage()));
+                              builder: (context) => Home()));
                         },
                         icon: Icon(Icons.cancel),
                         label: Text(
@@ -217,7 +220,7 @@ class _LabPictureState extends State<LabPicture> {
                     child: RaisedButton.icon(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FormPage()));
+                              builder: (context) =>Home()));
                         },
                         icon: Icon(Icons.save),
                         label: Text(
