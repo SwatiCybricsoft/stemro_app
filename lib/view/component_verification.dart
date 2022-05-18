@@ -29,7 +29,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
               Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
-                  imageUploader.openGallery(context);
+                  imageUploader.openGallery(context, "Component Verification");
                 },
                 title: Text("Gallery"),
                 leading: Icon(Icons.account_box,color: Colors.teal,),
@@ -38,7 +38,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
               Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
-                  imageUploader.openCamera(context);
+                  imageUploader.openCamera(context, "Component Verification");
                 },
                 title: Text("Camera"),
                 leading: Icon(Icons.camera,color: Colors.teal,),

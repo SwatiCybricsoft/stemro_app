@@ -30,7 +30,7 @@ class _TeachersTraningState extends State<TeachersTraning> {
               Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
-                  imageUploader.openGallery(context);
+                  imageUploader.openGallery(context, "Teachers Training");
                 },
                 title: Text("Gallery"),
                 leading: Icon(Icons.account_box,color: Colors.teal,),
@@ -38,7 +38,7 @@ class _TeachersTraningState extends State<TeachersTraning> {
               Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
-                  imageUploader.openCamera(context);
+                  imageUploader.openCamera(context, "Teachers Training");
                 },
                 title: Text("Camera"),
                 leading: Icon(Icons.camera,color: Colors.teal,),

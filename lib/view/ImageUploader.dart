@@ -5,12 +5,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class ImageUploader{
 
-  void openGallery(BuildContext context) async{
-    String category = "Lab Pictures";
+  void openGallery(BuildContext context,String category) async{
     String subcategory = "Gallery";
     String destination = category+"/"+subcategory;
     final _firebaseStorage = FirebaseStorage.instance;
@@ -27,8 +25,7 @@ class ImageUploader{
     }
   }
 
-  void openCamera(BuildContext context)  async{
-    String category = "Lab Pictures";
+  void openCamera(BuildContext context, String category)  async{
     String subcategory = "Camera";
     String destination = category+"/"+subcategory;
     final _firebaseStorage = FirebaseStorage.instance;
