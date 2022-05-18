@@ -63,7 +63,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 fontSize: 18.0,
               ),
             ),
-
           ],
         ),
 
