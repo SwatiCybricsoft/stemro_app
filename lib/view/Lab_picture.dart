@@ -38,7 +38,7 @@ class _LabPictureState extends State<LabPicture> {
                   ),
                   ListTile(
                     onTap: () {
-                      imageUploader.openGallery(context);
+                      imageUploader.openGallery(context, "Lab Pictures");
                     },
                     title: Text("Gallery"),
                     leading: Icon(
@@ -52,7 +52,7 @@ class _LabPictureState extends State<LabPicture> {
                   ),
                   ListTile(
                     onTap: () {
-                      imageUploader.openCamera(context);
+                      imageUploader.openCamera(context, "Lab Pictures");
                     },
                     title: Text("Camera"),
                     leading: Icon(
