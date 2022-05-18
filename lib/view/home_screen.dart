@@ -142,30 +142,41 @@ class _HomeState extends State<Home> {
                   scaffoldKey.currentState?.showSnackBar(snackBar);
                 }
               },
-              child: Container(
-                margin: const EdgeInsets.all(0.0),
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 3.0, color: Colors.black26),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    )),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.add_to_photos_rounded,
-                      size: 40,
-                      color: Colors.black54,
-                    ),
-                    Text(
-                      "View Old Form",
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+              child: GestureDetector(
+                onTap: (){
+                  if(isLogin()){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>OldVisits()));
+                  }else{
+                    var snackBar = new SnackBar(content: Text("Login required !"));
+                    scaffoldKey.currentState?.showSnackBar(snackBar);
+                  }
+
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 3.0, color: Colors.black26),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      )),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.add_to_photos_rounded,
+                        size: 40,
+                        color: Colors.black54,
                       ),
-                    ),
-                  ],
+                      Text(
+                        "View Old Form",
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

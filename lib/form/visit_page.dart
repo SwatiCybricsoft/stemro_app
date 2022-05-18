@@ -84,23 +84,26 @@ class MyCustomFormState extends State<MyCustomForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Padding(
-      padding: const EdgeInsets.only(left: 20,right: 20,top: 20),
+      padding: const EdgeInsets.only(left: 20,right: 20,top: 0),
       child: Form(
         key: formKey,
         child: SingleChildScrollView(
+
           child: Container(
+
             height: MediaQuery.of(context).size.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 5,bottom: 10,left: 0),
+                  padding: const EdgeInsets.only(top: 1,bottom: 10,left: 0),
                   child: Text('School Visit Form',style: TextStyle(
                       decoration: TextDecoration.underline,fontSize: 20,
                       color: Colors.teal,
                       fontWeight: FontWeight.bold
                   ),),
                 ),
+
                 TextFormField(
                   readOnly:  true,
                   // onSaved: (val) => _date = val!,
