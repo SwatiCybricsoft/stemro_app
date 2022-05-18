@@ -75,8 +75,8 @@ class _HomeState extends State<Home> {
               ),
               Container(
                   padding: const EdgeInsets.all(10.0), child: Text('User Dashboard',style: TextStyle(
-                fontSize: 18,
-              ),)
+                fontSize:15,
+              ),),
               )
             ],
           ),
@@ -347,19 +347,6 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(
-        //     Icons.add,
-        //     size: 20,
-        //     color: Colors.red,
-        //   ),
-        //   backgroundColor: Colors.teal,
-        //   onPressed: () {
-        //     setState(() {
-        //       i++;
-        //     });
-        //   },
         // )
     );
   }
