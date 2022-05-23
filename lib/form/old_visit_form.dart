@@ -9,7 +9,6 @@ class OldVisits extends StatefulWidget {
   @override
   State<OldVisits> createState() => _OldVisits();
 }
-
 class _OldVisits extends State<OldVisits> {
   late Query _ref;
   DatabaseReference reference = FirebaseDatabase.instance
@@ -161,7 +160,6 @@ class _OldVisits extends State<OldVisits> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

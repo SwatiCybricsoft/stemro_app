@@ -6,6 +6,8 @@ import 'package:firebase_database/firebase_database.dart';
 import '../auth/AuthService.dart';
 import 'package:intl/intl.dart';
 
+import '../auth/home_page.dart';
+
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ bool isLoading = false;
         backgroundColor: Colors.teal,
          centerTitle: true,
         leading: IconButton(onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home ()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage ()));
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
           title: Row(
@@ -102,8 +104,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 TextFormField(
                   readOnly:  true,
-                  // onSaved: (val) => _date = val!,
-                  // validator: (val) => val!.length < 1  ? "Enter Date" : null ,
+                   onSaved: (val) => _date = val!,
                   controller: dateController,
                   decoration: InputDecoration(
                     hintText: "Today Date",
@@ -183,6 +184,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return null;
                   },
                 ),
+                SizedBox(height:14),
+
                 DropdownButtonFormField<String>(
                   isExpanded: true,
                   decoration: InputDecoration(
@@ -287,49 +290,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     )
 
                 ),
-                // Center(
-                //   child: Container(
-                //       padding: const EdgeInsets.only(top: 30),
-                //      child: RaisedButton.icon(onPressed:(){
-                //
-                //        setState(() {
-                //          isLoading = true;
-                //        });
-                //
-                //        var now = DateTime.now();
-                //        String requestID = DateFormat('yyyyMMddhhmmss').format(now);
-                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                //            .child('date').set(dateController.text);
-                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                //            .child('name').set(nameController.text);
-                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                //            .child('email').set(emailController.text);
-                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                //            .child('school').set(schoolController.text);
-                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                //            .child('type').set(options[typeIndex]);
-                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                //            .child('note').set(noteController.text);
-                //        FirebaseDatabase.instance.reference().child("School Visit").child(requestID)
-                //            .child('uid').set(AuthService().getUID());
-                //      },
-                //          icon: GestureDetector(
-                //            onTap: (){
-                //              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage')));
-                //            },
-                //              child:isLoading?Row(
-                //                children: [
-                //                  Text('Please Wait...',style: TextStyle(
-                //                      color: Colors.teal
-                //                  ),),
-                //                  SizedBox(
-                //                    width: 10,
-                //                  ),
-                //                  CircularProgressIndicator(color: Colors.teal,)
-                //                ],
-                //              ): Icon(Icons.login)), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
-                //   ),
-                // ),
+
               ],
             ),
           ),

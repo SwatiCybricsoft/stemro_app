@@ -4,6 +4,7 @@ import 'package:stemro_app/auth/register_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../auth/AuthService.dart';
+import 'home_page.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -140,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                                 if(response.toString().endsWith("Success")){
                                   var snackBar = new SnackBar(content: Text("Login success"));
                                   scaffoldKey.currentState?.showSnackBar(snackBar);
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
                                 }else{
                                   var snackBar = new SnackBar(content: Text(response.toString()));
                                   scaffoldKey.currentState?.showSnackBar(snackBar);

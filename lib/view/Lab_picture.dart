@@ -2,10 +2,7 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:stemro_app/auth/login_screen.dart';
-import 'package:stemro_app/form/visit_page.dart';
-import 'package:stemro_app/view/ImageUploader.dart';
-import 'package:stemro_app/view/home_screen.dart';
+import 'package:stemro_app/auth/home_page.dart';
 import '../auth/AuthService.dart';
 
 class LabPicture extends StatefulWidget {
@@ -16,57 +13,7 @@ class LabPicture extends StatefulWidget {
 }
 
 class _LabPictureState extends State<LabPicture> {
-  File? _image;
-  var imageUploader = ImageUploader();
-
-  Future<void> _showChoiceDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              "File Upload",
-              style: TextStyle(color: Colors.teal),
-            ),
-            content: SingleChildScrollView(
-              // child: ListBody(
-              //   children: [
-              //     Divider(
-              //       height: 1,
-              //       color: Colors.teal,
-              //     ),
-              //     ListTile(
-              //       onTap: () {
-              //         // imageUploader.openGallery(context, "Lab Pictures");
-              //       },
-              //       title: Text("Gallery"),
-              //       leading: Icon(
-              //         Icons.account_box,
-              //         color: Colors.teal,
-              //       ),
-              //     ),
-              //     // Divider(
-              //     //   height: 1,
-              //     //   color: Colors.teal,
-              //     // ),
-              //     // ListTile(
-              //     //   onTap: () {
-              //     //     imageUploader.openCamera(context, "Lab Pictures");
-              //     //   },
-              //     //   title: Text("Camera"),
-              //     //   leading: Icon(
-              //     //     Icons.camera,
-              //     //     color: Colors.teal,
-              //     //   ),
-              //     // ),
-              //   ],
-              // ),
-            ),
-          );
-        });
-  }
-
-  // assets...............
+  // File? _image;
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
 
@@ -92,7 +39,7 @@ class _LabPictureState extends State<LabPicture> {
         leading: IconButton(
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) =>Home()));
+                  MaterialPageRoute(builder: (context) =>MyHomePage()));
             },
             icon: Icon(
               Icons.arrow_back_ios,
@@ -205,7 +152,7 @@ class _LabPictureState extends State<LabPicture> {
                     child: RaisedButton.icon(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Home()));
+                              builder: (context) => MyHomePage()));
                         },
                         icon: Icon(Icons.cancel),
                         label: Text(
@@ -218,7 +165,7 @@ class _LabPictureState extends State<LabPicture> {
                     child: RaisedButton.icon(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>Home()));
+                              builder: (context) =>MyHomePage()));
                         },
                         icon: Icon(Icons.save),
                         label: Text(

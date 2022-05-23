@@ -5,6 +5,7 @@ import 'package:stemro_app/view/home_screen.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
+import 'home_page.dart';
 import 'login_screen.dart';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -219,7 +220,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
                                 var snackBar = new SnackBar(content: Text("Registration successful"));
                                 scaffoldKey.currentState?.showSnackBar(snackBar);
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>MyHomePage()));
                               } else {
                                 //Show error message to user
                                 var snackBar = new SnackBar(content: Text(response));

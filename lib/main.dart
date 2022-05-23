@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stemro_app/auth/home_page.dart';
 import 'auth/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 void main() async{

@@ -4,10 +4,8 @@ import 'package:stemro_app/form/submitpage.dart';
 
 class HomeButton extends StatelessWidget {
   HomeButton({Key? key, this.title, this.onTap}) : super(key: key);
-
   String? title;
   VoidCallback? onTap;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

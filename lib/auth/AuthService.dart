@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   //1
   Future<Object> handleSignIn(String email, String password) async {
     try{
@@ -19,7 +17,6 @@ class AuthService {
       return error;
     }
   }
-
   //2
   Future<String> handleSignUp(email, password) async {
     try{
@@ -35,7 +32,6 @@ class AuthService {
       return error.toString();
     }
   }
-
   //3
   Future<bool> signOut() async {
     try {
@@ -45,7 +41,6 @@ class AuthService {
       return Future<bool>.value(false);
     }
   }
-
   //4
   User? getUser() {
     try {
@@ -55,7 +50,6 @@ class AuthService {
       return null;
     }
   }
-
   //5
   String getUID() {
     try {

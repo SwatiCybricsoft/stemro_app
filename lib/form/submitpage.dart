@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:stemro_app/widgets/home_button.dart';
 
+import '../auth/home_page.dart';
+
 
 
 class SubmitPage extends StatefulWidget {
@@ -77,7 +79,7 @@ class _SubmitPageState extends State<SubmitPage> {
               child: HomeButton(
                 title: 'Home',
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
                 },
               ),
             ),
