@@ -9,7 +9,6 @@ import 'package:stemro_app/view/component_verification.dart';
 import 'package:stemro_app/view/teachers_traing.dart';
 import 'package:stemro_app/form/old_visit_form.dart';
 import '../auth/AuthService.dart';
-import 'dart:developer';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class Home extends StatefulWidget {
 }
 class _HomeState extends State<Home> {
 
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,28 +33,28 @@ class _HomeState extends State<Home> {
             PopupMenuButton<int>(
               onSelected: (item) =>onSelected(context,item),
               itemBuilder: (context) =>[
-                PopupMenuItem<int>(
+                const PopupMenuItem<int>(
                   value: 0,
                   child: Text('Lab Picture',style: TextStyle(
                     color: Colors.teal,fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),),
                 ),
-                PopupMenuItem<int>(
+                const PopupMenuItem<int>(
                   value: 1,
                   child: Text('Component Verification Docs',style: TextStyle(
                     color: Colors.teal,fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),),
                 ),
-                PopupMenuItem<int>(
+                const PopupMenuItem<int>(
                   value: 2,
                   child: Text("Teacher's Training Report",style: TextStyle(
                     color: Colors.teal,fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),),
                 ),
-                PopupMenuItem<int>(
+                const PopupMenuItem<int>(
                   value: 3,
                   child: Text("Logout",style: TextStyle(
                     color: Colors.teal,fontWeight: FontWeight.bold,
@@ -75,7 +74,7 @@ class _HomeState extends State<Home> {
                 height: 32,
               ),
               Container(
-                  padding: const EdgeInsets.all(10.0), child: Text('User Dashboard',style: TextStyle(
+                  padding: const EdgeInsets.all(10.0), child: const Text('User Dashboard',style: TextStyle(
                 fontSize:15,
               ),),
               )
@@ -101,9 +100,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               onTap: () {
                 if(isLogin()){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>FormPage()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const FormPage()));
                 }else{
-                  var snackBar = new SnackBar(content: Text("Login required !"));
+                  var snackBar = const SnackBar(content: Text("Login required !"));
                   scaffoldKey.currentState?.showSnackBar(snackBar);
                 }
               },
@@ -112,11 +111,11 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     border: Border.all(width: 3.0, color: Colors.black26),
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(10.0),
                     )),
                 child: Column(
-                  children: [
+                  children: const [
                     Icon(
                       Icons.folder,
                       size: 40,
@@ -139,16 +138,16 @@ class _HomeState extends State<Home> {
                 if(isLogin()){
                   loadSchoolVisits();
                 }else{
-                  var snackBar = new SnackBar(content: Text("Login required !"));
+                  var snackBar = const SnackBar(content: Text("Login required !"));
                   scaffoldKey.currentState?.showSnackBar(snackBar);
                 }
               },
               child: GestureDetector(
                 onTap: (){
                   if(isLogin()){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>OldVisits()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const OldVisits()));
                   }else{
-                    var snackBar = new SnackBar(content: Text("Login required !"));
+                    var snackBar = const SnackBar(content: Text("Login required !"));
                     scaffoldKey.currentState?.showSnackBar(snackBar);
                   }
 
@@ -158,11 +157,11 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       border: Border.all(width: 3.0, color: Colors.black26),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(10.0),
                       )),
                   child: Column(
-                    children: [
+                    children: const [
                       Icon(
                         Icons.add_to_photos_rounded,
                         size: 40,
@@ -186,21 +185,21 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   )),
 
               child: GestureDetector(
                 onTap: (){
                   if(isLogin()){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>UploadManager()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const UploadManager()));
                   }else{
-                    var snackBar = new SnackBar(content: Text("Login required !"));
+                    var snackBar = const SnackBar(content: Text("Login required !"));
                     scaffoldKey.currentState?.showSnackBar(snackBar);
                   }
                 },
                 child: Column(
-                  children: [
+                  children: const [
                     Icon(
                       Icons.add_to_photos_rounded,
                       size: 40,
@@ -223,11 +222,11 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   )),
               child: Column(
-                children: [
+                children: const [
                   Icon(
                     Icons.add_circle_outline,
                     size: 40,
@@ -248,11 +247,11 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   )),
               child: Column(
-                children: [
+                children: const [
                   Icon(
                     Icons.add_circle_outline,
                     size: 40,
@@ -273,11 +272,11 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   )),
               child: Column(
-                children: [
+                children: const [
                   Icon(
                     Icons.add_circle_outline,
                     size: 40,
@@ -298,11 +297,11 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   )),
               child: Column(
-                children: [
+                children: const [
                   Icon(
                     Icons.add_circle_outline,
                     size: 40,
@@ -323,11 +322,11 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   )),
               child: Column(
-                children: [
+                children: const [
                   Icon(
                     Icons.add_circle_outline,
                     size: 40,
@@ -348,11 +347,11 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   border: Border.all(width: 3.0, color: Colors.black26),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   )),
               child: Column(
-                children: [
+                children: const [
                   Icon(
                     Icons.add_circle_outline,
                     size: 40,
@@ -380,24 +379,23 @@ class _HomeState extends State<Home> {
   void onSelected(BuildContext context ,int item){
     switch (item){
       case 0:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>LabPicture()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const LabPicture()));
         break;
       case 1:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ComponentVerify()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const ComponentVerify()));
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>TeachersTraining()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const TeachersTraining()));
         break;
       case 3:
-        // _signOut();
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+        _signOut();
         break;
     }
   }
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>LoginPage()), (route) => false);
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const LoginPage()), (route) => false);
   }
 
   bool isLogin() {
@@ -410,7 +408,6 @@ class _HomeState extends State<Home> {
   }
 
   void loadSchoolVisits(){
-    var uid = AuthService().getUser()!.uid;//Show only items who have the same uid
     DatabaseReference reference = FirebaseDatabase.instance.ref("School Visits");
     reference.onValue.listen((DatabaseEvent event) {
       if (event.snapshot.exists) {
