@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +6,6 @@ import 'package:stemro_app/auth/login_screen.dart';
 import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/ImageUploader.dart';
 import 'package:stemro_app/view/home_screen.dart';
-
 import '../auth/AuthService.dart';
 
 class LabPicture extends StatefulWidget {
