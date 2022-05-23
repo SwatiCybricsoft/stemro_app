@@ -99,16 +99,16 @@ class _LabPictureState extends State<LabPicture> {
               size: 20,
               color: Colors.white,
             )),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/stemrobo.png',
-                fit: BoxFit.contain,
-                height: 32,
-              ),
-            ],
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/stemrobo.png',
+              fit: BoxFit.contain,
+              height: 32,
+            ),
+          ],
+        ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -160,7 +160,7 @@ class _LabPictureState extends State<LabPicture> {
               child: GestureDetector(
                 onTap: () {
                   // _showChoiceDialog(context);
-                   selectImages();
+                  selectImages();
                 },
                 child: Column(
                   children: [

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stemro_app/auth/login_screen.dart';
+import 'package:stemro_app/form/Upload_Manager.dart';
 import 'package:stemro_app/form/visit_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:stemro_app/view/Lab_picture.dart';
@@ -188,21 +189,33 @@ class _HomeState extends State<Home> {
                   borderRadius: BorderRadius.all(
                     Radius.circular(10.0),
                   )),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.add_circle_outline,
-                    size: 40,
-                    color: Colors.black54,
-                  ),
-                  Text(
-                    "Album 3",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
+
+              child: GestureDetector(
+                onTap: (){
+                  if(isLogin()){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>UploadManager()));
+                  }else{
+                    var snackBar = new SnackBar(content: Text("Login required !"));
+                    scaffoldKey.currentState?.showSnackBar(snackBar);
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.add_to_photos_rounded,
+                      size: 40,
+                      color: Colors.black54,
                     ),
-                  ),
-                ],
+                    Text(
+                      "Uploaded Images",
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
