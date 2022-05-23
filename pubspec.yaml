@@ -59,7 +59,6 @@ dependencies:
   firebase_database: ^9.0.1
   firebase_storage: ^10.2.15
 
-
   permission_handler: ^9.2.0
 
   # State Management
