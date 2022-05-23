@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class API_AuthService {
-
   Future userLogin() async {
     String email = "jugendra@gmail.com";
     String password = "1234";

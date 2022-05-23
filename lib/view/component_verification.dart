@@ -8,6 +8,7 @@ import 'package:stemro_app/view/ImageUploader.dart';
 import 'package:stemro_app/view/home_screen.dart';
 
 import '../auth/AuthService.dart';
+import '../auth/home_page.dart';
 
 class ComponentVerify extends StatefulWidget {
   const ComponentVerify({Key? key}) : super(key: key);
@@ -69,7 +70,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
         backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home ()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage ()));
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
           title: Row(
@@ -177,7 +178,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
                         icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
                 ),
@@ -185,7 +186,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
                         icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
                 ),

@@ -7,6 +7,7 @@ import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/ImageUploader.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import '../auth/AuthService.dart';
+import '../auth/home_page.dart';
 
 class TeachersTraining extends StatefulWidget {
   const TeachersTraining({Key? key}) : super(key: key);
@@ -15,40 +16,6 @@ class TeachersTraining extends StatefulWidget {
   State<TeachersTraining> createState() => _TeachersTrainingState();
 }
 class _TeachersTrainingState extends State<TeachersTraining> {
-
-  var imageUploader = ImageUploader();
-
-  Future<void>_showChoiceDialog(BuildContext context)
-  {
-    return showDialog(context: context,builder: (BuildContext context){
-      return AlertDialog(
-        title: Text("File Upload",style: TextStyle(color: Colors.teal),),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: [
-              // Divider(height: 1,color: Colors.teal,),
-              // ListTile(
-              //   onTap: (){
-              //     imageUploader.openGallery(context, "Component Verification");
-              //   },
-              //   title: Text("Gallery"),
-              //   leading: Icon(Icons.account_box,color: Colors.teal,),
-              // ),
-
-              // Divider(height: 1,color: Colors.teal,),
-              // ListTile(
-              //   onTap: (){
-              //     imageUploader.openCamera(context, "Component Verification");
-              //   },
-              //   title: Text("Camera"),
-              //   leading: Icon(Icons.camera,color: Colors.teal,),
-              // ),
-            ],
-          ),
-        ),);
-    });
-  }
-  // assets...............
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
   void selectImages() async {
@@ -68,7 +35,7 @@ class _TeachersTrainingState extends State<TeachersTraining> {
         backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home ()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
         title: Row(
@@ -145,16 +112,6 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 ),
               ),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     selectImages();
-            //   },
-            //   child: Text('Select Images',style: TextStyle(
-            //     color: Colors.teal.shade300,
-            //     fontSize: 15,
-            //     fontWeight: FontWeight.bold
-            //   ),),
-            // ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
@@ -176,7 +133,7 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
                         icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
                 ),
@@ -184,7 +141,7 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Home()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
                         icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
                 ),
@@ -195,7 +152,6 @@ class _TeachersTrainingState extends State<TeachersTraining> {
       ),
     );
   }
-
   void loadImages(){
     var uid = AuthService().getUser()!.uid;//Show only items who have the same uid
     DatabaseReference reference = FirebaseDatabase.instance.ref('Users/$uid/Images/');
