@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UploadManager extends StatefulWidget {
   const UploadManager({Key? key}) : super(key: key);
@@ -33,30 +34,37 @@ class _MyScreenState extends State<UploadManager> {
                       for (var element2 in element.children) {
                         if (element2.key == "imageURL") {
                           images.add(element2.value);
+                          print(element2.value);
                         }
                       }
                     }
                     return GridView.builder(
-                        gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            mainAxisExtent: 200,
-                            maxCrossAxisExtent: 150,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5),
-                        itemCount: images.length,
-                        itemBuilder: (context, count) {
-                          return Transform(
-                            child: SizedBox(
-                              width: 80,
-                              height: 80,
-                              child: CircleAvatar(
-                                  radius: 5,
-                                  backgroundImage: NetworkImage(images[count])),
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                              mainAxisExtent: 200,
+                              maxCrossAxisExtent: 150,
+                              crossAxisSpacing: 5,
+                              mainAxisSpacing: 5),
+                      itemCount: images.length,
+                      itemBuilder: (context, count) {
+                        return Transform(
+                          transform: Matrix4.rotationZ(0),
+                          alignment: FractionalOffset.centerRight,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            transform: Matrix4.rotationZ(-0.2),
-                            alignment: FractionalOffset.centerRight,
-                          );
-                        });
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                images[count],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
                   }
                   return const Center(child: CircularProgressIndicator());
                 }),
