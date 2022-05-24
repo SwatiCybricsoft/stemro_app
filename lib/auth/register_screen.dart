@@ -68,6 +68,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             }
                             return null;
                           },
+                          keyboardType: TextInputType.text,
                           controller: nameController,
                           decoration: InputDecoration(
                             hintText: " Enter Engineer's Name",
@@ -101,6 +102,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             return null;
                           },
                           controller: schoolController,
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             hintText: " Enter School Name",
                             labelText: "School Name",
@@ -133,6 +135,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             return null;
                           },
                           onSaved: (val) => _email = val!,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: ' Enter Email',
                             labelText: ' Email',
@@ -156,6 +159,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
                           controller: passController,
                           decoration: InputDecoration(
                             hintText: 'Enter Password',

@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../auth/home_page.dart';
 
 class UploadManager extends StatefulWidget {
   const UploadManager({Key? key}) : super(key: key);
@@ -19,8 +20,43 @@ class _MyScreenState extends State<UploadManager> {
   @override
   Widget build(BuildContext context) {
     final dataSnapshot = database.onValue;
+
     return Scaffold(
-      backgroundColor: Colors.green,
+      appBar: AppBar(
+        elevation: 0,
+        brightness: Brightness.light,
+        backgroundColor: Colors.teal,
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) =>MyHomePage()));
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            )),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/stemrobo.png',
+              fit: BoxFit.contain,
+              height: 32,
+            ),
+          ],
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.tealAccent, Colors.teal]),
+          ),
+        ),
+      ),
+      backgroundColor: Colors.teal.shade300,
       body: SafeArea(
         child: Column(children: [
           Expanded(
@@ -55,7 +91,7 @@ class _MyScreenState extends State<UploadManager> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(10),
                               child: Image.network(
                                 images[count],
                                 fit: BoxFit.cover,

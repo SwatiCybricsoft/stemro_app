@@ -104,6 +104,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 TextFormField(
                   readOnly:  true,
+                  keyboardType: TextInputType.datetime,
                    onSaved: (val) => _date = val!,
                   controller: dateController,
                   decoration: InputDecoration(
@@ -132,6 +133,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   },
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.text,
                   controller: nameController,
                    onSaved: (val) => _name = val!,
                   // validator: (val) => val!.length < 1  ? "Enter Name" : null ,
@@ -151,6 +153,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ),
                 TextFormField(
                   controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
 
                   // validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
                   // onSaved: (val) => _email = val!,
@@ -169,6 +172,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   },
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.text,
                   controller: schoolController,
                    onSaved: (val) => _school = val!,
                   decoration: InputDecoration(
@@ -188,7 +192,9 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                 DropdownButtonFormField<String>(
                   isExpanded: true,
+
                   decoration: InputDecoration(
+
                       filled: false
                     // prefixIcon: Icon(Icons.person),
                   ),
@@ -217,6 +223,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   },
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.text,
                    onSaved: (val) => _note = val!,
                   controller: noteController,
                   decoration: InputDecoration(

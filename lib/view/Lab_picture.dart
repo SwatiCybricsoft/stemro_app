@@ -144,36 +144,36 @@ class _LabPictureState extends State<LabPicture> {
             SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                new Container(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: RaisedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MyHomePage()));
-                        },
-                        icon: Icon(Icons.cancel),
-                        label: Text(
-                          "CANCEL",
-                          style: TextStyle(color: Colors.red),
-                        ))),
-                Spacer(),
-                new Container(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: RaisedButton.icon(
-                        onPressed: () {
-                          loadImages();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>MyHomePage()));
-                        },
-                        icon: Icon(Icons.save),
-                        label: Text(
-                          "SAVE",
-                          style: TextStyle(color: Colors.teal),
-                        ))),
-              ],
-            )
+            // Row(
+            //   children: [
+            //     new Container(
+            //         padding: const EdgeInsets.only(top: 30),
+            //         child: RaisedButton.icon(
+            //             onPressed: () {
+            //               Navigator.of(context).push(MaterialPageRoute(
+            //                   builder: (context) => MyHomePage()));
+            //             },
+            //             icon: Icon(Icons.cancel),
+            //             label: Text(
+            //               "CANCEL",
+            //               style: TextStyle(color: Colors.red),
+            //             ))),
+            //     Spacer(),
+            //     new Container(
+            //         padding: const EdgeInsets.only(top: 30),
+            //         child: RaisedButton.icon(
+            //             onPressed: () {
+            //               loadImages();
+            //               Navigator.of(context).push(MaterialPageRoute(
+            //                   builder: (context) =>MyHomePage()));
+            //             },
+            //             icon: Icon(Icons.save),
+            //             label: Text(
+            //               "SAVE",
+            //               style: TextStyle(color: Colors.teal),
+            //             ))),
+            //   ],
+            // )
           ],
         ),
       ),

@@ -103,7 +103,7 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 onTap: (){
                   // _showChoiceDialog(context);
                   selectImages();
-                  UploadManager();
+                 // UploadManager();
                 },
                 child: Column(
                   children: [
@@ -129,28 +129,28 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                new Container(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
-                    },
-                        icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
-                ),
-                Spacer(),
-                new Container(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: RaisedButton.icon(onPressed:(){
-                      loadImages();
-                    },
-                        icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
-                ),
-              ],
-            )
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // Row(
+            //   children: [
+            //     new Container(
+            //         padding: const EdgeInsets.only(top: 30),
+            //         child: RaisedButton.icon(onPressed:(){
+            //           Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+            //         },
+            //             icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
+            //     ),
+            //     Spacer(),
+            //     new Container(
+            //         padding: const EdgeInsets.only(top: 30),
+            //         child: RaisedButton.icon(onPressed:(){
+            //           loadImages();
+            //         },
+            //             icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

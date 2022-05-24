@@ -57,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
                             controller: emailController,
                             validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
                             onSaved: (val) => _email = val!,
@@ -90,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
 
                             controller: passController,
                             onSaved: (val) => _pass = val!,

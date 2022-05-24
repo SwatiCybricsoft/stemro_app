@@ -9,6 +9,7 @@ import 'package:stemro_app/view/home_screen.dart';
 
 import '../auth/AuthService.dart';
 import '../auth/home_page.dart';
+import '../form/Upload_Manager.dart';
 
 class ComponentVerify extends StatefulWidget {
   const ComponentVerify({Key? key}) : super(key: key);
@@ -133,7 +134,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
               ),
               child: GestureDetector(
                 onTap: (){
-                  // _showChoiceDialog(context);
+                  UploadManager();
                    selectImages();
                 },
                 child: Column(
