@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stemro_app/auth/welcome_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:stemro_app/widgets/home_button.dart';
-
 import '../auth/home_page.dart';
-
-
 
 class SubmitPage extends StatefulWidget {
   const SubmitPage({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
   State<SubmitPage> createState() => _SubmitPageState();
 }
-
 Color themeColor = const Color(0xFF43D19E);
 
 class _SubmitPageState extends State<SubmitPage> {
@@ -79,7 +75,7 @@ class _SubmitPageState extends State<SubmitPage> {
               child: HomeButton(
                 title: 'Home',
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WelcomeScreen()));
                 },
               ),
             ),

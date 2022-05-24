@@ -186,6 +186,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
+                      loadImages();
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
                         icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))

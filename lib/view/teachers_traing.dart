@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/auth/login_screen.dart';
+import 'package:stemro_app/form/Upload_Manager.dart';
 import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/ImageUploader.dart';
 import 'package:stemro_app/view/home_screen.dart';
@@ -16,7 +17,7 @@ class TeachersTraining extends StatefulWidget {
   State<TeachersTraining> createState() => _TeachersTrainingState();
 }
 class _TeachersTrainingState extends State<TeachersTraining> {
-  final ImagePicker imagePicker = ImagePicker();
+   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
@@ -24,7 +25,9 @@ class _TeachersTrainingState extends State<TeachersTraining> {
       imageFileList!.addAll(selectedImages);
     }
     print("Image List Length:" + imageFileList!.length.toString());
-    setState((){});
+    setState((){
+      UploadManager();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -100,6 +103,7 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 onTap: (){
                   // _showChoiceDialog(context);
                   selectImages();
+                  UploadManager();
                 },
                 child: Column(
                   children: [
@@ -141,7 +145,7 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+                      loadImages();
                     },
                         icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
                 ),

@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Column(
             children: <Widget>[
-              SizedBox(height: 100,),
+              SizedBox(height: 50,),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.all(20),
@@ -141,10 +141,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
 
               ),
-              SizedBox(height: 50,),
+              SizedBox(height: 80,),
               Expanded(
                 child: GridView.count(crossAxisCount: 2,
                   childAspectRatio: 0.85,
+                  controller: new ScrollController(keepScrollOffset: false),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
                   children: <Widget>[
                     GestureDetector(
                       onTap: (){

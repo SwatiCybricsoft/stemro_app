@@ -13,7 +13,6 @@ class LabPicture extends StatefulWidget {
 }
 
 class _LabPictureState extends State<LabPicture> {
-  // File? _image;
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
 
@@ -164,6 +163,7 @@ class _LabPictureState extends State<LabPicture> {
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(
                         onPressed: () {
+                          loadImages();
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>MyHomePage()));
                         },
