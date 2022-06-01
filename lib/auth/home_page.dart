@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: <Color>[Colors.tealAccent, Colors.teal]),
+                colors: <Color>[Colors.teal, Colors.tealAccent]),
           ),
         ),
       ),
