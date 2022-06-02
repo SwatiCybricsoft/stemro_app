@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/form/submitpage.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../auth/AuthService.dart';
 import 'package:intl/intl.dart';
-
 import '../auth/home_page.dart';
 
 class FormPage extends StatefulWidget {
@@ -29,18 +31,8 @@ bool isLoading = false;
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage ()));
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/stemrobo.png',
-                fit: BoxFit.contain,
-                height: 32,
-              ),
-              Container(
-                  padding: const EdgeInsets.all(8.0), child: Text('📝')
-              )
-            ],
+          title: Container(
+              padding: const EdgeInsets.all(8.0), child: Text('School Visit Form')
           ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -65,6 +57,22 @@ class MyCustomForm extends StatefulWidget {
 }
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
+  //image picker......//
+  // assets...............
+  final ImagePicker imagePicker = ImagePicker();
+  File? _image;
+  List<XFile>? imageFileList = [];
+  void selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages!.isNotEmpty) {
+      imageFileList!.addAll(selectedImages);
+    }
+    print("Image List Length:" + imageFileList!.length.toString());
+    setState((){
+      // _image =imagePicker as File?;
+
+    });
+  }
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final formKey = new GlobalKey<FormState>();
@@ -88,20 +96,19 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Form(
         key: formKey,
         child: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          child: Expanded(
+
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 1,bottom: 10,left: 0),
-                  child: Text('School Visit Form',style: TextStyle(
-                      decoration: TextDecoration.underline,fontSize: 20,
-                      color: Colors.teal,
-                      fontWeight: FontWeight.bold
-                  ),),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 10,bottom: 10,left: 90),
+                //   child: Text('School Visit Form',textAlign:TextAlign.center,style: TextStyle(
+                //       decoration: TextDecoration.underline,fontSize: 20,
+                //       color: Colors.teal,
+                //       fontWeight: FontWeight.bold
+                //   ),),
+                // ),
                 TextFormField(
                   readOnly:  true,
                   keyboardType: TextInputType.datetime,
@@ -241,9 +248,151 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return null;
                   },
                 ),
+
                 SizedBox(
                   height: 30,
                 ),
+               new Flex(
+                 direction: Axis.vertical,
+                 mainAxisAlignment: MainAxisAlignment.start,
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   Text('Lab Picture',textAlign: TextAlign.start, style: TextStyle(
+                     decoration: TextDecoration.underline,fontSize: 16,
+                     color: Colors.teal,
+                     fontWeight: FontWeight.bold,
+                   ),),
+                   Container(
+                     margin: const EdgeInsets.all(10.0),
+                     padding: const EdgeInsets.all(8),
+                     decoration: BoxDecoration(
+                         border: Border.all(
+                             width: 3.0,
+                             color: Colors.black26
+                         ),
+                         borderRadius: BorderRadius.all(
+                           Radius.circular(10.0),
+                         ),
+                         gradient: LinearGradient(
+                             colors: [
+                               Colors.grey,
+                               Colors.blueGrey
+                             ]
+                         ),
+                         boxShadow: [
+                           BoxShadow(
+                               color: Colors.grey ,
+                               blurRadius: 2.0,
+                               offset: Offset(2.0,2.0)
+                           )
+                         ]
+                     ),
+                     child: GestureDetector(
+                       onTap: (){
+                         selectImages();
+                       },
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Icon(Icons.add_circle_outline,size: 40,color: Colors.black,),
+
+                         ],
+                       ),
+                     ),
+                   ),
+
+                   Text('Component Verification Docs',textAlign: TextAlign.start, style: TextStyle(
+                     decoration: TextDecoration.underline,fontSize: 16,
+                     color: Colors.teal,
+                     fontWeight: FontWeight.bold,
+                   ),),
+                   Container(
+                     margin: const EdgeInsets.all(10.0),
+                     padding: const EdgeInsets.all(8),
+                     decoration: BoxDecoration(
+                         border: Border.all(
+                             width: 3.0,
+                             color: Colors.black26
+                         ),
+                         borderRadius: BorderRadius.all(
+                           Radius.circular(10.0),
+                         ),
+                         gradient: LinearGradient(
+                             colors: [
+                               Colors.grey,
+                               Colors.blueGrey
+                             ]
+                         ),
+                         boxShadow: [
+                           BoxShadow(
+                               color: Colors.grey ,
+                               blurRadius: 2.0,
+                               offset: Offset(2.0,2.0)
+                           )
+                         ]
+                     ),
+                     child: GestureDetector(
+                       onTap: (){
+                         // _showChoiceDialog(context);
+                         // selectImages();
+                       },
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Icon(Icons.add_circle_outline,size: 40,color: Colors.black,),
+
+                         ],
+                       ),
+                     ),
+                   ),
+                   Text("Teachers's Training Report",textAlign: TextAlign.start, style: TextStyle(
+                     decoration: TextDecoration.underline,fontSize: 16,
+                     color: Colors.teal,
+                     fontWeight: FontWeight.bold,
+                   ),),
+                   Container(
+                     margin: const EdgeInsets.all(10.0),
+                     padding: const EdgeInsets.all(8),
+                     decoration: BoxDecoration(
+                         border: Border.all(
+                             width: 3.0,
+                             color: Colors.black26
+                         ),
+                         borderRadius: BorderRadius.all(
+                           Radius.circular(10.0),
+                         ),
+                         gradient: LinearGradient(
+                             colors: [
+                               Colors.grey,
+                               Colors.blueGrey
+                             ]
+                         ),
+                         boxShadow: [
+                           BoxShadow(
+                               color: Colors.grey ,
+                               blurRadius: 2.0,
+                               offset: Offset(2.0,2.0)
+                           )
+                         ]
+                     ),
+                     child: GestureDetector(
+                       onTap: (){
+                         // _showChoiceDialog(context);
+                         // selectImages();
+                       },
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Icon(Icons.add_circle_outline,size: 40,color: Colors.black,),
+
+                         ],
+                       ),
+                     ),
+                   ),
+                 ],
+               ),
+
+
                 GestureDetector(
                     onTap: (){
                       if(formKey.currentState!.validate()) {
@@ -282,21 +431,27 @@ class MyCustomFormState extends State<MyCustomForm> {
                         )
 
                       ],
-                    ) :Container(
-                      alignment: Alignment.center,
-                      height: 50,
-                      width: 150,
-                      color: Colors.teal,
-                      child: Text('SAVE',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold
+                    ) : Row(
+                      children: [
+                        RaisedButton(
+                            color: Colors.grey,
+                            child: Text("CANCEL",style: TextStyle(color: Colors.black),),
+                            onPressed: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+                            }
                         ),
-                      ),
+                        Spacer(),
+                        RaisedButton(
+                          color: Colors.teal,
+                            child: Text("SAVE",style: TextStyle(color: Colors.white),),
+                            onPressed: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+                            }
+                        ),
+                      ],
                     )
-
                 ),
+
 
               ],
             ),

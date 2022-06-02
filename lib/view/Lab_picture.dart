@@ -4,47 +4,72 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/auth/home_page.dart';
 import '../auth/AuthService.dart';
+import 'ImageUploader.dart';
 
 class LabPicture extends StatefulWidget {
   const LabPicture({Key? key}) : super(key: key);
-
   @override
   State<LabPicture> createState() => _LabPictureState();
 }
-
 class _LabPictureState extends State<LabPicture> {
+   var imageUploader = ImageUploader();
+   List<File> multipleImages = [];
+  Future<void>_showChoiceDialog(BuildContext context)
+  {
+    return showDialog(context: context,builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("File Upload",style: TextStyle(color: Colors.teal),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Divider(height: 1,color: Colors.teal,),
+              ListTile(
+                onTap: (){
+                  imageUploader.openGallery(context, "Lab Picture");
+                },
+                title: Text("Gallery"),
+                leading: Icon(Icons.account_box,color: Colors.teal,),
+              ),
+              Divider(height: 1,color: Colors.teal,),
+              ListTile(
+                onTap: (){
+                  imageUploader.openCamera(context, "Lab Picture");
+                },
+                title: Text("Camera"),
+                leading: Icon(Icons.camera,color: Colors.teal,),
+              ),
+            ],
+          ),
+        ),);
+    });
+  }
+  // assets...............
   final ImagePicker imagePicker = ImagePicker();
+   File? _image;
   List<XFile>? imageFileList = [];
-
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
     print("Image List Length:" + imageFileList!.length.toString());
-    setState(() {
+    setState((){
+      // _image =imagePicker as File?;
 
     });
   }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.teal,
         centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) =>MyHomePage()));
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.white,
-            )),
+        leading: IconButton(onPressed: (){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage ()));
+        },
+            icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -67,15 +92,12 @@ class _LabPictureState extends State<LabPicture> {
       body: SafeArea(
         child: Column(
           children: [
-            Text(
-              "Lab Pictures",
-              textAlign: TextAlign.center,
+            Text("Lab Picture",textAlign: TextAlign.center,
               style: TextStyle(
-                decoration: TextDecoration.underline,
-                fontSize: 20,
-                color: Colors.teal,
-                fontWeight: FontWeight.bold,
-              ),
+              decoration: TextDecoration.underline,fontSize: 20,
+              color: Colors.teal,
+              fontWeight: FontWeight.bold,
+            ),
             ),
             SizedBox(
               height: 30,
@@ -84,7 +106,10 @@ class _LabPictureState extends State<LabPicture> {
               margin: const EdgeInsets.all(10.0),
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  border: Border.all(width: 3.0, color: Colors.black26),
+                  border: Border.all(
+                      width: 3.0,
+                      color: Colors.black26
+                  ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10.0),
                   ),
@@ -101,27 +126,20 @@ class _LabPictureState extends State<LabPicture> {
                         offset: Offset(2.0,2.0)
                     )
                   ]
-
               ),
               child: GestureDetector(
-                onTap: () {
-                  // _showChoiceDialog(context);
-                  selectImages();
+                onTap: (){
+                    _showChoiceDialog(context);
+                    // selectImages();
                 },
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.add_circle_outline,
-                      size: 70,
-                      color: Colors.black54,
-                    ),
-                    Text(
-                      "File Upload",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13,
-                      ),
-                    ),
+                    Icon(Icons.add_circle_outline,size: 70,color: Colors.white,),
+                    Text("File Upload",style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),),
                   ],
                 ),
               ),
@@ -134,46 +152,33 @@ class _LabPictureState extends State<LabPicture> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3),
                     itemBuilder: (BuildContext context, int index) {
-                      return Image.file(
-                        File(imageFileList![index].path),
-                        fit: BoxFit.cover,
-                      );
-                    }),
+                      return Image.file(File(imageFileList![index].path), fit: BoxFit.cover,);
+                    }
+                ),
               ),
             ),
             SizedBox(
               height: 20,
             ),
-            // Row(
-            //   children: [
-            //     new Container(
-            //         padding: const EdgeInsets.only(top: 30),
-            //         child: RaisedButton.icon(
-            //             onPressed: () {
-            //               Navigator.of(context).push(MaterialPageRoute(
-            //                   builder: (context) => MyHomePage()));
-            //             },
-            //             icon: Icon(Icons.cancel),
-            //             label: Text(
-            //               "CANCEL",
-            //               style: TextStyle(color: Colors.red),
-            //             ))),
-            //     Spacer(),
-            //     new Container(
-            //         padding: const EdgeInsets.only(top: 30),
-            //         child: RaisedButton.icon(
-            //             onPressed: () {
-            //               loadImages();
-            //               Navigator.of(context).push(MaterialPageRoute(
-            //                   builder: (context) =>MyHomePage()));
-            //             },
-            //             icon: Icon(Icons.save),
-            //             label: Text(
-            //               "SAVE",
-            //               style: TextStyle(color: Colors.teal),
-            //             ))),
-            //   ],
-            // )
+            Row(
+              children: [
+                new Container(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: RaisedButton.icon(onPressed:(){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+                    },
+                        icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
+                ),
+                Spacer(),
+                new Container(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: RaisedButton.icon(onPressed:(){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+                    },
+                        icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -185,7 +190,7 @@ class _LabPictureState extends State<LabPicture> {
     DatabaseReference reference = FirebaseDatabase.instance.ref('Users/$uid/Images/');
     reference.onValue.listen((DatabaseEvent event) {
       if (event.snapshot.exists) {
-        //Show only who's category Lab Picture
+        //Show only who's category Component Verification
         final data = event.snapshot.value;
         print(data);
       } else {
@@ -194,3 +199,5 @@ class _LabPictureState extends State<LabPicture> {
     });
   }
 }
+
+
