@@ -1,15 +1,36 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:stemro_app/auth/home_page.dart';
-import 'package:stemro_app/form/Upload_Manager.dart';
 import 'auth/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-void main() async{
+
+bool isAdminStatus = false;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  checkAdmin();
   runApp(const MyApp());
 }
+
+checkAdmin() {
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  DatabaseReference reference = FirebaseDatabase.instance.ref("/Users/$uid/");
+  reference.onValue.listen((DatabaseEvent event) {
+    if (event.snapshot.child("accountType").exists) {
+      final data = event.snapshot.child("accountType").value;
+      if (data.toString() == 'Admin') {
+        isAdminStatus = true;
+      } else {
+        isAdminStatus = false;
+      }
+    }
+  });
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +40,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-       home:SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

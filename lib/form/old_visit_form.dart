@@ -3,27 +3,34 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import '../main.dart';
+
+get isAdmin => isAdminStatus;
+
 class OldVisits extends StatefulWidget {
   const OldVisits({Key? key}) : super(key: key);
-
   @override
   State<OldVisits> createState() => _OldVisits();
 }
+
 class _OldVisits extends State<OldVisits> {
+
   late Query _ref;
-  DatabaseReference reference = FirebaseDatabase.instance
-      .ref("Users")
-      .child(FirebaseAuth.instance.currentUser!.uid)
-      .child("School Visits");
 
   @override
   void initState() {
     super.initState();
-    _ref = FirebaseDatabase.instance
-        .ref("Users")
-        .child(FirebaseAuth.instance.currentUser!.uid)
-        .child("School Visits")
-        .orderByChild('school');
+    if(isAdmin){
+      _ref = FirebaseDatabase.instance
+          .ref("School Visits")
+          .orderByChild('school');
+    }else {
+      _ref = FirebaseDatabase.instance
+          .ref("Users")
+          .child(FirebaseAuth.instance.currentUser!.uid)
+          .child("School Visits")
+          .orderByChild('school');
+    }
   }
 
   Widget _buildContactItem({required Map visitRecord}) {
@@ -160,6 +167,7 @@ class _OldVisits extends State<OldVisits> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
