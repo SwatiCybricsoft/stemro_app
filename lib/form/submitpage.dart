@@ -53,7 +53,7 @@ class _SubmitPageState extends State<SubmitPage> {
             ),
             SizedBox(height: screenHeight * 0.01),
             Text(
-              "Details Fill  Successfully",
+              "Details filled Successfully",
               style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.w400,
@@ -75,7 +75,7 @@ class _SubmitPageState extends State<SubmitPage> {
               child: HomeButton(
                 title: 'Home',
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WelcomeScreen()));
+                  Navigator.pop(context);
                 },
               ),
             ),
