@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-
 import '../auth/home_page.dart';
 
 class UploadManager extends StatefulWidget {
@@ -10,7 +9,6 @@ class UploadManager extends StatefulWidget {
   @override
   _MyScreenState createState() => _MyScreenState();
 }
-
 class _MyScreenState extends State<UploadManager> {
   final database = FirebaseDatabase.instance
       .ref("Users")
@@ -20,7 +18,6 @@ class _MyScreenState extends State<UploadManager> {
   @override
   Widget build(BuildContext context) {
     final dataSnapshot = database.onValue;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -56,7 +53,7 @@ class _MyScreenState extends State<UploadManager> {
           ),
         ),
       ),
-      backgroundColor: Colors.teal.shade300,
+      backgroundColor: Colors.teal.shade400,
       body: SafeArea(
         child: Column(children: [
           Expanded(
@@ -77,7 +74,7 @@ class _MyScreenState extends State<UploadManager> {
                     return GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
-                              mainAxisExtent: 200,
+                              mainAxisExtent: 120,
                               maxCrossAxisExtent: 150,
                               crossAxisSpacing: 5,
                               mainAxisSpacing: 5),
@@ -88,10 +85,10 @@ class _MyScreenState extends State<UploadManager> {
                           alignment: FractionalOffset.centerRight,
                           child: Card(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(5),
                               child: Image.network(
                                 images[count],
                                 fit: BoxFit.cover,

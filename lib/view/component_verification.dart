@@ -13,14 +13,11 @@ import '../form/Upload_Manager.dart';
 
 class ComponentVerify extends StatefulWidget {
   const ComponentVerify({Key? key}) : super(key: key);
-
   @override
   State<ComponentVerify> createState() => _ComponentVerifyState();
 }
 class _ComponentVerifyState extends State<ComponentVerify> {
-
   var imageUploader = ImageUploader();
-
   Future<void>_showChoiceDialog(BuildContext context)
   {
     return showDialog(context: context,builder: (BuildContext context){
@@ -29,23 +26,22 @@ class _ComponentVerifyState extends State<ComponentVerify> {
         content: SingleChildScrollView(
           child: ListBody(
             children: [
-              // Divider(height: 1,color: Colors.teal,),
-              // ListTile(
-              //   onTap: (){
-              //     imageUploader.openGallery(context, "Component Verification");
-              //   },
-              //   title: Text("Gallery"),
-              //   leading: Icon(Icons.account_box,color: Colors.teal,),
-              // ),
-
-              // Divider(height: 1,color: Colors.teal,),
-              // ListTile(
-              //   onTap: (){
-              //     imageUploader.openCamera(context, "Component Verification");
-              //   },
-              //   title: Text("Camera"),
-              //   leading: Icon(Icons.camera,color: Colors.teal,),
-              // ),
+              Divider(height: 1,color: Colors.teal,),
+              ListTile(
+                onTap: (){
+                  imageUploader.openGallery(context, "Component Verification");
+                },
+                title: Text("Gallery"),
+                leading: Icon(Icons.account_box,color: Colors.teal,),
+              ),
+              Divider(height: 1,color: Colors.teal,),
+              ListTile(
+                onTap: (){
+                  imageUploader.openCamera(context, "Component Verification");
+                },
+                title: Text("Camera"),
+                leading: Icon(Icons.camera,color: Colors.teal,),
+              ),
             ],
           ),
         ),);
@@ -60,7 +56,9 @@ class _ComponentVerifyState extends State<ComponentVerify> {
       imageFileList!.addAll(selectedImages);
     }
     print("Image List Length:" + imageFileList!.length.toString());
-    setState((){});
+    setState((){
+      // loadImages();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -105,7 +103,6 @@ class _ComponentVerifyState extends State<ComponentVerify> {
             SizedBox(
               height: 30,
             ),
-
             Container(
               margin: const EdgeInsets.all(10.0),
               padding: const EdgeInsets.all(8),
@@ -130,34 +127,25 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                         offset: Offset(2.0,2.0)
                     )
                   ]
-
               ),
               child: GestureDetector(
                 onTap: (){
-                  UploadManager();
-                   selectImages();
+                   _showChoiceDialog(context);
+                    // selectImages();
                 },
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add_circle_outline,size: 70,color: Colors.black54,),
+                    Icon(Icons.add_circle_outline,size: 70,color: Colors.white,),
                     Text("File Upload",style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 13,
                     ),),
                   ],
+
                 ),
               ),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     selectImages();
-            //   },
-            //   child: Text('Select Images',style: TextStyle(
-            //     color: Colors.teal.shade300,
-            //     fontSize: 15,
-            //     fontWeight: FontWeight.bold
-            //   ),),
-            // ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
@@ -187,7 +175,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 new Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
-                      loadImages();
+
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
                         icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))

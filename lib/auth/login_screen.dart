@@ -14,16 +14,16 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
    var authHandler = AuthService();
    bool isLoading = false;
-   late String _email, _pass;
-  final emailController = TextEditingController();
-  final passController = TextEditingController();
+   late String email, pass;
+   final emailController = TextEditingController();
+   final passController = TextEditingController();
    final scaffoldKey = new GlobalKey<ScaffoldState>();
    final formKey = new GlobalKey<FormState>();
    @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.teal.shade300,
+       backgroundColor: Colors.teal.shade300,
         body: Form(
           key: formKey,
           child: SingleChildScrollView(
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.emailAddress,
                             controller: emailController,
                             validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
-                            onSaved: (val) => _email = val!,
+                            onSaved: (val) => email = val!,
                             decoration: InputDecoration(
                               hintText: 'Enter Email',
                               labelText: ' Email',
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.visiblePassword,
 
                             controller: passController,
-                            onSaved: (val) => _pass = val!,
+                            onSaved: (val) => pass = val!,
                             validator: (val) => val!.length < 6  ? "Password length should be Greater than 6" : null ,
                             decoration: InputDecoration(
                                 labelText: "Password",
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                               }
                               );
                               authHandler.handleSignIn(emailController.text, passController.text).then((response) {
-                                print(response.toString());
+                                 print(response.toString());
                                 if(response.toString().endsWith("Success")){
                                   var snackBar = new SnackBar(content: Text("Login success"));
                                   scaffoldKey.currentState?.showSnackBar(snackBar);
@@ -153,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
                           child:isLoading?Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-
                               Text('Please Wait...',style: TextStyle(
                                 color: Colors.teal
                               ),),

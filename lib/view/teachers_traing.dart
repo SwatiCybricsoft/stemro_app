@@ -17,6 +17,38 @@ class TeachersTraining extends StatefulWidget {
   State<TeachersTraining> createState() => _TeachersTrainingState();
 }
 class _TeachersTrainingState extends State<TeachersTraining> {
+  var imageUploader = ImageUploader();
+
+  Future<void>_showChoiceDialog(BuildContext context)
+  {
+    return showDialog(context: context,builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("File Upload",style: TextStyle(color: Colors.teal),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Divider(height: 1,color: Colors.teal,),
+              ListTile(
+                onTap: (){
+                  imageUploader.openGallery(context, "Teachers Training");
+                },
+                title: Text("Gallery"),
+                leading: Icon(Icons.account_box,color: Colors.teal,),
+              ),
+
+              Divider(height: 1,color: Colors.teal,),
+              ListTile(
+                onTap: (){
+                  imageUploader.openCamera(context, "Teachers Training");
+                },
+                title: Text("Camera"),
+                leading: Icon(Icons.camera,color: Colors.teal,),
+              ),
+            ],
+          ),
+        ),);
+    });
+  }
    final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
   void selectImages() async {
@@ -25,9 +57,10 @@ class _TeachersTrainingState extends State<TeachersTraining> {
       imageFileList!.addAll(selectedImages);
     }
     print("Image List Length:" + imageFileList!.length.toString());
-    setState((){
-      UploadManager();
+    setState(() {
+
     });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -72,7 +105,6 @@ class _TeachersTrainingState extends State<TeachersTraining> {
             SizedBox(
               height: 30,
             ),
-
             Container(
               margin: const EdgeInsets.all(10.0),
               padding: const EdgeInsets.all(8),
@@ -101,15 +133,15 @@ class _TeachersTrainingState extends State<TeachersTraining> {
               ),
               child: GestureDetector(
                 onTap: (){
-                  // _showChoiceDialog(context);
-                  selectImages();
-                 // UploadManager();
+                   _showChoiceDialog(context);
+                     // selectImages();
                 },
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add_circle_outline,size: 70,color: Colors.black54,),
+                    Icon(Icons.add_circle_outline,size: 70,color: Colors.white,),
                     Text("File Upload",style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 13,
                     ),),
                   ],
@@ -129,28 +161,28 @@ class _TeachersTrainingState extends State<TeachersTraining> {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: 20,
-            // ),
-            // Row(
-            //   children: [
-            //     new Container(
-            //         padding: const EdgeInsets.only(top: 30),
-            //         child: RaisedButton.icon(onPressed:(){
-            //           Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
-            //         },
-            //             icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
-            //     ),
-            //     Spacer(),
-            //     new Container(
-            //         padding: const EdgeInsets.only(top: 30),
-            //         child: RaisedButton.icon(onPressed:(){
-            //           loadImages();
-            //         },
-            //             icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
-            //     ),
-            //   ],
-            // )
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                new Container(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: RaisedButton.icon(onPressed:(){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+                    },
+                        icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
+                ),
+                Spacer(),
+                new Container(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: RaisedButton.icon(onPressed:(){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
+                    },
+                        icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
+                ),
+              ],
+            )
           ],
         ),
       ),
