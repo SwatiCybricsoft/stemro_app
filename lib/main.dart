@@ -9,7 +9,7 @@ bool isAdminStatus = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  checkAdmin();
+  await checkAdmin();
   runApp(const MyApp());
 }
 
