@@ -57,6 +57,7 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   List<PlatformFile> files = [];
+
   //image picker......//
   File? _image;
   final _picker = ImagePicker();
@@ -80,6 +81,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     print(result.files.first.size);
     print(result.files.first.path);
   }
+
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final formKey = new GlobalKey<FormState>();
