@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stemro_app/auth/AuthService.dart';
 import 'package:stemro_app/auth/welcome_screen.dart';
@@ -10,9 +11,13 @@ import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/Lab_picture.dart';
 import 'package:stemro_app/view/component_verification.dart';
 import '../view/teachers_traing.dart';
-import 'login_screen.dart';
 
 bool isAdminStatus = false;
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
 checkAdmin() {
   String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -29,27 +34,25 @@ checkAdmin() {
   });
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
 class _MyHomePageState extends State<MyHomePage> {
   final scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    // TODO: implement initState
+    super.initState();
     checkAdmin();
   }
-
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.teal.shade300,
+    ));
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        brightness: Brightness.light,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.transparent,
         centerTitle: true,
         actions: [
           PopupMenuButton<int>(
@@ -113,31 +116,52 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Image.asset(
-            //   'assets/stemrobo.png',
-            //   fit: BoxFit.contain,
-            //   height: 32,
-            // ),
-            Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'User Dashboard',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            )
-          ],
+        title: Text(
+          'User Dashboard',
+          style: TextStyle(
+            fontSize: 20,
+          ),
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: <Color>[Colors.teal, Colors.tealAccent]),
+                colors: <Color>[Colors.tealAccent, Colors.teal]),
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: MediaQuery.of(context).size.height/9,
+          // color: Colors.teal.shade300,
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+                // bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)
+              ),
+              gradient: LinearGradient(
+                  colors: [Colors.teal,Colors.tealAccent],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter
+              )
+          ),
+          child:  Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaIcon(
+                FontAwesomeIcons.dumbbell,
+                color: Colors.teal,
+              ),
+              Text(
+                'STEMROBO',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20),
+              ),
+            ],
           ),
         ),
       ),
@@ -147,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Column(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.40,
+                height: MediaQuery.of(context).size.height * 0.30,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.teal.shade300,
                 child: Container(
@@ -166,8 +190,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Column(
             children: <Widget>[
+
               SizedBox(
-                height: 50,
+                height: 10,
               ),
               Container(
                 alignment: Alignment.centerLeft,
@@ -189,6 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 80,
               ),
               Row(
+
                 children: [
                   Expanded(
                     child: GridView.count(
@@ -293,30 +319,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        FaIcon(
-                          FontAwesomeIcons.dumbbell,
-                          color: Colors.teal,
-                        ),
-                        Text(
-                          'STEMROBO',
-                          style: TextStyle(
-                              color: Colors.teal,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              )
+              // Container(
+              //   padding: EdgeInsets.symmetric(vertical: 15),
+              //   color: Colors.white,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //     children: <Widget>[
+              //       Column(
+              //         children: <Widget>[
+              //           FaIcon(
+              //             FontAwesomeIcons.dumbbell,
+              //             color: Colors.teal,
+              //           ),
+              //           Text(
+              //             'STEMROBO',
+              //             style: TextStyle(
+              //                 color: Colors.teal,
+              //                 fontWeight: FontWeight.w700,
+              //                 fontSize: 20),
+              //           )
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // )
+
             ],
           )
         ],
@@ -354,7 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => WelcomeScreen()),
-        (route) => false);
+            (route) => false);
   }
 
   bool isLogin() {

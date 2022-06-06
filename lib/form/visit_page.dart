@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/form/submitpage.dart';
@@ -87,12 +88,16 @@ class MyCustomFormState extends State<MyCustomForm> {
   final formKey = new GlobalKey<FormState>();
   int dropDownValue = 0;
   bool isLoading = false;
+
+  String? userEmail = FirebaseAuth.instance.currentUser?.email;
+
   final dateController = TextEditingController();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final schoolController = TextEditingController();
   final typeController = TextEditingController();
   final noteController = TextEditingController();
+
   late String _date, _name,_email,_school,_note;
   late int typeIndex;
   var options = <String>['ComponentVerification',
@@ -253,7 +258,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 SizedBox(
                   height: 30,
                 ),
-               new Flex(
+               Flex(
                  direction: Axis.vertical,
                  mainAxisAlignment: MainAxisAlignment.start,
                  crossAxisAlignment: CrossAxisAlignment.start,
@@ -419,7 +424,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                         });
                       }
                       );
-                      writeNewVisit();
                     },
                     child:isLoading?Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -457,6 +461,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                           color: Colors.teal,
                             child: Text("SAVE",style: TextStyle(color: Colors.white),),
                             onPressed: (){
+                              emailController.text = userEmail!;
+                              // writeNewVisit();
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                             }
                         ),
