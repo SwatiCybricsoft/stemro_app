@@ -37,7 +37,7 @@ checkAdmin() {
 class _MyHomePageState extends State<MyHomePage> {
   final scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  @override
+@override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    final _screen =  MediaQuery.of(context).size;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.teal.shade300,
     ));
@@ -119,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           'User Dashboard',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 24,
           ),
         ),
         flexibleSpace: Container(
@@ -137,9 +138,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // color: Colors.teal.shade300,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-                // bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)
+                  topLeft: Radius.circular(20.0),
+                 topRight: Radius.circular(20.0),
+                  // bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)
               ),
               gradient: LinearGradient(
                   colors: [Colors.teal,Colors.tealAccent],
@@ -150,10 +151,10 @@ class _MyHomePageState extends State<MyHomePage> {
           child:  Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FaIcon(
-                FontAwesomeIcons.dumbbell,
-                color: Colors.teal,
-              ),
+            FaIcon(
+              FontAwesomeIcons.dumbbell,
+              color: Colors.teal,
+            ),
               Text(
                 'STEMROBO',
                 style: TextStyle(
@@ -175,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.teal.shade300,
                 child: Container(
-                  margin: EdgeInsets.only(right: 40, top: 20, bottom: 20),
+                  margin: EdgeInsets.only(right: 40, top:10, bottom: 20),
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
                       image: DecorationImage(
@@ -185,37 +186,38 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Column(
-            children: <Widget>[
 
-              SizedBox(
-                height: 10,
-              ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
               Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.all(20),
-                child: Image.asset(
-                  "assets/stemrobo.png",
-                  height: 80.0,
-                  width: 300.0,
+                height: MediaQuery.of(context).size.height * 0.30,
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    "assets/stemrobo.png",
+                    // height: 80.0,
+                    // width: 300.0,
+                  ),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(40))),
-              ),
-              SizedBox(
-                height: 80,
-              ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width * 0.9,
+              //   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              //   decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.all(Radius.circular(40))),
+              // ),
+              // SizedBox(
+              //   height: 100,
+              // ),
               Row(
-
-                children: [
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
@@ -245,18 +247,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Radius.circular(10.0),
                                 )),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
                                   Icons.folder,
-                                  size: 40,
+                                  size: 50,
                                   color: Colors.black54,
                                 ),
                                 Text(
                                   "School Visit Form",
                                   maxLines: 2,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ],
@@ -295,18 +299,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Radius.circular(10.0),
                                   )),
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
                                     Icons.add_to_photos_rounded,
-                                    size: 40,
+                                    size: 50,
                                     color: Colors.black54,
                                   ),
                                   Text(
                                     "View Old Form",
+                                    textAlign: TextAlign.center,
                                     maxLines: 2,
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 12,
+                                      fontSize: 18
                                     ),
                                   ),
                                 ],
@@ -381,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => WelcomeScreen()),
-            (route) => false);
+        (route) => false);
   }
 
   bool isLogin() {
