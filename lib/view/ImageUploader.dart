@@ -6,17 +6,19 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageUploader{
-
-  void openGallery(BuildContext context,String category) async{
+class ImageUploader {
+  void openGallery(BuildContext context, String category) async {
     String subcategory = "Gallery";
-    String destination = category+"/"+subcategory;
+    String destination = category + "/" + subcategory;
     final _firebaseStorage = FirebaseStorage.instance;
-    PickedFile? image = await ImagePicker().getImage(source: ImageSource.gallery);
-    if (image != null){
+    PickedFile? image =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (image != null) {
       showAlertDialog(context);
       var file = File(image.path);
-      var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
+      var snapshot = await _firebaseStorage
+          .ref(destination + "/" + file.path)
+          .putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       print(downloadUrl);
       SaveDatabase(context, category, subcategory, downloadUrl);
@@ -25,15 +27,18 @@ class ImageUploader{
     }
   }
 
-  void openCamera(BuildContext context, String category)  async{
+  void openCamera(BuildContext context, String category) async {
     String subcategory = "Camera";
-    String destination = category+"/"+subcategory;
+    String destination = category + "/" + subcategory;
     final _firebaseStorage = FirebaseStorage.instance;
-    PickedFile? image = await ImagePicker().getImage(source: ImageSource.camera);
-    if (image != null){
+    PickedFile? image =
+        await ImagePicker().getImage(source: ImageSource.camera);
+    if (image != null) {
       showAlertDialog(context);
       var file = File(image.path);
-      var snapshot = await _firebaseStorage.ref(destination+"/"+file.path).putFile(file);
+      var snapshot = await _firebaseStorage
+          .ref(destination + "/" + file.path)
+          .putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       print(downloadUrl);
       SaveDatabase(context, category, subcategory, downloadUrl);
@@ -42,7 +47,8 @@ class ImageUploader{
     }
   }
 
-  void SaveDatabase(BuildContext context, String category, String subcategory, String downloadUrl){
+  void SaveDatabase(BuildContext context, String category, String subcategory,
+      String downloadUrl) {
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
     final imageData = {
@@ -51,8 +57,7 @@ class ImageUploader{
       'Subcategory': subcategory,
     };
 
-    final newVisitKey =
-        FirebaseDatabase.instance.ref().push().key;
+    final newVisitKey = FirebaseDatabase.instance.ref().push().key;
 
     final Map<String, Map> updates = {};
     updates['/Users/$uid/Images/$newVisitKey'] = imageData;
@@ -62,20 +67,23 @@ class ImageUploader{
     Navigator.pop(context);
   }
 
-  showAlertDialog(BuildContext context){
-    AlertDialog alert=AlertDialog(
-      content: new Row(
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: Row(
         children: [
-          CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 8),child:Text("Uploading..." )),
-        ],),
+          const CircularProgressIndicator(),
+          Container(
+              margin: const EdgeInsets.only(left: 8),
+              child: const Text("Uploading...")),
+        ],
+      ),
     );
-    showDialog(barrierDismissible: false,
-      context:context,
-      builder:(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
         return alert;
       },
     );
   }
-
 }
