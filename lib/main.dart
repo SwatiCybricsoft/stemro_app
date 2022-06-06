@@ -4,28 +4,10 @@ import 'package:flutter/material.dart';
 import 'auth/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-bool isAdminStatus = false;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // await checkAdmin();
   runApp(const MyApp());
-}
-
-checkAdmin() {
-  String uid = FirebaseAuth.instance.currentUser!.uid;
-  DatabaseReference reference = FirebaseDatabase.instance.ref("/Users/$uid/");
-  reference.onValue.listen((DatabaseEvent event) {
-    if (event.snapshot.child("accountType").exists) {
-      final data = event.snapshot.child("accountType").value;
-      if (data.toString() == 'Admin') {
-        isAdminStatus = true;
-      } else {
-        isAdminStatus = false;
-      }
-    }
-  });
 }
 
 class MyApp extends StatelessWidget {
