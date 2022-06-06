@@ -55,6 +55,7 @@ dependencies:
 
 
 
+
   fluttertoast: ^8.0.9
   #API requests
   http: 0.13.4

@@ -1,18 +1,17 @@
 import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/form/submitpage.dart';
-import 'package:stemro_app/view/home_screen.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:stemro_app/widgets/file_upload.dart';
 import '../auth/AuthService.dart';
 import 'package:intl/intl.dart';
 import '../auth/home_page.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
-
   @override
   State<FormPage> createState() => _FormPageState();
 }
@@ -57,21 +56,29 @@ class MyCustomForm extends StatefulWidget {
 }
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
+  List<PlatformFile> files = [];
   //image picker......//
-  // assets...............
-  final ImagePicker imagePicker = ImagePicker();
   File? _image;
-  List<XFile>? imageFileList = [];
-  void selectImages() async {
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages!.isNotEmpty) {
-      imageFileList!.addAll(selectedImages);
+  final _picker = ImagePicker();
+  // Implementing the image picker
+  Future<void> _openImagePicker() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
     }
-    print("Image List Length:" + imageFileList!.length.toString());
-    setState((){
-      // _image =imagePicker as File?;
-
-    });
+  }
+  //filepicker..........//
+  void _pickFile() async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    // if no file is picked
+    if (result == null) return;
+    // first picked file (if multiple are selected)
+    print(result.files.first.name);
+    print(result.files.first.size);
+    print(result.files.first.path);
   }
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -101,14 +108,6 @@ class MyCustomFormState extends State<MyCustomForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 10,bottom: 10,left: 90),
-                //   child: Text('School Visit Form',textAlign:TextAlign.center,style: TextStyle(
-                //       decoration: TextDecoration.underline,fontSize: 20,
-                //       color: Colors.teal,
-                //       fontWeight: FontWeight.bold
-                //   ),),
-                // ),
                 TextFormField(
                   readOnly:  true,
                   keyboardType: TextInputType.datetime,
@@ -263,6 +262,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                      fontWeight: FontWeight.bold,
                    ),),
                    Container(
+                     height: MediaQuery.of(context).size.height/4,
                      margin: const EdgeInsets.all(10.0),
                      padding: const EdgeInsets.all(8),
                      decoration: BoxDecoration(
@@ -289,15 +289,20 @@ class MyCustomFormState extends State<MyCustomForm> {
                      ),
                      child: GestureDetector(
                        onTap: (){
-                         selectImages();
+                         _openImagePicker();
                        },
-                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           Icon(Icons.add_circle_outline,size: 40,color: Colors.black,),
+                       child: _image !=null
+                       ?Image.file(_image!,fit: BoxFit.cover,)
+                       :const Text("Please Select an Image"),
 
-                         ],
-                       ),
+                       // child: Column(
+                       //   mainAxisAlignment: MainAxisAlignment.center,
+                       //   children: [
+                       //     Icon(Icons.add_circle_outline,size: 40,color: Colors.black,),
+                       //
+                       //
+                       //   ],
+                       // ),
                      ),
                    ),
 
@@ -332,9 +337,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                          ]
                      ),
                      child: GestureDetector(
-                       onTap: (){
-                         // _showChoiceDialog(context);
-                         // selectImages();
+                       onTap: ()async{
+                         final result = await FilePicker.platform
+                             .pickFiles(withReadStream: true, allowMultiple: true);
+
+                         if (result == null) return;
+                         files = result.files;
+                         setState(() {});
+                         // _pickFile();
                        },
                        child: Column(
                          mainAxisAlignment: MainAxisAlignment.center,
@@ -377,13 +387,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                      ),
                      child: GestureDetector(
                        onTap: (){
-                         // _showChoiceDialog(context);
                          // selectImages();
                        },
                        child: Column(
                          mainAxisAlignment: MainAxisAlignment.center,
                          children: [
                            Icon(Icons.add_circle_outline,size: 40,color: Colors.black,),
+
 
                          ],
                        ),
@@ -478,5 +488,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     updates['/School Visits/$newVisitKey'] = visitData;
     FirebaseDatabase.instance.ref().update(updates);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SubmitPage(title: 'SubmitPage',)));
+  }
+  void openFiles(List<PlatformFile> files) {
+    show(files: files);
   }
 }

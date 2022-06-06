@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stemro_app/view/home_screen.dart';
 
@@ -30,6 +31,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.teal.shade300,
+    ));
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.teal.shade300,
