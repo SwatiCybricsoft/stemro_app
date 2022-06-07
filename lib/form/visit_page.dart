@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -530,6 +531,70 @@ class MyCustomFormState extends State<MyCustomForm> {
     result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result == null) return;
     loadSelectedFile(result!.files);
+  }
+
+  uploadImages(FilePickerResult filePickerResult) async {
+    List<File> files = filePickerResult.paths.map((path) => File(path!)).toList();
+    Iterable<File> images = files.where((item) {
+      return item.path.endsWith(".jpg") ||
+          item.path.endsWith(".jpeg") ||
+          item.path.endsWith(".png");
+    });
+    Iterable<File> documents = files.where((item) {
+      return item.path.endsWith(".pdf") || item.path.endsWith(".docx");
+    });
+
+    if (images.isNotEmpty) {
+      print("Uploading images...");
+      List<String> urls = await uploadFiles(images);
+      print(urls);
+    } else {
+      print("Images not selected");
+    }
+
+    if (documents.isNotEmpty) {
+      print("Uploading documents...");
+      List<String> urls = await uploadFiles(documents);
+      print(urls);
+    } else {
+      print("Document not selected");
+    }
+  }
+
+  Future<List<String>> uploadFiles(Iterable<File> files) async {
+    showAlertDialog(context);
+    List<String> urls =
+    await Future.wait(files.map((_files) => uploadFile(_files)));
+    Navigator.pop(context);
+    return urls;
+  }
+
+  Future<String> uploadFile(File file) async {
+    var snapshot = await FirebaseStorage.instance
+        .ref("Stemro_App/" + file.path)
+        .putFile(file);
+    var downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: Row(
+        children: [
+          const CircularProgressIndicator(),
+          Container(
+              margin: const EdgeInsets.only(left: 8),
+              child: const Text("Uploading...")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   void loadSelectedFile(List<PlatformFile> files) {
