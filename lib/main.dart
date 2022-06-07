@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'auth/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'form/school_visit_form.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -12,7 +14,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
