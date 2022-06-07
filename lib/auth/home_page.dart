@@ -62,51 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
               PopupMenuItem<int>(
                 value: 0,
                 child: Text(
-                  'Lab Picture',
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              PopupMenuItem<int>(
-                value: 1,
-                child: Text(
-                  'Component Verification Docs',
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              PopupMenuItem<int>(
-                value: 2,
-                child: Text(
-                  "Teacher's Training Report",
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              PopupMenuItem<int>(
-                value: 3,
-                child: Text(
-                  "Uploaded Documents",
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              PopupMenuItem<int>(
-                value: 4,
-                child: Text(
-                  "Logout",
+                  'Logout',
                   style: TextStyle(
                     color: Colors.teal,
                     fontWeight: FontWeight.bold,
@@ -160,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontSize: 20),
+                    fontSize: 25),
               ),
             ],
           ),
@@ -325,30 +281,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              // Container(
-              //   padding: EdgeInsets.symmetric(vertical: 15),
-              //   color: Colors.white,
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //     children: <Widget>[
-              //       Column(
-              //         children: <Widget>[
-              //           FaIcon(
-              //             FontAwesomeIcons.dumbbell,
-              //             color: Colors.teal,
-              //           ),
-              //           Text(
-              //             'STEMROBO',
-              //             style: TextStyle(
-              //                 color: Colors.teal,
-              //                 fontWeight: FontWeight.w700,
-              //                 fontSize: 20),
-              //           )
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // )
 
             ],
           )
@@ -362,27 +294,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => LabPicture()));
-        break;
-      case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => ComponentVerify()));
-        break;
-      case 2:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => TeachersTraining()));
-        break;
-      case 3:
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => UploadManager()));
-        break;
-      case 4:
         _signOut();
         break;
     }
   }
-
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushAndRemoveUntil(

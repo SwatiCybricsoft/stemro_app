@@ -13,13 +13,15 @@ import '../auth/home_page.dart';
 import 'package:open_file/open_file.dart';
 
 import '../widgets/file_upload.dart';
+
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
   @override
   State<FormPage> createState() => _FormPageState();
 }
+
 class _FormPageState extends State<FormPage> {
-bool isLoading = false;
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +30,20 @@ bool isLoading = false;
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.teal,
-         centerTitle: true,
-        leading: IconButton(onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage ()));
-        },
-            icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
-          title: Container(
-              padding: const EdgeInsets.all(8.0), child: Text('School Visit Form')
-          ),
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()));
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            )),
+        title: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('School Visit Form')),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -45,11 +53,11 @@ bool isLoading = false;
           ),
         ),
       ),
-      body:MyCustomForm() ,
+      body: MyCustomForm(),
     );
   }
-
 }
+
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
   @override
@@ -57,6 +65,7 @@ class MyCustomForm extends StatefulWidget {
     return MyCustomFormState();
   }
 }
+
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   List<PlatformFile> files = [];
@@ -66,7 +75,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Implementing the image picker
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
-    await _picker.pickImage(source: ImageSource.gallery);
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         _image = File(pickedImage.path);
@@ -74,22 +83,26 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-  //filepicker..........//
-  void _pickFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
-    // if no file is picked
-    if (result == null) return;
-    // first picked file (if multiple are selected)
-    print(result.files.first.name);
-    print(result.files.first.size);
-    print(result.files.first.path);
-  }
+  // //filepicker..........//
+  // void _pickFile() async {
+  //   final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+  //   // if no file is picked
+  //   if (result == null) return;
+  //   // first picked file (if multiple are selected)
+  //   print(result.files.first.name);
+  //   print(result.files.first.size);
+  //   print(result.files.first.path);
+  // }
 
   // file 3rd picker...
   FilePickerResult? result;
-  PlatformFile?file;
+  PlatformFile? file;
+  String fileType = 'All';
+  var fileTypeList = ['All', 'Image', 'Video', 'Audio', 'MultipleFile'];
 
   // form validation....................///
+
+  late final ValueChanged<PlatformFile> onOpenedFile;
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final formKey = new GlobalKey<FormState>();
@@ -146,8 +159,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                         lastDate: DateTime(2031),
                       ).then((selectedDate) {
                         if (selectedDate != null) {
-                          dateController.text = DateFormat('yyyy-MM-dd').format(
-                              selectedDate);
+                          dateController.text =
+                              DateFormat('yyyy-MM-dd').format(selectedDate);
                         }
                       });
                     },
@@ -168,7 +181,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                       labelText: "Engineer Name",
                       hintStyle: TextStyle(color: Colors.black),
                       labelStyle: TextStyle(color: Colors.black),
-
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -215,20 +227,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                     },
                   ),
                   SizedBox(height: 14),
-
                   DropdownButtonFormField<String>(
                     isExpanded: true,
-
-                    decoration: InputDecoration(
-
-                        filled: false
-                      // prefixIcon: Icon(Icons.person),
+                    decoration: InputDecoration(filled: false
+                        // prefixIcon: Icon(Icons.person),
+                        ),
+                    hint: Text(
+                      'Select Visit Purpose',
+                      style: TextStyle(color: Colors.black, letterSpacing: 1.0),
                     ),
-                    hint: Text('Select Visit Purpose', style: TextStyle(
-                        color: Colors.black,
-                        letterSpacing: 1.0
-
-                    ),),
                     items: options.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -268,7 +275,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                       return null;
                     },
                   ),
-
                   SizedBox(
                     height: 30,
                   ),
@@ -277,104 +283,127 @@ class MyCustomFormState extends State<MyCustomForm> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Lab Picture', textAlign: TextAlign.start,
+                      Text(
+                        'Lab Picture',
+                        textAlign: TextAlign.start,
                         style: TextStyle(
-                          decoration: TextDecoration.underline, fontSize: 16,
+                          decoration: TextDecoration.underline,
+                          fontSize: 16,
                           color: Colors.teal,
                           fontWeight: FontWeight.bold,
-                        ),),
+                        ),
+                      ),
                       Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height / 6,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 4,
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.width / 4,
                         margin: const EdgeInsets.all(10.0),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 3.0,
-                                color: Colors.black26
-                            ),
+                            border:
+                                Border.all(width: 3.0, color: Colors.black26),
                             borderRadius: BorderRadius.all(
                               Radius.circular(10.0),
                             ),
                             gradient: LinearGradient(
-                                colors: [
-                                  Colors.grey,
-                                  Colors.blueGrey
-                                ]
-                            ),
+                                colors: [Colors.grey, Colors.blueGrey]),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0)
-                              )
-                            ]
-                        ),
+                                  offset: Offset(2.0, 2.0))
+                            ]),
                         child: GestureDetector(
                           onTap: () {
-                            _openImagePicker();
+                            pickFiless();
                           },
-                          child: _image != null
-                              ? Image.file(_image!, fit: BoxFit.cover,)
-                              : const Icon(Icons.add_circle_outline, size: 40,
-                            color: Colors.black,),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_circle_outline,
+                                size: 40,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Component Verification Docs',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 16,
+                          color: Colors.teal,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.width / 4,
+                        margin: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(width: 3.0, color: Colors.black26),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                            gradient: LinearGradient(
+                                colors: [Colors.grey, Colors.blueGrey]),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 2.0,
+                                  offset: Offset(2.0, 2.0))
+                            ]),
+                        child: GestureDetector(
+                          onTap: () async {
+                            pickFiless();
+                          },
 
-                          // child: Column(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     Icon(Icons.add_circle_outline,size: 40,color: Colors.black,),
-                          //
-                          //
-                          //   ],
-                          // ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_circle_outline,
+                                size: 40,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Teachers's Training Report",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 16,
+                          color: Colors.teal,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
 
-                      Text('Component Verification Docs',
-                        textAlign: TextAlign.start, style: TextStyle(
-                          decoration: TextDecoration.underline, fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),),
                       Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height / 6,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 4,
+                        height: MediaQuery.of(context).size.height /8,
+                        width: MediaQuery.of(context).size.width / 4,
                         margin: const EdgeInsets.all(10.0),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 3.0,
-                                color: Colors.black26
-                            ),
+                            border:
+                                Border.all(width: 3.0, color: Colors.black26),
                             borderRadius: BorderRadius.all(
                               Radius.circular(10.0),
                             ),
                             gradient: LinearGradient(
-                                colors: [
-                                  Colors.grey,
-                                  Colors.blueGrey
-                                ]
-                            ),
+                                colors: [Colors.grey, Colors.blueGrey]),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0)
-                              )
-                            ]
-                        ),
+                                  offset: Offset(2.0, 2.0))
+                            ],),
                         child: GestureDetector(
                           onTap: () async {
                             pickFiless();
@@ -382,70 +411,20 @@ class MyCustomFormState extends State<MyCustomForm> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.add_circle_outline, size: 40,
-                                color: Colors.black,),
-
+                              Icon(
+                                Icons.add_circle_outline,
+                                size: 40,
+                                color: Colors.black,
+                              ),
                             ],
                           ),
-                        ),
-                      ),
-                      Text("Teachers's Training Report",
-                        textAlign: TextAlign.start, style: TextStyle(
-                          decoration: TextDecoration.underline, fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),),
-                      Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height / 6,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 4,
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 3.0,
-                                color: Colors.black26
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                            gradient: LinearGradient(
-                                colors: [
-                                  Colors.grey,
-                                  Colors.blueGrey
-                                ]
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0)
-                              )
-                            ]
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            pickFiless();
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.add_circle_outline, size: 40,
-                                color: Colors.black,),
 
-                            ],
-                          ),
                         ),
+
+
                       ),
                     ],
                   ),
-
-
                   GestureDetector(
                       onTap: () {
                         if (formKey.currentState!.validate()) {
@@ -458,65 +437,68 @@ class MyCustomFormState extends State<MyCustomForm> {
                           setState(() {
                             isLoading = false;
                           });
-                        }
-                        );
+                        });
                       },
-                      child: isLoading ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Please Wait...', style: TextStyle(
-                              color: Colors.teal
-                          ),),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Center(
-                            heightFactor: 1,
-                            widthFactor: 1,
-                            child: SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1.5,
-                              ),
-                            ),
-                          )
-
-                        ],
-                      ) : Row(
-                        children: [
-                          RaisedButton(
-                              color: Colors.grey,
-                              child: Text("CANCEL", style: TextStyle(
-                                  color: Colors.black),),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => MyHomePage()));
-                              }
-                          ),
-                          Spacer(),
-                          RaisedButton(
-                              color: Colors.teal,
-                              child: Text("SAVE", style: TextStyle(
-                                  color: Colors.white),),
-                              onPressed: () {
-                                emailController.text = userEmail!;
-                                // writeNewVisit();
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => MyHomePage()));
-                              }
-                          ),
-                        ],
-                      )
-                  ),
-
-
+                      child: isLoading
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Please Wait...',
+                                  style: TextStyle(color: Colors.teal),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Center(
+                                  heightFactor: 1,
+                                  widthFactor: 1,
+                                  child: SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1.5,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                RaisedButton(
+                                    color: Colors.grey,
+                                    child: Text(
+                                      "CANCEL",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyHomePage()));
+                                    }),
+                                Spacer(),
+                                RaisedButton(
+                                    color: Colors.teal,
+                                    child: Text(
+                                      "SAVE",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      emailController.text = userEmail!;
+                                      // writeNewVisit();
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyHomePage()));
+                                    }),
+                              ],
+                            )),
                 ],
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 
   void writeNewVisit() async {
@@ -530,17 +512,17 @@ class MyCustomFormState extends State<MyCustomForm> {
       'note': noteController.text,
       'uid': uid,
     };
-    final newVisitKey =
-        FirebaseDatabase.instance
-            .ref()
-            .push()
-            .key;
+    final newVisitKey = FirebaseDatabase.instance.ref().push().key;
     final Map<String, Map> updates = {};
     updates['/Users/$uid/School Visits/$newVisitKey'] = visitData;
     updates['/School Visits/$newVisitKey'] = visitData;
     FirebaseDatabase.instance.ref().update(updates);
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => SubmitPage(title: 'SubmitPage',)));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SubmitPage(
+                  title: 'SubmitPage',
+                )));
   }
 
   void openFiles(List<PlatformFile> files) {
@@ -548,19 +530,80 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   void pickFiless() async {
-    result = await FilePicker.platform.pickFiles(
-        allowMultiple: true
-    );
+    result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result == null) return;
     loadSelectedFile(result!.files);
   }
-  void loadSelectedFile(List<PlatformFile>files) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>FileList(files:files,onOpenedFile: viewFile,)));
 
+  void loadSelectedFile(List<PlatformFile> files) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => FileList(
+              files: files,
+              onOpenedFile: viewFile,
+            )));
   }
 
   void viewFile(PlatformFile file) {
     OpenFile.open(file.path);
   }
 
+  Widget fileDetails(PlatformFile file) {
+    final kb = file.size / 1024;
+    final mb = kb / 1024;
+    final size = (mb >= 1)
+        ? '${mb.toStringAsFixed(2)} MB'
+        : '${kb.toStringAsFixed(2)} KB';
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('File Name: ${file.name}'),
+          Text('File Size: $size'),
+          // Text('File Extension: ${file.extension}'),
+          // Text('File Path: ${file.path}'),
+        ],
+      ),
+    );
+  }
+
+  // void pickFiles(String? filetype) async {
+  //   switch (filetype) {
+  //     case 'Image':
+  //       result = await FilePicker.platform.pickFiles(type: FileType.image);
+  //       if (result == null) return;
+  //       file = result!.files.first;
+  //       setState(() {});
+  //       break;
+  //     case 'Video':
+  //       result = await FilePicker.platform.pickFiles(type: FileType.video);
+  //       if (result == null) return;
+  //       file = result!.files.first;
+  //       setState(() {});
+  //       break;
+  //     case 'Audio':
+  //       result = await FilePicker.platform.pickFiles(type: FileType.audio);
+  //       if (result == null) return;
+  //       file = result!.files.first;
+  //       setState(() {});
+  //       break;
+  //     case 'All':
+  //       result = await FilePicker.platform.pickFiles();
+  //       if (result == null) return;
+  //       file = result!.files.first;
+  //       setState(() {});
+  //       break;
+  //     case 'MultipleFile':
+  //       result = await FilePicker.platform.pickFiles(allowMultiple: true);
+  //       if (result == null) return;
+  //       loadSelectedFiles(result!.files);
+  //       break;
+  //   }
+  // }
+  //
+  // void loadSelectedFiles(List<PlatformFile> files) {
+  //   Navigator.of(context).push(MaterialPageRoute(
+  //       builder: (context) => FileList(files: files, onOpenedFile: viewFile))
+  //   );
+  // }
 }
