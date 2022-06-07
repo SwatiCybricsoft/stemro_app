@@ -31,33 +31,49 @@ class _FileListState extends State<FileList> {
           }),
     );
   }
-
-  Widget buildFile(PlatformFile file) {
-    final kb = file.size / 1024;
+Widget buildFile(PlatformFile file){
+  final kb = file.size / 1024;
     final mb = kb / 1024;
     final size = (mb >= 1)
         ? '${mb.toStringAsFixed(2)} MB'
         : '${kb.toStringAsFixed(2)} KB';
     return InkWell(
-      onTap: () => widget.onOpenedFile(file),
+      onTap: (){
+        widget.onOpenedFile(file);
+      },
       child: ListTile(
-        leading: (file.extension == 'jpg' || file.extension == 'png')
-            ? Image.file(
-          File(file.path.toString()),
-          width: 80,
-          height: 80,
-        )
-            : Container(
-          width: 80,
-          height: 80,
-        ),
         title: Text('${file.name}'),
-        subtitle: Text('${file.extension}'),
-        trailing: Text(
-          '$size',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
+        subtitle: Text('${file.size}'),
+        trailing: Text('${file.extension}'),
       ),
     );
-  }
+}
+  // Widget buildFile(PlatformFile file) {
+  //   final kb = file.size / 1024;
+  //   final mb = kb / 1024;
+  //   final size = (mb >= 1)
+  //       ? '${mb.toStringAsFixed(2)} MB'
+  //       : '${kb.toStringAsFixed(2)} KB';
+  //   return InkWell(
+  //     onTap: () => widget.onOpenedFile(file),
+  //     child: ListTile(
+  //       leading: (file.extension == 'jpg' || file.extension == 'png')
+  //           ? Image.file(
+  //         File(file.path.toString()),
+  //         width: 80,
+  //         height: 80,
+  //       )
+  //           : Container(
+  //         width: 80,
+  //         height: 80,
+  //       ),
+  //       title: Text('${file.name}'),
+  //       subtitle: Text('${file.extension}'),
+  //       trailing: Text(
+  //         '$size',
+  //         style: TextStyle(fontWeight: FontWeight.w700),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
