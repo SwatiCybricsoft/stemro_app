@@ -37,14 +37,14 @@ class _FormPageState extends State<FormPage> {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => MyHomePage()));
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               size: 20,
               color: Colors.white,
             )),
         title: Container(
             padding: const EdgeInsets.all(8.0),
-            child: Text('School Visit Form')),
+            child: const Text('School Visit Form')),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -146,7 +146,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     keyboardType: TextInputType.datetime,
                     onSaved: (val) => _date = val!,
                     controller: dateController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Today Date",
                       labelText: 'Date',
                       hintStyle: TextStyle(color: Colors.black),
@@ -177,7 +177,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     controller: nameController,
                     onSaved: (val) => _name = val!,
                     // validator: (val) => val!.length < 1  ? "Enter Name" : null ,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Enter Engineer Name",
                       labelText: "Engineer Name",
                       hintStyle: TextStyle(color: Colors.black),
@@ -196,7 +196,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                     // validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
                     // onSaved: (val) => _email = val!,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter Email',
                       fillColor: Colors.black,
                       labelText: ' Email',
@@ -214,7 +214,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     keyboardType: TextInputType.text,
                     controller: schoolController,
                     onSaved: (val) => _school = val!,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter  School Name',
                       labelText: 'School Name',
                       hintStyle: TextStyle(color: Colors.black),
@@ -227,13 +227,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 14),
+                  const SizedBox(height: 14),
                   DropdownButtonFormField<String>(
                     isExpanded: true,
-                    decoration: InputDecoration(filled: false
+                    decoration: const InputDecoration(filled: false
                         // prefixIcon: Icon(Icons.person),
                         ),
-                    hint: Text(
+                    hint: const Text(
                       'Select Visit Purpose',
                       style: TextStyle(color: Colors.black, letterSpacing: 1.0),
                     ),
@@ -260,11 +260,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                     keyboardType: TextInputType.text,
                     onSaved: (val) => _note = val!,
                     controller: noteController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter Note',
                       labelText: ' Note',
                       hintStyle: TextStyle(color: Colors.black),
-                      labelStyle: TextStyle(color: Colors.black),
+                      labelStyle: const TextStyle(color: Colors.black),
                       isDense: true,
                       // Added this
                       contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
@@ -276,7 +276,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Flex(
@@ -284,7 +284,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Lab Picture',
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -302,16 +302,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                         decoration: BoxDecoration(
                             border:
                                 Border.all(width: 3.0, color: Colors.black26),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                            borderRadius: const BorderRadius.all(
+                              const Radius.circular(10.0),
                             ),
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                                 colors: [Colors.grey, Colors.blueGrey]),
                             boxShadow: [
-                              BoxShadow(
+                              const BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0))
+                                  offset: const Offset(2.0, 2.0))
                             ]),
                         child: GestureDetector(
                           onTap: () {
@@ -320,7 +320,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.add_circle_outline,
                                 size: 40,
                                 color: Colors.black,
@@ -329,7 +329,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                           ),
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Component Verification Docs',
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -347,13 +347,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                         decoration: BoxDecoration(
                             border:
                                 Border.all(width: 3.0, color: Colors.black26),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                            borderRadius: const BorderRadius.all(
+                              const Radius.circular(10.0),
                             ),
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                                 colors: [Colors.grey, Colors.blueGrey]),
                             boxShadow: [
-                              BoxShadow(
+                              const BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 2.0,
                                   offset: Offset(2.0, 2.0))
@@ -362,11 +362,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                           onTap: () async {
                             pickFiless();
                           },
-
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.add_circle_outline,
                                 size: 40,
                                 color: Colors.black,
@@ -375,17 +374,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                           ),
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Teachers's Training Report",
                         textAlign: TextAlign.start,
-                        style: TextStyle(
+                        style: const TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: 16,
                           color: Colors.teal,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       Container(
                         height: MediaQuery.of(context).size.height / 8,
                         width: MediaQuery.of(context).size.width / 4,
@@ -393,13 +391,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border.all(width: 3.0, color: Colors.black26),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10.0),
                           ),
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                               colors: [Colors.grey, Colors.blueGrey]),
                           boxShadow: [
-                            BoxShadow(
+                            const BoxShadow(
                                 color: Colors.grey,
                                 blurRadius: 2.0,
                                 offset: Offset(2.0, 2.0))
@@ -412,7 +410,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.add_circle_outline,
                                 size: 40,
                                 color: Colors.black,
@@ -441,17 +439,17 @@ class MyCustomFormState extends State<MyCustomForm> {
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   'Please Wait...',
-                                  style: TextStyle(color: Colors.teal),
+                                  style: const TextStyle(color: Colors.teal),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                Center(
+                                const Center(
                                   heightFactor: 1,
                                   widthFactor: 1,
-                                  child: SizedBox(
+                                  child: const SizedBox(
                                     height: 16,
                                     width: 16,
                                     child: CircularProgressIndicator(
@@ -465,7 +463,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                               children: [
                                 RaisedButton(
                                     color: Colors.grey,
-                                    child: Text(
+                                    child: const Text(
                                       "CANCEL",
                                       style: TextStyle(color: Colors.black),
                                     ),
@@ -475,12 +473,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                                               builder: (context) =>
                                                   MyHomePage()));
                                     }),
-                                Spacer(),
+                                const Spacer(),
                                 RaisedButton(
                                     color: Colors.teal,
-                                    child: Text(
+                                    child: const Text(
                                       "SAVE",
-                                      style: TextStyle(color: Colors.white),
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
                                       emailController.text = userEmail!;
@@ -499,49 +498,16 @@ class MyCustomFormState extends State<MyCustomForm> {
         ));
   }
 
-  void writeNewVisit(List<String> images, List<String> documents) async {
-    var uid = AuthService().getUID();
-    Map imagesMap = images.asMap();
-    Map documentsMap = documents.asMap();
-    final visitData = {
-      'date': dateController.text,
-      'name': nameController.text,
-      'email': emailController.text,
-      'school': schoolController.text,
-      'images': imagesMap,
-      'documents': documentsMap,
-      'type': options[typeIndex],
-      'note': noteController.text,
-      'uid': uid,
-    };
-    final newVisitKey = FirebaseDatabase.instance.ref().push().key;
-    final Map<String, Map> updates = {};
-    var userReference = '/Users/$uid/School Visits/$newVisitKey';
-    var adminReference = '/School Visits/$newVisitKey';
-    updates[userReference] = visitData;
-    updates[adminReference] = visitData;
-    FirebaseDatabase.instance.ref().update(updates);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SubmitPage(
-                  title: 'SubmitPage',
-                )));
-  }
-
-  void openFiles(List<PlatformFile> files) {
-    // show(files: files);
-  }
-
   void pickFiless() async {
     result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result == null) return;
-    uploadImages(result!);
+    // uploadImages(result!);
     // loadSelectedFile(result!.files);
   }
 
   uploadImages(FilePickerResult filePickerResult) async {
-    List<File> files = filePickerResult.paths.map((path) => File(path!)).toList();
+    List<File> files =
+        filePickerResult.paths.map((path) => File(path!)).toList();
     Iterable<File> images = files.where((item) {
       return item.path.endsWith(".jpg") ||
           item.path.endsWith(".jpeg") ||
@@ -554,21 +520,11 @@ class MyCustomFormState extends State<MyCustomForm> {
     List<String> imageUrls = [];
     List<String> documentUrls = [];
     if (images.isNotEmpty) {
-      print("Uploading images...");
       imageUrls = await uploadFiles(images);
-      print(imageUrls);
-    } else {
-      print("Images not selected");
     }
-
     if (documents.isNotEmpty) {
-      print("Uploading documents...");
       documentUrls = await uploadFiles(documents);
-      print(documentUrls);
-    } else {
-      print("Document not selected");
     }
-
     writeNewVisit(imageUrls, documentUrls);
   }
 
@@ -605,6 +561,35 @@ class MyCustomFormState extends State<MyCustomForm> {
       builder: (BuildContext context) {
         return alert;
       },
+    );
+  }
+
+  void writeNewVisit(List<String> images, List<String> documents) async {
+    var uid = AuthService().getUID();
+    Map imagesMap = images.asMap();
+    Map documentsMap = documents.asMap();
+    final visitData = {
+      'date': dateController.text,
+      'name': nameController.text,
+      'email': emailController.text,
+      'school': schoolController.text,
+      'images': imagesMap,
+      'documents': documentsMap,
+      'type': options[typeIndex],
+      'note': noteController.text,
+      'uid': uid,
+    };
+    final newVisitKey = FirebaseDatabase.instance.ref().push().key;
+    final Map<String, Map> updates = {};
+    var userReference = '/Users/$uid/School Visits/$newVisitKey';
+    var adminReference = '/School Visits/$newVisitKey';
+    updates[userReference] = visitData;
+    updates[adminReference] = visitData;
+    FirebaseDatabase.instance.ref().update(updates);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const SubmitPage(title: 'SubmitPage')),
     );
   }
 
