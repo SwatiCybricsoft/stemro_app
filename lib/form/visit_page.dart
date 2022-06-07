@@ -499,21 +499,27 @@ class MyCustomFormState extends State<MyCustomForm> {
         ));
   }
 
-  void writeNewVisit() async {
+  void writeNewVisit(List<String> images, List<String> documents) async {
     var uid = AuthService().getUID();
+    Map imagesMap = images.asMap();
+    Map documentsMap = documents.asMap();
     final visitData = {
       'date': dateController.text,
       'name': nameController.text,
       'email': emailController.text,
       'school': schoolController.text,
+      'images': imagesMap,
+      'documents': documentsMap,
       'type': options[typeIndex],
       'note': noteController.text,
       'uid': uid,
     };
     final newVisitKey = FirebaseDatabase.instance.ref().push().key;
     final Map<String, Map> updates = {};
-    updates['/Users/$uid/School Visits/$newVisitKey'] = visitData;
-    updates['/School Visits/$newVisitKey'] = visitData;
+    var userReference = '/Users/$uid/School Visits/$newVisitKey';
+    var adminReference = '/School Visits/$newVisitKey';
+    updates[userReference] = visitData;
+    updates[adminReference] = visitData;
     FirebaseDatabase.instance.ref().update(updates);
     Navigator.pushReplacement(
         context,
@@ -530,7 +536,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   void pickFiless() async {
     result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result == null) return;
-    loadSelectedFile(result!.files);
+    uploadImages(result!);
+    // loadSelectedFile(result!.files);
   }
 
   uploadImages(FilePickerResult filePickerResult) async {
@@ -544,21 +551,25 @@ class MyCustomFormState extends State<MyCustomForm> {
       return item.path.endsWith(".pdf") || item.path.endsWith(".docx");
     });
 
+    List<String> imageUrls = [];
+    List<String> documentUrls = [];
     if (images.isNotEmpty) {
       print("Uploading images...");
-      List<String> urls = await uploadFiles(images);
-      print(urls);
+      imageUrls = await uploadFiles(images);
+      print(imageUrls);
     } else {
       print("Images not selected");
     }
 
     if (documents.isNotEmpty) {
       print("Uploading documents...");
-      List<String> urls = await uploadFiles(documents);
-      print(urls);
+      documentUrls = await uploadFiles(documents);
+      print(documentUrls);
     } else {
       print("Document not selected");
     }
+
+    writeNewVisit(imageUrls, documentUrls);
   }
 
   Future<List<String>> uploadFiles(Iterable<File> files) async {
