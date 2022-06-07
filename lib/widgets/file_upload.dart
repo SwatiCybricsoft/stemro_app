@@ -28,7 +28,7 @@ class _FileListState extends State<FileList> {
         },
             icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
         title: Container(
-            padding: const EdgeInsets.all(8.0), child: Text('School Visit Form')
+            padding: const EdgeInsets.all(8.0), child: Text('Documents Upload')
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(

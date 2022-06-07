@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
 
 import '../widgets/file_upload.dart';
-
-
-class MyImagePage extends StatefulWidget {
-  const MyImagePage({Key? key}) : super(key: key);
+class MyImagPage extends StatefulWidget {
+  const MyImagPage({Key? key}) : super(key: key);
   @override
-  _MyImagePageState createState() => _MyImagePageState();
+  _MyImagPageState createState() => _MyImagPageState();
 }
-class _MyImagePageState extends State<MyImagePage> {
+class _MyImagPageState extends State<MyImagPage> {
   String fileType = 'All';
   var fileTypeList = ['All', 'Image', 'Video', 'Audio','MultipleFile'];
   FilePickerResult? result;
