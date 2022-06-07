@@ -386,24 +386,24 @@ class MyCustomFormState extends State<MyCustomForm> {
                       ),
 
                       Container(
-                        height: MediaQuery.of(context).size.height /8,
+                        height: MediaQuery.of(context).size.height / 8,
                         width: MediaQuery.of(context).size.width / 4,
                         margin: const EdgeInsets.all(10.0),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 3.0, color: Colors.black26),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                            gradient: LinearGradient(
-                                colors: [Colors.grey, Colors.blueGrey]),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0))
-                            ],),
+                          border: Border.all(width: 3.0, color: Colors.black26),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                          gradient: LinearGradient(
+                              colors: [Colors.grey, Colors.blueGrey]),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 2.0,
+                                offset: Offset(2.0, 2.0))
+                          ],
+                        ),
                         child: GestureDetector(
                           onTap: () async {
                             pickFiless();
@@ -418,10 +418,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                               ),
                             ],
                           ),
-
                         ),
-
-
                       ),
                     ],
                   ),
