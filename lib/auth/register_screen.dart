@@ -228,7 +228,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     'password': passController.text,
                                     'name': nameController.text,
                                     'school': schoolController.text,
-                                    'accountType': "Admin"
+                                    'accountType': "Engineer"
                                   };
 
                                   String uid = FirebaseAuth.instance.currentUser!.uid;
