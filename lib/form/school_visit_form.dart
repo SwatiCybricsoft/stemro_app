@@ -8,9 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
 import 'dart:async';
 
+import '../auth/home_page.dart';
 import '../widgets/file_upload.dart';
 
-
+get engineerName => name;
+get engineerEmail => email;
 
 class FilePickerDemo extends StatefulWidget {
   @override
