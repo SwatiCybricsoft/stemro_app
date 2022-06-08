@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:math';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,14 +17,20 @@ import 'package:open_file/open_file.dart';
 
 import '../widgets/file_upload.dart';
 
+final canCreateView = ValueNotifier<int>(0);
+List<File> selectedFiles = [];
+const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
+
   @override
   State<FormPage> createState() => _FormPageState();
 }
 
 class _FormPageState extends State<FormPage> {
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +42,7 @@ class _FormPageState extends State<FormPage> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()));
+              Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -70,9 +77,16 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   List<PlatformFile> files = [];
-  //image picker......//
+
+  @override
+  void dispose() {
+    canCreateView.value = 0;
+    selectedFiles.clear();
+  } //image picker......//
+
   File? _image;
   final _picker = ImagePicker();
+
   // Implementing the image picker
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
@@ -82,6 +96,34 @@ class MyCustomFormState extends State<MyCustomForm> {
         _image = File(pickedImage.path);
       });
     }
+  }
+
+  void pickFiles() async {
+    FilePickerResult? _filePickerResult = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'jpeg', 'pdf', 'pdf', 'doc', 'docx'],
+        allowMultiple: true);
+    if (_filePickerResult == null) {
+      canCreateView.value = 0;
+      return;
+    }
+    selectedFiles.clear();
+    selectedFiles = _filePickerResult.paths.map((path) => File(path!)).toList();
+    canCreateView.value = 1;
+    // selectedImages = selectedFiles
+    //     .where((file) =>
+    //         file.path.split('/').last.contains(".jpeg") ||
+    //         file.path.split('/').last.contains(".jpg") ||
+    //         file.path.split('/').last.contains(".png"))
+    //     .toList();
+    // selectedDocuments = selectedFiles
+    //     .where((file) =>
+    //         file.path.split('/').last.contains(".pdf") ||
+    //         file.path.split('/').last.contains(".doc") ||
+    //         file.path.split('/').last.contains(".docx"))
+    //     .toList();
+    // uploadImages(result!);
+    // loadSelectedFile(result!.files);
   }
 
   // //filepicker..........//
@@ -96,6 +138,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // }
 
   // file 3rd picker...
+
   FilePickerResult? result;
   PlatformFile? file;
   String fileType = 'All';
@@ -264,7 +307,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       hintText: 'Enter Note',
                       labelText: ' Note',
                       hintStyle: TextStyle(color: Colors.black),
-                      labelStyle: const TextStyle(color: Colors.black),
+                      labelStyle: TextStyle(color: Colors.black),
                       isDense: true,
                       // Added this
                       contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
@@ -279,148 +322,304 @@ class MyCustomFormState extends State<MyCustomForm> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Flex(
-                    direction: Axis.vertical,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Lab Picture',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.width / 4,
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 3.0, color: Colors.black26),
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                            gradient: const LinearGradient(
-                                colors: [Colors.grey, Colors.blueGrey]),
-                            boxShadow: [
-                              const BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 2.0,
-                                  offset: const Offset(2.0, 2.0))
-                            ]),
-                        child: GestureDetector(
-                          onTap: () {
-                            pickFiless();
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.add_circle_outline,
-                                size: 40,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        'Component Verification Docs',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.width / 4,
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 3.0, color: Colors.black26),
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                            gradient: const LinearGradient(
-                                colors: [Colors.grey, Colors.blueGrey]),
-                            boxShadow: [
-                              const BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0))
-                            ]),
-                        child: GestureDetector(
-                          onTap: () async {
-                            pickFiless();
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.add_circle_outline,
-                                size: 40,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        "Teachers's Training Report",
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.width / 4,
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 3.0, color: Colors.black26),
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
-                          ),
-                          gradient: const LinearGradient(
-                              colors: [Colors.grey, Colors.blueGrey]),
-                          boxShadow: [
-                            const BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 2.0,
-                                offset: Offset(2.0, 2.0))
-                          ],
-                        ),
-                        child: GestureDetector(
-                          onTap: () async {
-                            pickFiless();
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.add_circle_outline,
-                                size: 40,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    'Attach Files (Optional)',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey.shade800,
+                        fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'File should be jpg, jpeg, png, pdf, doc OR docx',
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                  ),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: pickFiles,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 20.0),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          dashPattern: const [10, 4],
+                          strokeCap: StrokeCap.round,
+                          color: Colors.blue.shade400,
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                color: Colors.blue.shade50.withOpacity(.3),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Select your file',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey.shade400),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: canCreateView,
+                    builder: (context, value, widget) {
+                      if (value == 1) {
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Selected File',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade400,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: List.generate(selectedFiles.length,
+                                    (index) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.shade200,
+                                                  offset: const Offset(0, 1),
+                                                  blurRadius: 3,
+                                                  spreadRadius: 2,
+                                                )
+                                              ]),
+                                          child: Row(
+                                            children: [
+                                              // ClipRRect(
+                                              //     borderRadius: BorderRadius.circular(8),
+                                              //     child: Image.file(file!, width: 70,)
+                                              // ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        selectedFiles[index]
+                                                            .path
+                                                            .split('/')
+                                                            .last,
+                                                        style: const TextStyle(
+                                                            fontSize: 13,
+                                                            color:
+                                                                Colors.black)),
+                                                    const SizedBox(height: 5),
+                                                    Text(
+                                                      selectedFiles[index].path,
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          color: Colors
+                                                              .grey.shade500),
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Container(
+                                                        height: 5,
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          color: Colors
+                                                              .blue.shade50,
+                                                        ),
+                                                        child:
+                                                            const LinearProgressIndicator(
+                                                          value: 50,
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                            ],
+                                          )),
+                                    ],
+                                  );
+                                }),
+                              )
+                            ]);
+                      } else {
+                        return const Text(
+                          "Nothing selected",
+                          style: const TextStyle(color: Colors.grey),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  // Flex(
+                  //   direction: Axis.vertical,
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     const Text(
+                  //       'Lab Picture',
+                  //       textAlign: TextAlign.start,
+                  //       style: TextStyle(
+                  //         decoration: TextDecoration.underline,
+                  //         fontSize: 16,
+                  //         color: Colors.teal,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: MediaQuery.of(context).size.height / 8,
+                  //       width: MediaQuery.of(context).size.width / 4,
+                  //       margin: const EdgeInsets.all(10.0),
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //           border:
+                  //               Border.all(width: 3.0, color: Colors.black26),
+                  //           borderRadius: const BorderRadius.all(
+                  //             const Radius.circular(10.0),
+                  //           ),
+                  //           gradient: const LinearGradient(
+                  //               colors: [Colors.grey, Colors.blueGrey]),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //                 color: Colors.grey,
+                  //                 blurRadius: 2.0,
+                  //                 offset: Offset(2.0, 2.0))
+                  //           ]),
+                  //       child: GestureDetector(
+                  //         onTap: () {
+                  //           pickFiless();
+                  //         },
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: const [
+                  //             Icon(
+                  //               Icons.add_circle_outline,
+                  //               size: 40,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const Text(
+                  //       'Component Verification Docs',
+                  //       textAlign: TextAlign.start,
+                  //       style: TextStyle(
+                  //         decoration: TextDecoration.underline,
+                  //         fontSize: 16,
+                  //         color: Colors.teal,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: MediaQuery.of(context).size.height / 8,
+                  //       width: MediaQuery.of(context).size.width / 4,
+                  //       margin: const EdgeInsets.all(10.0),
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //           border:
+                  //               Border.all(width: 3.0, color: Colors.black26),
+                  //           borderRadius: const BorderRadius.all(
+                  //             const Radius.circular(10.0),
+                  //           ),
+                  //           gradient: const LinearGradient(
+                  //               colors: [Colors.grey, Colors.blueGrey]),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //                 color: Colors.grey,
+                  //                 blurRadius: 2.0,
+                  //                 offset: Offset(2.0, 2.0))
+                  //           ]),
+                  //       child: GestureDetector(
+                  //         onTap: () async {
+                  //           pickFiless();
+                  //         },
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: const [
+                  //             Icon(
+                  //               Icons.add_circle_outline,
+                  //               size: 40,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const Text(
+                  //       "Teachers's Training Report",
+                  //       textAlign: TextAlign.start,
+                  //       style: const TextStyle(
+                  //         decoration: TextDecoration.underline,
+                  //         fontSize: 16,
+                  //         color: Colors.teal,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: MediaQuery.of(context).size.height / 8,
+                  //       width: MediaQuery.of(context).size.width / 4,
+                  //       margin: const EdgeInsets.all(10.0),
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //         border: Border.all(width: 3.0, color: Colors.black26),
+                  //         borderRadius: const BorderRadius.all(
+                  //           const Radius.circular(10.0),
+                  //         ),
+                  //         gradient: const LinearGradient(
+                  //             colors: [Colors.grey, Colors.blueGrey]),
+                  //         boxShadow: const [
+                  //           BoxShadow(
+                  //               color: Colors.grey,
+                  //               blurRadius: 2.0,
+                  //               offset: Offset(2.0, 2.0))
+                  //         ],
+                  //       ),
+                  //       child: GestureDetector(
+                  //         onTap: () async {
+                  //           pickFiless();
+                  //         },
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: const [
+                  //             Icon(
+                  //               Icons.add_circle_outline,
+                  //               size: 40,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   GestureDetector(
                       onTap: () {
                         if (formKey.currentState!.validate()) {
@@ -438,18 +637,18 @@ class MyCustomFormState extends State<MyCustomForm> {
                       child: isLoading
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
+                              children: const [
+                                Text(
                                   'Please Wait...',
-                                  style: const TextStyle(color: Colors.teal),
+                                  style: TextStyle(color: Colors.teal),
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   width: 10,
                                 ),
-                                const Center(
+                                Center(
                                   heightFactor: 1,
                                   widthFactor: 1,
-                                  child: const SizedBox(
+                                  child: SizedBox(
                                     height: 16,
                                     width: 16,
                                     child: CircularProgressIndicator(
@@ -461,34 +660,27 @@ class MyCustomFormState extends State<MyCustomForm> {
                             )
                           : Row(
                               children: [
-                                RaisedButton(
-                                    color: Colors.grey,
-                                    child: const Text(
-                                      "CANCEL",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyHomePage()));
-                                    }),
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  color: Colors.grey,
+                                  child: const Text(
+                                    'Cancel',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
                                 const Spacer(),
-                                RaisedButton(
-                                    color: Colors.teal,
-                                    child: const Text(
-                                      "SAVE",
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                    onPressed: () {
-                                      emailController.text = userEmail!;
-                                      // writeNewVisit();
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyHomePage()));
-                                    }),
+                                MaterialButton(
+                                  onPressed: () {
+                                    uploadImages();
+                                  },
+                                  color: Colors.black,
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                )
                               ],
                             )),
                 ],
@@ -505,16 +697,16 @@ class MyCustomFormState extends State<MyCustomForm> {
     // loadSelectedFile(result!.files);
   }
 
-  uploadImages(FilePickerResult filePickerResult) async {
-    List<File> files =
-        filePickerResult.paths.map((path) => File(path!)).toList();
-    Iterable<File> images = files.where((item) {
+  uploadImages() async {
+    Iterable<File> images = selectedFiles.where((item) {
       return item.path.endsWith(".jpg") ||
           item.path.endsWith(".jpeg") ||
           item.path.endsWith(".png");
     });
-    Iterable<File> documents = files.where((item) {
-      return item.path.endsWith(".pdf") || item.path.endsWith(".docx");
+    Iterable<File> documents = selectedFiles.where((item) {
+      return item.path.endsWith(".pdf") ||
+          item.path.endsWith(".doc") ||
+          item.path.endsWith(".docx");
     });
 
     List<String> imageUrls = [];
@@ -531,7 +723,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   Future<List<String>> uploadFiles(Iterable<File> files) async {
     showAlertDialog(context);
     List<String> urls =
-    await Future.wait(files.map((_files) => uploadFile(_files)));
+        await Future.wait(files.map((_files) => uploadFile(_files)));
     Navigator.pop(context);
     return urls;
   }
@@ -625,43 +817,54 @@ class MyCustomFormState extends State<MyCustomForm> {
     );
   }
 
-  // void pickFiles(String? filetype) async {
-  //   switch (filetype) {
-  //     case 'Image':
-  //       result = await FilePicker.platform.pickFiles(type: FileType.image);
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'Video':
-  //       result = await FilePicker.platform.pickFiles(type: FileType.video);
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'Audio':
-  //       result = await FilePicker.platform.pickFiles(type: FileType.audio);
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'All':
-  //       result = await FilePicker.platform.pickFiles();
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'MultipleFile':
-  //       result = await FilePicker.platform.pickFiles(allowMultiple: true);
-  //       if (result == null) return;
-  //       loadSelectedFiles(result!.files);
-  //       break;
-  //   }
-  // }
-  //
-  // void loadSelectedFiles(List<PlatformFile> files) {
-  //   Navigator.of(context).push(MaterialPageRoute(
-  //       builder: (context) => FileList(files: files, onOpenedFile: viewFile))
-  //   );
-  // }
+  Future<String> getFileSize(File file) async {
+    int bytes = await file.length();
+    int decimals = 1;
+    if (bytes <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (log(bytes) / log(1024)).floor();
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) +
+        ' ' +
+        suffixes[i];
+  }
+
+// void pickFiles(String? filetype) async {
+//   switch (filetype) {
+//     case 'Image':
+//       result = await FilePicker.platform.pickFiles(type: FileType.image);
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'Video':
+//       result = await FilePicker.platform.pickFiles(type: FileType.video);
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'Audio':
+//       result = await FilePicker.platform.pickFiles(type: FileType.audio);
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'All':
+//       result = await FilePicker.platform.pickFiles();
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'MultipleFile':
+//       result = await FilePicker.platform.pickFiles(allowMultiple: true);
+//       if (result == null) return;
+//       loadSelectedFiles(result!.files);
+//       break;
+//   }
+// }
+//
+// void loadSelectedFiles(List<PlatformFile> files) {
+//   Navigator.of(context).push(MaterialPageRoute(
+//       builder: (context) => FileList(files: files, onOpenedFile: viewFile))
+//   );
+// }
 }
