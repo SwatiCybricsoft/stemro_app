@@ -13,6 +13,8 @@ import 'package:stemro_app/view/component_verification.dart';
 import '../view/teachers_traing.dart';
 
 bool isAdminStatus = false;
+String name = "";
+String email = "";
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -24,6 +26,8 @@ checkAdmin() {
   DatabaseReference reference = FirebaseDatabase.instance.ref("/Users/$uid/");
   reference.onValue.listen((DatabaseEvent event) {
     if (event.snapshot.child("accountType").exists) {
+      name = event.snapshot.child("name").value as String;
+      email = event.snapshot.child("email").value as String;
       final data = event.snapshot.child("accountType").value;
       if (data.toString() == 'Admin') {
         isAdminStatus = true;
