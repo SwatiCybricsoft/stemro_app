@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'auth/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'form/school_visit_form.dart';
 
 void main() async {
@@ -11,7 +10,6 @@ void main() async {
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
@@ -23,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home:  SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

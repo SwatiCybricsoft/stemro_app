@@ -205,13 +205,13 @@ class _LoginPageState extends State<LoginPage> {
           },
           child: RichText(text: TextSpan(
             text: 'New User?',
-            style: TextStyle(fontSize: 15.0, color: Colors.black),
+            style: TextStyle(fontSize: 18.0, color: Colors.black),
             children: <TextSpan>[
               TextSpan(
                 text: ' Register Now',
                 style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 15,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold
                 ),
               ),

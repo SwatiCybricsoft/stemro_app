@@ -70,13 +70,15 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   List<PlatformFile> files = [];
+
   //image picker......//
   File? _image;
+
   final _picker = ImagePicker();
   // Implementing the image picker
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+    await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         _image = File(pickedImage.path);
@@ -98,8 +100,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // file 3rd picker...
   FilePickerResult? result;
   PlatformFile? file;
-  String fileType = 'All';
-  var fileTypeList = ['All', 'Image', 'Video', 'Audio', 'MultipleFile'];
+  String _fileText = "";
 
   // form validation....................///
 
@@ -315,7 +316,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             ]),
                         child: GestureDetector(
                           onTap: () {
-                            pickFiless();
+                            _openImagePicker();
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -385,42 +386,59 @@ class MyCustomFormState extends State<MyCustomForm> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
-                      Container(
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.width / 4,
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 3.0, color: Colors.black26),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                          gradient: LinearGradient(
-                              colors: [Colors.grey, Colors.blueGrey]),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 2.0,
-                                offset: Offset(2.0, 2.0))
-                          ],
-                        ),
-                        child: GestureDetector(
-                          onTap: () async {
-                            pickFiless();
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add_circle_outline,
-                                size: 40,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                        ),
+                      SizedBox(
+                        height: 10,
                       ),
+
+                      // Container(
+                      //   height: MediaQuery.of(context).size.height / 8,
+                      //   width: MediaQuery.of(context).size.width / 4,
+                      //   margin: const EdgeInsets.all(10.0),
+                      //   padding: const EdgeInsets.all(8),
+                      //   decoration: BoxDecoration(
+                      //     border: Border.all(width: 3.0, color: Colors.black26),
+                      //     borderRadius: BorderRadius.all(
+                      //       Radius.circular(10.0),
+                      //     ),
+                      //     gradient: LinearGradient(
+                      //         colors: [Colors.grey, Colors.blueGrey]),
+                      //     boxShadow: [
+                      //       BoxShadow(
+                      //           color: Colors.grey,
+                      //           blurRadius: 2.0,
+                      //           offset: Offset(2.0, 2.0))
+                      //     ],
+                      //   ),
+                      //   child: GestureDetector(
+                      //     onTap: () async {
+                      //       pickFiless();
+                      //     },
+                      //     child: Column(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         Icon(
+                      //           Icons.add_circle_outline,
+                      //           size: 40,
+                      //           color: Colors.black,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      ButtonTheme(
+                        height: 70,
+                        child: RaisedButton(
+                          onPressed: _pickMultipleFiles,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Icon(
+                            Icons.add_circle_outline,
+                            size: 40,
+                            color: Colors.black,
+                          ),),
+                      ),
+                      SizedBox(height: 10,),
+                       Text(_fileText),
                     ],
                   ),
                   GestureDetector(
@@ -497,6 +515,18 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
         ));
+  }
+  void _pickMultipleFiles() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path!)).toList();
+      setState(() {
+        _fileText = files.toString();
+      });
+    } else {
+      // User canceled the picker
+    }
   }
 
   void writeNewVisit() async {
