@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
 
                             controller: passController,
                             onSaved: (val) => pass = val!,
-                            validator: (val) => val!.length < 6  ? "Password length should be Greater than 6" : null ,
+                            validator: (val) => val!.length < 26  ? "Password length too much large" : null ,
                             decoration: InputDecoration(
                                 labelText: "Password",
                                 hintText: "Enter Password",

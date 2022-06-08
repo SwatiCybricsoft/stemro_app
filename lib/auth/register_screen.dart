@@ -203,34 +203,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             },
                           ),
                         ),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ListTile(
-                                title: Text("Engineer"),
-                                leading: Radio(
-                                    value: "ENGINEER",
-                                    groupValue: engineer,
-                                    onChanged: (value){
-                                      setState(() {
-                                        engineer = value.toString();
-                                      });
-                                    }),
-                              ),
 
-                              ListTile(
-                                title: Text("ADMIN"),
-                                leading: Radio(
-                                    value: "ADMIN",
-                                    groupValue: engineer,
-                                    onChanged: (value){
-                                      setState(() {
-                                        engineer = value.toString();
-                                      });
-                                    }),
-                              )
-                            ]
-                        ),
                         HeightBox(20),
                         GestureDetector(
                             onTap: () {
