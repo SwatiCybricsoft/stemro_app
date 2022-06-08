@@ -292,7 +292,30 @@ class _OldVisits extends State<OldVisits> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('History'),
+        elevation: 0,
+        brightness: Brightness.light,
+        backgroundColor: Colors.teal,
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            )),
+        title: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text('History')),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.tealAccent, Colors.teal]),
+          ),
+        ),
       ),
       body: SizedBox(
         height: double.infinity,

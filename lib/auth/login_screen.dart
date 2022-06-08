@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                                  print(response.toString());
                                 if(response.toString().endsWith("Success")){
                                   var snackBar = new SnackBar(content: Text("Login success"));
-                                  scaffoldKey.currentState?.showSnackBar(snackBar);
+                                  // scaffoldKey.currentState?.showSnackBar(snackBar);
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
                                 }else{
                                   var snackBar = new SnackBar(content: Text(response.toString()));

@@ -77,9 +77,11 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   List<PlatformFile> files = [];
-
+  get engineerName => name;
+  get engineerEmail => email;
   @override
   void dispose() {
+    emailController.dispose();
     canCreateView.value = 0;
     selectedFiles.clear();
   } //image picker......//
@@ -174,6 +176,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    // TextInput.finishAutofillContext(shouldSave: true);
     // Build a Form widget using the _formKey created above.
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 0),
@@ -216,6 +219,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     },
                   ),
                   TextFormField(
+                    autofillHints: [name],
                     keyboardType: TextInputType.text,
                     controller: nameController,
                     onSaved: (val) => _name = val!,
@@ -234,6 +238,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     },
                   ),
                   TextFormField(
+                    autofillHints: [email],
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
 
@@ -300,8 +305,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                     },
                   ),
                   TextFormField(
+
                     keyboardType: TextInputType.text,
                     onSaved: (val) => _note = val!,
+
                     controller: noteController,
                     decoration: const InputDecoration(
                       hintText: 'Enter Note',
