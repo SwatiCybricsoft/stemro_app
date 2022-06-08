@@ -175,6 +175,22 @@ class MyCustomFormState extends State<MyCustomForm> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) => setDetails());
+  }
+
+  setDetails(){
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    dateController.text = formattedDate;
+    nameController.text = name;
+    emailController.text = email;
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     // TextInput.finishAutofillContext(shouldSave: true);
     // Build a Form widget using the _formKey created above.

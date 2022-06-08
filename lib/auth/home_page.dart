@@ -28,8 +28,8 @@ checkAdmin() {
     if (event.snapshot.child("accountType").exists) {
       name = event.snapshot.child("name").value as String;
       email = event.snapshot.child("email").value as String;
-      final data = event.snapshot.child("accountType").value;
-      if (data.toString() == 'Admin') {
+      String accountType = event.snapshot.child("accountType").value as String;
+      if (accountType == 'Admin') {
         isAdminStatus = true;
       } else {
         isAdminStatus = false;
@@ -43,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkAdmin();
   }
