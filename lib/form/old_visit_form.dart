@@ -171,9 +171,9 @@ class _OldVisits extends State<OldVisits> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, DataSnapshot snapshot,
                         Animation<double> animation, int index) {
-                      Map imageList = snapshot.value as Map;
-                      imageList['key'] = snapshot.key;
-                      return _buildImageItem(imageRecord: imageList);
+                      // Map imageList = snapshot.value as Map;
+                      // imageList['key'] = snapshot.key;
+                      return _buildImageItem(snapshot: snapshot);
                     },
                   ),
                 ),
@@ -192,9 +192,10 @@ class _OldVisits extends State<OldVisits> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, DataSnapshot snapshot,
                         Animation<double> animation, int index) {
-                      Map documentList = snapshot.value as Map;
-                      documentList['key'] = snapshot.key;
-                      return _buildDocumentItem(documentRecord: documentList);
+                      // DataSnapshot documentList = snapshot;
+                      // Map documentList = snapshot.value as Map;
+                      // documentList['key'] = snapshot.key;
+                      return _buildDocumentItem(snapshot: snapshot);
                     },
                   ),
                 ),
@@ -206,7 +207,7 @@ class _OldVisits extends State<OldVisits> {
     );
   }
 
-  Widget _buildImageItem({required Map imageRecord}) {
+  Widget _buildImageItem({required DataSnapshot snapshot}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       color: Colors.white,
@@ -214,12 +215,12 @@ class _OldVisits extends State<OldVisits> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (imageRecord.containsKey("imageURL")) ...[
+          if (snapshot.exists) ...[
             Row(
               children: [
                 GestureDetector(
                   onTap: () => {
-                    launch(imageRecord['imageURL'],
+                    launch(snapshot.value as String,
                         forceSafariVC: true, forceWebView: true),
                   },
                   child: Card(
@@ -229,7 +230,7 @@ class _OldVisits extends State<OldVisits> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
                       child: Image.network(
-                        imageRecord['imageURL'],
+                        snapshot.value as String,
                         fit: BoxFit.cover,
                         height: 90,
                         width: 64,
@@ -245,7 +246,7 @@ class _OldVisits extends State<OldVisits> {
     );
   }
 
-  Widget _buildDocumentItem({required Map documentRecord}) {
+  Widget _buildDocumentItem({required DataSnapshot snapshot}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       color: Colors.white,
@@ -253,26 +254,29 @@ class _OldVisits extends State<OldVisits> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (documentRecord.containsKey("documentURL")) ...[
+          if (snapshot.exists) ...[
             Row(
               children: [
                 SizedBox(
                   height: 80,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all(Colors.green),
-                        padding:
-                        MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        textStyle: MaterialStateProperty.all(const TextStyle(
-                            fontSize: 14, color: Colors.white))),
-                    onPressed: () {
-                      var url = documentRecord['documentURL'];
-                      launch(url, forceSafariVC: true, forceWebView: true);
-                    },
-                    child: const Text(
-                      'View\nDocument',
-                      textAlign: TextAlign.center,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.green),
+                          padding:
+                          MaterialStateProperty.all(const EdgeInsets.all(20)),
+                          textStyle: MaterialStateProperty.all(const TextStyle(
+                              fontSize: 14, color: Colors.white))),
+                      onPressed: () {
+                        var url = snapshot.value as String;
+                        launch(url, forceSafariVC: true, forceWebView: true);
+                      },
+                      child: const Text(
+                        'View\nDocument',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),

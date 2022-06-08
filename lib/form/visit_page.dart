@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:math';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,14 +17,20 @@ import 'package:open_file/open_file.dart';
 
 import '../widgets/file_upload.dart';
 
+final canCreateView = ValueNotifier<int>(0);
+List<File> selectedFiles = [];
+const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
+
   @override
   State<FormPage> createState() => _FormPageState();
 }
 
 class _FormPageState extends State<FormPage> {
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,17 +42,16 @@ class _FormPageState extends State<FormPage> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => MyHomePage()));
+              Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               size: 20,
               color: Colors.white,
             )),
         title: Container(
             padding: const EdgeInsets.all(8.0),
-            child: Text('School Visit Form')),
+            child: const Text('School Visit Form')),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -71,19 +78,52 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   List<PlatformFile> files = [];
 
-  //image picker......//
-  File? _image;
+  @override
+  void dispose() {
+    canCreateView.value = 0;
+    selectedFiles.clear();
+  } //image picker......//
 
+  File? _image;
   final _picker = ImagePicker();
+
   // Implementing the image picker
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
-    await _picker.pickImage(source: ImageSource.gallery);
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         _image = File(pickedImage.path);
       });
     }
+  }
+
+  void pickFiles() async {
+    FilePickerResult? _filePickerResult = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'jpeg', 'pdf', 'pdf', 'doc', 'docx'],
+        allowMultiple: true);
+    if (_filePickerResult == null) {
+      canCreateView.value = 0;
+      return;
+    }
+    selectedFiles.clear();
+    selectedFiles = _filePickerResult.paths.map((path) => File(path!)).toList();
+    canCreateView.value = 1;
+    // selectedImages = selectedFiles
+    //     .where((file) =>
+    //         file.path.split('/').last.contains(".jpeg") ||
+    //         file.path.split('/').last.contains(".jpg") ||
+    //         file.path.split('/').last.contains(".png"))
+    //     .toList();
+    // selectedDocuments = selectedFiles
+    //     .where((file) =>
+    //         file.path.split('/').last.contains(".pdf") ||
+    //         file.path.split('/').last.contains(".doc") ||
+    //         file.path.split('/').last.contains(".docx"))
+    //     .toList();
+    // uploadImages(result!);
+    // loadSelectedFile(result!.files);
   }
 
   // //filepicker..........//
@@ -98,9 +138,11 @@ class MyCustomFormState extends State<MyCustomForm> {
   // }
 
   // file 3rd picker...
+
   FilePickerResult? result;
   PlatformFile? file;
-  String _fileText = "";
+  String fileType = 'All';
+  var fileTypeList = ['All', 'Image', 'Video', 'Audio', 'MultipleFile'];
 
   // form validation....................///
 
@@ -147,7 +189,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     keyboardType: TextInputType.datetime,
                     onSaved: (val) => _date = val!,
                     controller: dateController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Today Date",
                       labelText: 'Date',
                       hintStyle: TextStyle(color: Colors.black),
@@ -178,7 +220,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     controller: nameController,
                     onSaved: (val) => _name = val!,
                     // validator: (val) => val!.length < 1  ? "Enter Name" : null ,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Enter Engineer Name",
                       labelText: "Engineer Name",
                       hintStyle: TextStyle(color: Colors.black),
@@ -197,7 +239,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                     // validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
                     // onSaved: (val) => _email = val!,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter Email',
                       fillColor: Colors.black,
                       labelText: ' Email',
@@ -215,7 +257,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     keyboardType: TextInputType.text,
                     controller: schoolController,
                     onSaved: (val) => _school = val!,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter  School Name',
                       labelText: 'School Name',
                       hintStyle: TextStyle(color: Colors.black),
@@ -228,13 +270,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 14),
+                  const SizedBox(height: 14),
                   DropdownButtonFormField<String>(
                     isExpanded: true,
-                    decoration: InputDecoration(filled: false
+                    decoration: const InputDecoration(filled: false
                         // prefixIcon: Icon(Icons.person),
                         ),
-                    hint: Text(
+                    hint: const Text(
                       'Select Visit Purpose',
                       style: TextStyle(color: Colors.black, letterSpacing: 1.0),
                     ),
@@ -261,7 +303,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     keyboardType: TextInputType.text,
                     onSaved: (val) => _note = val!,
                     controller: noteController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter Note',
                       labelText: ' Note',
                       hintStyle: TextStyle(color: Colors.black),
@@ -277,170 +319,307 @@ class MyCustomFormState extends State<MyCustomForm> {
                       return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Flex(
-                    direction: Axis.vertical,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Lab Picture',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.width / 4,
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 3.0, color: Colors.black26),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                            gradient: LinearGradient(
-                                colors: [Colors.grey, Colors.blueGrey]),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0))
-                            ]),
-                        child: GestureDetector(
-                          onTap: () {
-                            _openImagePicker();
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add_circle_outline,
-                                size: 40,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'Component Verification Docs',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.width / 4,
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 3.0, color: Colors.black26),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                            gradient: LinearGradient(
-                                colors: [Colors.grey, Colors.blueGrey]),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 2.0,
-                                  offset: Offset(2.0, 2.0))
-                            ]),
-                        child: GestureDetector(
-                          onTap: () async {
-                            pickFiless();
-                          },
-
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add_circle_outline,
-                                size: 40,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Text(
-                        "Teachers's Training Report",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 16,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      // Container(
-                      //   height: MediaQuery.of(context).size.height / 8,
-                      //   width: MediaQuery.of(context).size.width / 4,
-                      //   margin: const EdgeInsets.all(10.0),
-                      //   padding: const EdgeInsets.all(8),
-                      //   decoration: BoxDecoration(
-                      //     border: Border.all(width: 3.0, color: Colors.black26),
-                      //     borderRadius: BorderRadius.all(
-                      //       Radius.circular(10.0),
-                      //     ),
-                      //     gradient: LinearGradient(
-                      //         colors: [Colors.grey, Colors.blueGrey]),
-                      //     boxShadow: [
-                      //       BoxShadow(
-                      //           color: Colors.grey,
-                      //           blurRadius: 2.0,
-                      //           offset: Offset(2.0, 2.0))
-                      //     ],
-                      //   ),
-                      //   child: GestureDetector(
-                      //     onTap: () async {
-                      //       pickFiless();
-                      //     },
-                      //     child: Column(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         Icon(
-                      //           Icons.add_circle_outline,
-                      //           size: 40,
-                      //           color: Colors.black,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      ButtonTheme(
-                        height: 70,
-                        child: RaisedButton(
-                          onPressed: _pickMultipleFiles,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Icon(
-                            Icons.add_circle_outline,
-                            size: 40,
-                            color: Colors.black,
-                          ),),
-                      ),
-                      SizedBox(height: 10,),
-                       Text(_fileText),
-                    ],
+                  Text(
+                    'Attach Files (Optional)',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey.shade800,
+                        fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'File should be jpg, jpeg, png, pdf, doc OR docx',
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                  ),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: pickFiles,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 20.0),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          dashPattern: const [10, 4],
+                          strokeCap: StrokeCap.round,
+                          color: Colors.blue.shade400,
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                color: Colors.blue.shade50.withOpacity(.3),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Select your file',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey.shade400),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: canCreateView,
+                    builder: (context, value, widget) {
+                      if (value == 1) {
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Selected File',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade400,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: List.generate(selectedFiles.length,
+                                    (index) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.shade200,
+                                                  offset: const Offset(0, 1),
+                                                  blurRadius: 3,
+                                                  spreadRadius: 2,
+                                                )
+                                              ]),
+                                          child: Row(
+                                            children: [
+                                              // ClipRRect(
+                                              //     borderRadius: BorderRadius.circular(8),
+                                              //     child: Image.file(file!, width: 70,)
+                                              // ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        selectedFiles[index]
+                                                            .path
+                                                            .split('/')
+                                                            .last,
+                                                        style: const TextStyle(
+                                                            fontSize: 13,
+                                                            color:
+                                                                Colors.black)),
+                                                    const SizedBox(height: 5),
+                                                    Text(
+                                                      selectedFiles[index].path,
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          color: Colors
+                                                              .grey.shade500),
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Container(
+                                                        height: 5,
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          color: Colors
+                                                              .blue.shade50,
+                                                        ),
+                                                        child:
+                                                            const LinearProgressIndicator(
+                                                          value: 50,
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                            ],
+                                          )),
+                                    ],
+                                  );
+                                }),
+                              )
+                            ]);
+                      } else {
+                        return const Text(
+                          "Nothing selected",
+                          style: const TextStyle(color: Colors.grey),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  // Flex(
+                  //   direction: Axis.vertical,
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     const Text(
+                  //       'Lab Picture',
+                  //       textAlign: TextAlign.start,
+                  //       style: TextStyle(
+                  //         decoration: TextDecoration.underline,
+                  //         fontSize: 16,
+                  //         color: Colors.teal,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: MediaQuery.of(context).size.height / 8,
+                  //       width: MediaQuery.of(context).size.width / 4,
+                  //       margin: const EdgeInsets.all(10.0),
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //           border:
+                  //               Border.all(width: 3.0, color: Colors.black26),
+                  //           borderRadius: const BorderRadius.all(
+                  //             const Radius.circular(10.0),
+                  //           ),
+                  //           gradient: const LinearGradient(
+                  //               colors: [Colors.grey, Colors.blueGrey]),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //                 color: Colors.grey,
+                  //                 blurRadius: 2.0,
+                  //                 offset: Offset(2.0, 2.0))
+                  //           ]),
+                  //       child: GestureDetector(
+                  //         onTap: () {
+                  //           pickFiless();
+                  //         },
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: const [
+                  //             Icon(
+                  //               Icons.add_circle_outline,
+                  //               size: 40,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const Text(
+                  //       'Component Verification Docs',
+                  //       textAlign: TextAlign.start,
+                  //       style: TextStyle(
+                  //         decoration: TextDecoration.underline,
+                  //         fontSize: 16,
+                  //         color: Colors.teal,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: MediaQuery.of(context).size.height / 8,
+                  //       width: MediaQuery.of(context).size.width / 4,
+                  //       margin: const EdgeInsets.all(10.0),
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //           border:
+                  //               Border.all(width: 3.0, color: Colors.black26),
+                  //           borderRadius: const BorderRadius.all(
+                  //             const Radius.circular(10.0),
+                  //           ),
+                  //           gradient: const LinearGradient(
+                  //               colors: [Colors.grey, Colors.blueGrey]),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //                 color: Colors.grey,
+                  //                 blurRadius: 2.0,
+                  //                 offset: Offset(2.0, 2.0))
+                  //           ]),
+                  //       child: GestureDetector(
+                  //         onTap: () async {
+                  //           pickFiless();
+                  //         },
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: const [
+                  //             Icon(
+                  //               Icons.add_circle_outline,
+                  //               size: 40,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const Text(
+                  //       "Teachers's Training Report",
+                  //       textAlign: TextAlign.start,
+                  //       style: const TextStyle(
+                  //         decoration: TextDecoration.underline,
+                  //         fontSize: 16,
+                  //         color: Colors.teal,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: MediaQuery.of(context).size.height / 8,
+                  //       width: MediaQuery.of(context).size.width / 4,
+                  //       margin: const EdgeInsets.all(10.0),
+                  //       padding: const EdgeInsets.all(8),
+                  //       decoration: BoxDecoration(
+                  //         border: Border.all(width: 3.0, color: Colors.black26),
+                  //         borderRadius: const BorderRadius.all(
+                  //           const Radius.circular(10.0),
+                  //         ),
+                  //         gradient: const LinearGradient(
+                  //             colors: [Colors.grey, Colors.blueGrey]),
+                  //         boxShadow: const [
+                  //           BoxShadow(
+                  //               color: Colors.grey,
+                  //               blurRadius: 2.0,
+                  //               offset: Offset(2.0, 2.0))
+                  //         ],
+                  //       ),
+                  //       child: GestureDetector(
+                  //         onTap: () async {
+                  //           pickFiless();
+                  //         },
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: const [
+                  //             Icon(
+                  //               Icons.add_circle_outline,
+                  //               size: 40,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   GestureDetector(
                       onTap: () {
                         if (formKey.currentState!.validate()) {
@@ -458,7 +637,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       child: isLoading
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const [
                                 Text(
                                   'Please Wait...',
                                   style: TextStyle(color: Colors.teal),
@@ -481,33 +660,27 @@ class MyCustomFormState extends State<MyCustomForm> {
                             )
                           : Row(
                               children: [
-                                RaisedButton(
-                                    color: Colors.grey,
-                                    child: Text(
-                                      "CANCEL",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyHomePage()));
-                                    }),
-                                Spacer(),
-                                RaisedButton(
-                                    color: Colors.teal,
-                                    child: Text(
-                                      "SAVE",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onPressed: () {
-                                      emailController.text = userEmail!;
-                                      // writeNewVisit();
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyHomePage()));
-                                    }),
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  color: Colors.grey,
+                                  child: const Text(
+                                    'Cancel',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                                const Spacer(),
+                                MaterialButton(
+                                  onPressed: () {
+                                    uploadImages();
+                                  },
+                                  color: Colors.black,
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                )
                               ],
                             )),
                 ],
@@ -516,85 +689,41 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
         ));
   }
-  void _pickMultipleFiles() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
-
-    if (result != null) {
-      List<File> files = result.paths.map((path) => File(path!)).toList();
-      setState(() {
-        _fileText = files.toString();
-      });
-    } else {
-      // User canceled the picker
-    }
-  }
-
-  void writeNewVisit() async {
-    var uid = AuthService().getUID();
-    final visitData = {
-      'date': dateController.text,
-      'name': nameController.text,
-      'email': emailController.text,
-      'school': schoolController.text,
-      'type': options[typeIndex],
-      'note': noteController.text,
-      'uid': uid,
-    };
-    final newVisitKey = FirebaseDatabase.instance.ref().push().key;
-    final Map<String, Map> updates = {};
-    updates['/Users/$uid/School Visits/$newVisitKey'] = visitData;
-    updates['/School Visits/$newVisitKey'] = visitData;
-    FirebaseDatabase.instance.ref().update(updates);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SubmitPage(
-                  title: 'SubmitPage',
-                )));
-  }
-
-  void openFiles(List<PlatformFile> files) {
-    // show(files: files);
-  }
 
   void pickFiless() async {
     result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result == null) return;
-    loadSelectedFile(result!.files);
+    // uploadImages(result!);
+    // loadSelectedFile(result!.files);
   }
 
-  uploadImages(FilePickerResult filePickerResult) async {
-    List<File> files = filePickerResult.paths.map((path) => File(path!)).toList();
-    Iterable<File> images = files.where((item) {
+  uploadImages() async {
+    Iterable<File> images = selectedFiles.where((item) {
       return item.path.endsWith(".jpg") ||
           item.path.endsWith(".jpeg") ||
           item.path.endsWith(".png");
     });
-    Iterable<File> documents = files.where((item) {
-      return item.path.endsWith(".pdf") || item.path.endsWith(".docx");
+    Iterable<File> documents = selectedFiles.where((item) {
+      return item.path.endsWith(".pdf") ||
+          item.path.endsWith(".doc") ||
+          item.path.endsWith(".docx");
     });
 
+    List<String> imageUrls = [];
+    List<String> documentUrls = [];
     if (images.isNotEmpty) {
-      print("Uploading images...");
-      List<String> urls = await uploadFiles(images);
-      print(urls);
-    } else {
-      print("Images not selected");
+      imageUrls = await uploadFiles(images);
     }
-
     if (documents.isNotEmpty) {
-      print("Uploading documents...");
-      List<String> urls = await uploadFiles(documents);
-      print(urls);
-    } else {
-      print("Document not selected");
+      documentUrls = await uploadFiles(documents);
     }
+    writeNewVisit(imageUrls, documentUrls);
   }
 
   Future<List<String>> uploadFiles(Iterable<File> files) async {
     showAlertDialog(context);
     List<String> urls =
-    await Future.wait(files.map((_files) => uploadFile(_files)));
+        await Future.wait(files.map((_files) => uploadFile(_files)));
     Navigator.pop(context);
     return urls;
   }
@@ -624,6 +753,35 @@ class MyCustomFormState extends State<MyCustomForm> {
       builder: (BuildContext context) {
         return alert;
       },
+    );
+  }
+
+  void writeNewVisit(List<String> images, List<String> documents) async {
+    var uid = AuthService().getUID();
+    Map imagesMap = images.asMap();
+    Map documentsMap = documents.asMap();
+    final visitData = {
+      'date': dateController.text,
+      'name': nameController.text,
+      'email': emailController.text,
+      'school': schoolController.text,
+      'images': imagesMap,
+      'documents': documentsMap,
+      'type': options[typeIndex],
+      'note': noteController.text,
+      'uid': uid,
+    };
+    final newVisitKey = FirebaseDatabase.instance.ref().push().key;
+    final Map<String, Map> updates = {};
+    var userReference = '/Users/$uid/School Visits/$newVisitKey';
+    var adminReference = '/School Visits/$newVisitKey';
+    updates[userReference] = visitData;
+    updates[adminReference] = visitData;
+    FirebaseDatabase.instance.ref().update(updates);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const SubmitPage(title: 'SubmitPage')),
     );
   }
 
@@ -659,43 +817,54 @@ class MyCustomFormState extends State<MyCustomForm> {
     );
   }
 
-  // void pickFiles(String? filetype) async {
-  //   switch (filetype) {
-  //     case 'Image':
-  //       result = await FilePicker.platform.pickFiles(type: FileType.image);
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'Video':
-  //       result = await FilePicker.platform.pickFiles(type: FileType.video);
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'Audio':
-  //       result = await FilePicker.platform.pickFiles(type: FileType.audio);
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'All':
-  //       result = await FilePicker.platform.pickFiles();
-  //       if (result == null) return;
-  //       file = result!.files.first;
-  //       setState(() {});
-  //       break;
-  //     case 'MultipleFile':
-  //       result = await FilePicker.platform.pickFiles(allowMultiple: true);
-  //       if (result == null) return;
-  //       loadSelectedFiles(result!.files);
-  //       break;
-  //   }
-  // }
-  //
-  // void loadSelectedFiles(List<PlatformFile> files) {
-  //   Navigator.of(context).push(MaterialPageRoute(
-  //       builder: (context) => FileList(files: files, onOpenedFile: viewFile))
-  //   );
-  // }
+  Future<String> getFileSize(File file) async {
+    int bytes = await file.length();
+    int decimals = 1;
+    if (bytes <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (log(bytes) / log(1024)).floor();
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) +
+        ' ' +
+        suffixes[i];
+  }
+
+// void pickFiles(String? filetype) async {
+//   switch (filetype) {
+//     case 'Image':
+//       result = await FilePicker.platform.pickFiles(type: FileType.image);
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'Video':
+//       result = await FilePicker.platform.pickFiles(type: FileType.video);
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'Audio':
+//       result = await FilePicker.platform.pickFiles(type: FileType.audio);
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'All':
+//       result = await FilePicker.platform.pickFiles();
+//       if (result == null) return;
+//       file = result!.files.first;
+//       setState(() {});
+//       break;
+//     case 'MultipleFile':
+//       result = await FilePicker.platform.pickFiles(allowMultiple: true);
+//       if (result == null) return;
+//       loadSelectedFiles(result!.files);
+//       break;
+//   }
+// }
+//
+// void loadSelectedFiles(List<PlatformFile> files) {
+//   Navigator.of(context).push(MaterialPageRoute(
+//       builder: (context) => FileList(files: files, onOpenedFile: viewFile))
+//   );
+// }
 }
