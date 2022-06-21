@@ -15,6 +15,9 @@ import 'package:intl/intl.dart';
 import '../auth/home_page.dart';
 import 'package:open_file/open_file.dart';
 
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+
 import '../widgets/file_upload.dart';
 
 final canCreateView = ValueNotifier<int>(0);
@@ -83,6 +86,11 @@ class MyCustomFormState extends State<MyCustomForm> {
   List<PlatformFile> files = [];
   get engineerName => name;
   get engineerEmail => email;
+
+  var visitedSchool = "";
+  var selection = "";
+  var note = "";
+
   @override
   void dispose() {
     emailController.dispose();
@@ -815,6 +823,9 @@ List<Asset>images = <Asset>[];
     var uid = AuthService().getUID();
     Map imagesMap = images.asMap();
     Map documentsMap = documents.asMap();
+    visitedSchool = schoolController.text;
+    selection = options[typeIndex];
+    note = noteController.text;
     final visitData = {
       'date': dateController.text,
       'name': nameController.text,
@@ -833,6 +844,18 @@ List<Asset>images = <Asset>[];
     updates[userReference] = visitData;
     updates[adminReference] = visitData;
     FirebaseDatabase.instance.ref().update(updates);
+    showAlertDialog(context);
+    if(imagesMap.isNotEmpty && documentsMap.isNotEmpty){
+      await sendMailAll(imagesMap, documentsMap);
+    }else if(imagesMap.isNotEmpty){
+      await sendMailOne(imagesMap);
+    }else if(documentsMap.isNotEmpty){
+      await sendMailOne(documentsMap);
+    }else{
+      await sendMail();
+    }
+    Navigator.pop(context);
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -883,7 +906,8 @@ List<Asset>images = <Asset>[];
         ' ' +
         suffixes[i];
   }
-loadAsset()async{
+
+  loadAsset()async{
     List<Asset>resultImages=<Asset>[];
     String error = "something went wrong";
     try{
@@ -912,6 +936,7 @@ loadAsset()async{
     }
 
 }
+
 Widget buildGridView(){
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -948,4 +973,53 @@ Widget buildGridView(){
     );
 
 }
+
+  sendMail() async {
+    String username = 'jugendrabhati658@gmail.com';
+    String password = 'adftgrbtahkktzct';
+
+    final smtpServer = gmail(username, password);
+    final equivalentMessage = Message()
+      ..from = Address(username, '$engineerName')
+      ..recipients.add(Address('helpdesk@stemrobo.com'))
+      ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+      ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      ..subject = 'School form filled on ${DateTime.now()}'
+      ..text = ''
+      ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>No Attachments</h3>";
+    await send(equivalentMessage, smtpServer);
+  }
+
+  sendMailOne(Map map) async {
+    String username = 'jugendrabhati658@gmail.com';
+    String password = 'adftgrbtahkktzct';
+
+    final smtpServer = gmail(username, password);
+    final equivalentMessage = Message()
+      ..from = Address(username, '$engineerName')
+      ..recipients.add(Address('helpdesk@stemrobo.com'))
+      ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+      ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      ..subject = 'School form filled on ${DateTime.now()}'
+      ..text = ''
+      ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map</p>";
+    await send(equivalentMessage, smtpServer);
+  }
+
+  sendMailAll(Map map1, Map map2) async {
+    String username = 'jugendrabhati658@gmail.com';
+    String password = 'adftgrbtahkktzct';
+
+    final smtpServer = gmail(username, password);
+    final equivalentMessage = Message()
+      ..from = Address(username, '$engineerName')
+      ..recipients.add(Address('helpdesk@stemrobo.com'))
+      ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+      ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      ..subject = 'School form filled on ${DateTime.now()}'
+      ..text = ''
+      ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map1<br>$map2</p>";
+    await send(equivalentMessage, smtpServer);
+  }
+
 }
