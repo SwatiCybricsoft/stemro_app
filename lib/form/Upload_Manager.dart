@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import '../auth/home_page.dart';
 
 class UploadManager extends StatefulWidget {
   const UploadManager({Key? key}) : super(key: key);
-
   @override
   _MyScreenState createState() => _MyScreenState();
 }
@@ -14,9 +14,11 @@ class _MyScreenState extends State<UploadManager> {
       .ref("Users")
       .child(FirebaseAuth.instance.currentUser!.uid)
       .child("Images");
-
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.teal.shade300,
+    ));
     final dataSnapshot = database.onValue;
     return Scaffold(
       appBar: AppBar(

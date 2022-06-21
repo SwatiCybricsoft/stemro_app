@@ -6,8 +6,9 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-      statusBarColor: Colors.teal.shade300,
+      statusBarColor: Colors.teal,
     ));
+    bool pressAttention = false;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -23,7 +24,7 @@ class WelcomeScreen extends StatelessWidget {
                       BorderRadius.only(bottomRight: Radius.circular(50))),
                   child: Column(
                     children: [
-                      Expanded(child: Image.asset("assets/welcome.png"))
+                      Expanded(child: Image.asset("assets/stemrobo.png",fit: BoxFit.contain,))
                     ],
                   ),
                 )),
@@ -74,13 +75,14 @@ class WelcomeScreen extends StatelessWidget {
                                 height: 60,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0)),
-                                color: Colors.teal,
+                                color: pressAttention ? Colors.grey: Colors.teal,
                                 onPressed: () {
-                                  //home screen path
+                                  pressAttention =!pressAttention;
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => LoginPage()));
+                                          builder: (context) => LoginPage())
+                                  );
                                 },
                                 child: Text(
                                   "Get Started",

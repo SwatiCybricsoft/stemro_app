@@ -105,10 +105,10 @@ flutter:
   assets:
    - assets/xing.svg
    - assets/backgroundUI.png
-   - assets/unsplash.jpg
+   - assets/stemrobo-removebg.png
    - assets/cardimage.png
    - assets/stemrobo.png
-   - assets/welcome.png
+   - assets/Innovation_Creativity.png
    - assets/path.png
 
   #   - images/a_dot_ham.jpeg

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stemro_app/auth/register_screen.dart';
 import 'package:stemro_app/view/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -25,176 +26,199 @@ class _LoginPageState extends State<LoginPage> {
      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
        statusBarColor: Colors.teal.shade300,
      ));
-
     return Scaffold(
       key: scaffoldKey,
-       backgroundColor: Colors.teal.shade300,
-        body: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: SafeArea(
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/unsplash.jpg"),
-                            fit: BoxFit.cover,
-                        ),
+        backgroundColor: Colors.teal.shade300,
+        body: Center(
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: SafeArea(
+                child: Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("assets/path.png"),
+                              fit: BoxFit.cover,
+                          ),
 
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20,40 , 20, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: 80,
-                            width: 70,
-                            child: SvgPicture.asset("assets/xing.svg")),
-                        HeightBox(10),
-                        "Login".text.color(Colors.white).size(20).make(),
-                        HeightBox(
-                            20
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: emailController,
-                            validator: (val) => !val!.contains("@") ? "Email Id is not Valid" : null ,
-                            onSaved: (val) => email = val!,
-                            decoration: InputDecoration(
-                              hintText: 'Enter Email',
-                              labelText: ' Email',
-                              hintStyle: TextStyle(color: Colors.white),
-                              labelStyle: TextStyle(color: Colors.white),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                    color: Colors.white
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20,0 , 20, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              // height: 80,
+                              // width: 70,
+                             child:   Image.asset(
+                              'assets/stemrobo.png',
+                              fit: BoxFit.cover,
+                              height: 74,
+                            ),
+                              // child: SvgPicture.asset("assets/xing.svg")
+                          ),
+                          HeightBox(10),
+                          "Login".text.color(Colors.white).size(20).make(),
+                          HeightBox(
+                              20
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: emailController,
+                              validator: (val) => !val!.contains("@") ? "Please enter EmailId" : null ,
+                              onSaved: (val) => email = val!,
+                              decoration: InputDecoration(
+                                hintText: 'Enter Email',
+                                labelText: ' Email',
+                                hintStyle: TextStyle(color: Colors.white),
+                                labelStyle: TextStyle(color: Colors.white),
+                                enabledBorder: OutlineInputBorder(
                                   borderRadius: new BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
                                       color: Colors.white
-                                  )
-                              ),
-                              isDense: true,                      // Added this
-                              contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                            ),
-                            cursorColor: Colors.white,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        HeightBox(
-                            20
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          child: TextFormField(
-                            keyboardType: TextInputType.visiblePassword,
-
-                            controller: passController,
-                            onSaved: (val) => pass = val!,
-                            validator: (val) => val!.length < 26  ? "Password length too much large" : null ,
-                            decoration: InputDecoration(
-                                labelText: "Password",
-                                hintText: "Enter Password",
-
-
-                              hintStyle: TextStyle(color: Colors.white),
-                              labelStyle: TextStyle(color: Colors.white),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                    color: Colors.white
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                      color: Colors.white,
-                                  )
-                              ),
-                              isDense: true,                      // Added this
-                              contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                            ),
-                            cursorColor: Colors.white,
-                            obscureText: true,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        HeightBox(20),
-                        GestureDetector(
-                            onTap: (){
-                              if(formKey.currentState!.validate()) {
-                                formKey.currentState!.save();
-                              }
-                              setState(() {
-                                isLoading = true;
-                              });
-                              Future.delayed(const Duration(seconds: 3),(){
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }
-                              );
-                              authHandler.handleSignIn(emailController.text, passController.text).then((response) {
-                                 print(response.toString());
-                                if(response.toString().endsWith("Success")){
-                                  var snackBar = new SnackBar(content: Text("Login success"));
-                                  // scaffoldKey.currentState?.showSnackBar(snackBar);
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
-                                }else{
-                                  var snackBar = new SnackBar(content: Text(response.toString()));
-                                  scaffoldKey.currentState?.showSnackBar(snackBar);
-                                }
-                              }).catchError((e) => print(e));
-                            },
-                          child:isLoading?Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Please Wait...',style: TextStyle(
-                                color: Colors.teal
-                              ),),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Center(
-                                heightFactor: 1,
-                                widthFactor: 1,
-                                child: SizedBox(
-                                  height: 16,
-                                  width: 16,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 1.5,
-                                    color: Colors.white,
                                   ),
                                 ),
-                              )
-                            ],
-                          ) :Container(
-                            alignment: Alignment.center,
-                            height: 50,
-                            width: 150,
-                            color: Colors.teal,
-                            child: Text('LOGIN',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: new BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.white
+                                    )
+                                ),
+                                isDense: true,                      // Added this
+                                contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                               ),
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white),
                             ),
-                          )
-                        ),
-                      ], // "L
-                    ),
-                  )
-                ],
+                          ),
+                          HeightBox(
+                              20
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.visiblePassword,
+                              controller: passController,
+                              onSaved: (val) => pass = val!,
+                              validator: (value) {
+                                // add your custom validation here.
+                                if (value!.isEmpty) {
+                                  return 'Please enter Password';
+                                }
+                                if (value.length < 3) {
+                                  return 'Must be more than 2 charater';
+                                }
+                              },
+                              // validator: (val) => val!.length < 26  ? "Password length too much large" : null ,
+                              decoration: InputDecoration(
+                                  labelText: "Password",
+                                  hintText: "Enter Password",
+
+                                hintStyle: TextStyle(color: Colors.white),
+                                labelStyle: TextStyle(color: Colors.white),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                      color: Colors.white
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: new BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.white,
+                                    )
+                                ),
+                                isDense: true,                      // Added this
+                                contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                              ),
+                              cursorColor: Colors.white,
+                              obscureText: true,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          HeightBox(20),
+                          GestureDetector(
+                              onTap: (){
+                                // Fluttertoast.showToast(msg: "Invalid email and/or password. Please try again",
+                                //     toastLength: Toast.LENGTH_LONG,
+                                //     gravity: ToastGravity.BOTTOM_LEFT,
+                                //
+                                //     backgroundColor: Colors.teal.shade200,
+                                //     textColor: Colors.white,
+                                //     fontSize: 16.0
+                                // );
+
+                                if(formKey.currentState!.validate()) {
+                                  formKey.currentState!.save();
+                                }
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                Future.delayed(const Duration(seconds: 3),(){
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                                );
+                                authHandler.handleSignIn(emailController.text, passController.text).then((response) {
+                                   print(response.toString());
+                                  if(response.toString().endsWith("Success")){
+                                    var snackBar = new SnackBar(content: Text("Login success"));
+                                    scaffoldKey.currentState?.showSnackBar(snackBar);
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
+                                  }else{
+                                    var snackBar = new SnackBar(content: Text(response.toString()));
+                                    // scaffoldKey.currentState?.showSnackBar(snackBar);
+                                  }
+                                }).catchError((e) => print(e));
+                              },
+                            child:isLoading?Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Please Wait...',style: TextStyle(
+                                  color: Colors.teal
+                                ),),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Center(
+                                  heightFactor: 1,
+                                  widthFactor: 1,
+                                  child: SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1.5,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ) :Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              width: 150,
+                              color: Colors.teal,
+                              child: Text('LOGIN',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            )
+                          ),
+                        ], //
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -212,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                     color: Colors.white70,
                     fontSize: 20,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
                 ),
               ),
             ],

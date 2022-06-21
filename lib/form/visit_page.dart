@@ -33,12 +33,15 @@ class _FormPageState extends State<FormPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.teal,
+    ));
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.light,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.teal.shade300,
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
@@ -76,6 +79,7 @@ class MyCustomForm extends StatefulWidget {
 
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
+
   List<PlatformFile> files = [];
   get engineerName => name;
   get engineerEmail => email;
@@ -129,6 +133,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   // //filepicker..........//
+
+  ImagePicker image = ImagePicker();
+
   // void _pickFile() async {
   //   final result = await FilePicker.platform.pickFiles(allowMultiple: false);
   //   // if no file is picked
@@ -179,7 +186,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) => setDetails());
   }
-
   setDetails(){
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
@@ -188,12 +194,13 @@ class MyCustomFormState extends State<MyCustomForm> {
     nameController.text = name;
     emailController.text = email;
   }
-
-
+List<Asset>images = <Asset>[];
   @override
   Widget build(BuildContext context) {
-    // TextInput.finishAutofillContext(shouldSave: true);
-    // Build a Form widget using the _formKey created above.
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.teal,
+    ));
+
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 0),
         child: Form(
@@ -345,6 +352,28 @@ class MyCustomFormState extends State<MyCustomForm> {
                   const SizedBox(
                     height: 30,
                   ),
+
+                  Container(
+                    height: 250,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Lab Picture",style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize:18
+                        ),),
+                        // ElevatedButton(onPressed: (){
+                        //   loadAsset();
+                        // }, child:Text('Pick Images'),
+                        // ),
+                        Expanded(child: buildGridView(
+
+                        )
+                        ),
+                      ],
+                    ),
+                  ),
                   Text(
                     'Attach Files (Optional)',
                     style: TextStyle(
@@ -413,83 +442,83 @@ class MyCustomFormState extends State<MyCustomForm> {
                               ),
                               Column(
                                 children: List.generate(selectedFiles.length,
-                                    (index) {
-                                  return Column(
-                                    crossAxisAlignment:
+                                        (index) {
+                                      return Column(
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 10),
-                                      Container(
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
+                                        children: [
+                                          const SizedBox(height: 10),
+                                          Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
                                                   BorderRadius.circular(10),
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.shade200,
-                                                  offset: const Offset(0, 1),
-                                                  blurRadius: 3,
-                                                  spreadRadius: 2,
-                                                )
-                                              ]),
-                                          child: Row(
-                                            children: [
-                                              // ClipRRect(
-                                              //     borderRadius: BorderRadius.circular(8),
-                                              //     child: Image.file(file!, width: 70,)
-                                              // ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.shade200,
+                                                      offset: const Offset(0, 1),
+                                                      blurRadius: 3,
+                                                      spreadRadius: 2,
+                                                    )
+                                                  ]),
+                                              child: Row(
+                                                children: [
+                                                  // ClipRRect(
+                                                  //     borderRadius: BorderRadius.circular(8),
+                                                  //     child: Image.file(file!, width: 70,)
+                                                  // ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
                                                       CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        selectedFiles[index]
-                                                            .path
-                                                            .split('/')
-                                                            .last,
-                                                        style: const TextStyle(
-                                                            fontSize: 13,
-                                                            color:
+                                                      children: [
+                                                        Text(
+                                                            selectedFiles[index]
+                                                                .path
+                                                                .split('/')
+                                                                .last,
+                                                            style: const TextStyle(
+                                                                fontSize: 13,
+                                                                color:
                                                                 Colors.black)),
-                                                    const SizedBox(height: 5),
-                                                    Text(
-                                                      selectedFiles[index].path,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color: Colors
-                                                              .grey.shade500),
-                                                    ),
-                                                    const SizedBox(height: 5),
-                                                    Container(
-                                                        height: 5,
-                                                        clipBehavior:
+                                                        const SizedBox(height: 5),
+                                                        Text(
+                                                          selectedFiles[index].path,
+                                                          style: TextStyle(
+                                                              fontSize: 13,
+                                                              color: Colors
+                                                                  .grey.shade500),
+                                                        ),
+                                                        const SizedBox(height: 5),
+                                                        Container(
+                                                            height: 5,
+                                                            clipBehavior:
                                                             Clip.hardEdge,
-                                                        decoration:
+                                                            decoration:
                                                             BoxDecoration(
-                                                          borderRadius:
+                                                              borderRadius:
                                                               BorderRadius
                                                                   .circular(5),
-                                                          color: Colors
-                                                              .blue.shade50,
-                                                        ),
-                                                        child:
+                                                              color: Colors
+                                                                  .blue.shade50,
+                                                            ),
+                                                            child:
                                                             const LinearProgressIndicator(
-                                                          value: 50,
-                                                        )),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(width: 10),
-                                            ],
-                                          )),
-                                    ],
-                                  );
-                                }),
+                                                              value: 50,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                ],
+                                              )),
+                                        ],
+                                      );
+                                    }),
                               )
                             ]);
                       } else {
@@ -706,6 +735,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 )
                               ],
                             )),
+                  ElevatedButton(onPressed: (){
+                    pickFiless();
+                  }, child:Text('PickFile')),
                 ],
               ),
             ),
@@ -833,6 +865,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         children: [
           Text('File Name: ${file.name}'),
           Text('File Size: $size'),
+
           // Text('File Extension: ${file.extension}'),
           // Text('File Path: ${file.path}'),
         ],
@@ -850,44 +883,69 @@ class MyCustomFormState extends State<MyCustomForm> {
         ' ' +
         suffixes[i];
   }
+loadAsset()async{
+    List<Asset>resultImages=<Asset>[];
+    String error = "something went wrong";
+    try{
+      resultImages = await MultiImagePicker.pickImages(
+          maxImages:300,
+          enableCamera:  true,
+         selectedAssets: images,
+        materialOptions: MaterialOptions(
+          actionBarColor: "#00a693",
+         statusBarColor: "#00a693",
+          actionBarTitle: "Stemrobo Help Desk",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#008080",
+        )
 
-// void pickFiles(String? filetype) async {
-//   switch (filetype) {
-//     case 'Image':
-//       result = await FilePicker.platform.pickFiles(type: FileType.image);
-//       if (result == null) return;
-//       file = result!.files.first;
-//       setState(() {});
-//       break;
-//     case 'Video':
-//       result = await FilePicker.platform.pickFiles(type: FileType.video);
-//       if (result == null) return;
-//       file = result!.files.first;
-//       setState(() {});
-//       break;
-//     case 'Audio':
-//       result = await FilePicker.platform.pickFiles(type: FileType.audio);
-//       if (result == null) return;
-//       file = result!.files.first;
-//       setState(() {});
-//       break;
-//     case 'All':
-//       result = await FilePicker.platform.pickFiles();
-//       if (result == null) return;
-//       file = result!.files.first;
-//       setState(() {});
-//       break;
-//     case 'MultipleFile':
-//       result = await FilePicker.platform.pickFiles(allowMultiple: true);
-//       if (result == null) return;
-//       loadSelectedFiles(result!.files);
-//       break;
-//   }
-// }
-//
-// void loadSelectedFiles(List<PlatformFile> files) {
-//   Navigator.of(context).push(MaterialPageRoute(
-//       builder: (context) => FileList(files: files, onOpenedFile: viewFile))
-//   );
-// }
+      );
+      setState(() {
+        images = resultImages;
+      });
+
+    }catch(e){
+      error = e.toString();
+      print(error);
+
+    }
+
+}
+Widget buildGridView(){
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: DottedBorder(
+        borderType: BorderType.RRect,
+        radius: const Radius.circular(10),
+        dashPattern: const [10, 4],
+        strokeCap: StrokeCap.round,
+        color: Colors.blue.shade400,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child:images.length==0  ?Center(
+            child: IconButton(onPressed: (){
+              loadAsset();
+            }, icon:Icon(Icons.add,size: 40,)
+            ),
+          ):
+              GridView.count(crossAxisCount:4,
+                children:List.generate(images.length, (index){
+                  Asset asset =images[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Card(
+                        child: AssetThumb(asset: asset, width:180, height:180)),
+                  );
+                })
+              )
+
+        ),
+      ),
+    );
+
+}
 }

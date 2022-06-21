@@ -43,12 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset(
               "assets/stemrobo.png",
-              height: 300.0,
-              width: 300.0,
+
+              // width: 200.0,
             ),
             const Center(
               child: CircularProgressIndicator(
