@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stemro_app/auth/login_screen.dart';
+
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
   @override
@@ -21,10 +22,14 @@ class WelcomeScreen extends StatelessWidget {
                   decoration: const BoxDecoration(
                       color: Colors.teal,
                       borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(50))),
+                          BorderRadius.only(bottomRight: Radius.circular(50))),
                   child: Column(
                     children: [
-                      Expanded(child: Image.asset("assets/stemrobo.png",fit: BoxFit.contain,))
+                      Expanded(
+                          child: Image.asset(
+                        "assets/stemrobo.png",
+                        fit: BoxFit.contain,
+                      ))
                     ],
                   ),
                 )),
@@ -43,16 +48,16 @@ class WelcomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          Spacer(),
-                          Text(
+                          const Spacer(),
+                          const Text(
                             "Learning everything",
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Spacer(),
-                          Text(
+                          const Spacer(),
+                          const Text(
                             "Learn with pleasure with\nus,where you are!",
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -63,28 +68,25 @@ class WelcomeScreen extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Spacer(
+                          const Spacer(
                             flex: 3,
                           ),
-                          //repleace sizebox with spacer
                           Row(
-                            //button position
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               MaterialButton(
                                 height: 60,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0)),
-                                color: pressAttention ? Colors.grey: Colors.teal,
+                                color:
+                                    pressAttention ? Colors.grey : Colors.teal,
                                 onPressed: () {
-                                  pressAttention =!pressAttention;
-                                  Navigator.push(
-                                      context,
+                                  pressAttention = !pressAttention;
+                                  Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
-                                          builder: (context) => LoginPage())
-                                  );
+                                          builder: (_) => LoginPage()));
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Get Started",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,

@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stemro_app/form/submitpage.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -22,11 +24,9 @@ import '../widgets/file_upload.dart';
 
 final canCreateView = ValueNotifier<int>(0);
 List<File> selectedFiles = [];
-const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
-
   @override
   State<FormPage> createState() => _FormPageState();
 }
@@ -96,7 +96,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     emailController.dispose();
     canCreateView.value = 0;
     selectedFiles.clear();
-  } //image picker......//
+  }
 
   File? _image;
   final _picker = ImagePicker();
@@ -140,8 +140,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     // loadSelectedFile(result!.files);
   }
 
-  // //filepicker..........//
-
   ImagePicker image = ImagePicker();
 
   // void _pickFile() async {
@@ -161,12 +159,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   String fileType = 'All';
   var fileTypeList = ['All', 'Image', 'Video', 'Audio', 'MultipleFile'];
 
-  // form validation....................///
-
   late final ValueChanged<PlatformFile> onOpenedFile;
   final _formKey = GlobalKey<FormState>();
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
-  final formKey = new GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
   int dropDownValue = 0;
   bool isLoading = false;
 
@@ -189,11 +185,14 @@ class MyCustomFormState extends State<MyCustomForm> {
     'Technical/DocumentationSupport'
   ];
 
+  List<Asset> images = <Asset>[];
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) => setDetails());
   }
+
   setDetails(){
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
@@ -202,7 +201,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     nameController.text = name;
     emailController.text = email;
   }
-List<Asset>images = <Asset>[];
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
@@ -319,7 +318,7 @@ List<Asset>images = <Asset>[];
                     items: options.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: new Text(value),
+                        child: Text(value),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -472,10 +471,6 @@ List<Asset>images = <Asset>[];
                                                   ]),
                                               child: Row(
                                                 children: [
-                                                  // ClipRRect(
-                                                  //     borderRadius: BorderRadius.circular(8),
-                                                  //     child: Image.file(file!, width: 70,)
-                                                  // ),
                                                   const SizedBox(
                                                     width: 10,
                                                   ),
@@ -743,9 +738,9 @@ List<Asset>images = <Asset>[];
                                 )
                               ],
                             )),
-                  ElevatedButton(onPressed: (){
-                    pickFiless();
-                  }, child:Text('PickFile')),
+                  // ElevatedButton(onPressed: (){
+                  //   pickFiless();
+                  // }, child:Text('PickFile')),
                 ],
               ),
             ),
@@ -753,15 +748,15 @@ List<Asset>images = <Asset>[];
         ));
   }
 
-  void pickFiless() async {
-    result = await FilePicker.platform.pickFiles(allowMultiple: true);
-    if (result == null) return;
-    // uploadImages(result!);
-    // loadSelectedFile(result!.files);
-  }
+  // void pickFiless() async {
+  //   result = await FilePicker.platform.pickFiles(allowMultiple: true);
+  //   if (result == null) return;
+  //   // uploadImages(result!);
+  //   // loadSelectedFile(result!.files);
+  // }
 
   uploadImages() async {
-    Iterable<File> images = selectedFiles.where((item) {
+    Iterable<File> imagesListFiles = selectedFiles.where((item) {
       return item.path.endsWith(".jpg") ||
           item.path.endsWith(".jpeg") ||
           item.path.endsWith(".png");
@@ -772,10 +767,24 @@ List<Asset>images = <Asset>[];
           item.path.endsWith(".docx");
     });
 
+    List<File> labImagesFiles = [];
+    for (var imageAsset in images) {
+      final filePath = await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+      File tempFile = File(filePath);
+      labImagesFiles.add(tempFile);
+    }
+    Iterable<File> imagesExtraList = labImagesFiles.where((item) {
+      return item.path.endsWith(".jpg") ||
+          item.path.endsWith(".jpeg") ||
+          item.path.endsWith(".png");
+    });
+
+    Iterable<File> imagesList = List.from(imagesListFiles)..addAll(imagesExtraList);
+
     List<String> imageUrls = [];
     List<String> documentUrls = [];
-    if (images.isNotEmpty) {
-      imageUrls = await uploadFiles(images);
+    if (imagesList.isNotEmpty) {
+      imageUrls = await uploadFiles(imagesList);
     }
     if (documents.isNotEmpty) {
       documentUrls = await uploadFiles(documents);
@@ -981,9 +990,10 @@ Widget buildGridView(){
     final smtpServer = gmail(username, password);
     final equivalentMessage = Message()
       ..from = Address(username, '$engineerName')
-      ..recipients.add(Address('helpdesk@stemrobo.com'))
-      ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
-      ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      ..recipients.add(Address('jugendra.bhati@cybricsoft.com'))
+    // ..recipients.add(Address('helpdesk@stemrobo.com'))
+    // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+    // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
       ..subject = 'School form filled on ${DateTime.now()}'
       ..text = ''
       ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>No Attachments</h3>";
@@ -997,9 +1007,10 @@ Widget buildGridView(){
     final smtpServer = gmail(username, password);
     final equivalentMessage = Message()
       ..from = Address(username, '$engineerName')
-      ..recipients.add(Address('helpdesk@stemrobo.com'))
-      ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
-      ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      ..recipients.add(Address('jugendra.bhati@cybricsoft.com'))
+    // ..recipients.add(Address('helpdesk@stemrobo.com'))
+    // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+    // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
       ..subject = 'School form filled on ${DateTime.now()}'
       ..text = ''
       ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map</p>";
@@ -1013,9 +1024,10 @@ Widget buildGridView(){
     final smtpServer = gmail(username, password);
     final equivalentMessage = Message()
       ..from = Address(username, '$engineerName')
-      ..recipients.add(Address('helpdesk@stemrobo.com'))
-      ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
-      ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      ..recipients.add(Address('jugendra.bhati@cybricsoft.com'))
+      // ..recipients.add(Address('helpdesk@stemrobo.com'))
+      // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+      // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
       ..subject = 'School form filled on ${DateTime.now()}'
       ..text = ''
       ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map1<br>$map2</p>";
