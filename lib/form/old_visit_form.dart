@@ -30,7 +30,10 @@ class _OldVisits extends State<OldVisits> {
     }
   }
 
-  Widget _buildRecordItem({required Map visitRecord}) {
+  Widget _buildRecordItem(
+      {required Map visitRecord,
+      required Map visitImages,
+      required Map visitDocuments}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(10),
@@ -161,47 +164,116 @@ class _OldVisits extends State<OldVisits> {
             ],
           ),
           if (visitRecord.containsKey("images")) ...[
-            Row(
-              children: [
-                SizedBox(
-                  width: 370,
-                  height: 114,
-                  child: FirebaseAnimatedList(
-                    query: FirebaseDatabase.instance
-                        .ref("School Visits/" + visitRecord['key'] + "/images"),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                        Animation<double> animation, int index) {
-                      // Map imageList = snapshot.value as Map;
-                      // imageList['key'] = snapshot.key;
-                      return _buildImageItem(snapshot: snapshot);
-                    },
+            if (visitRecord['images'].containsKey("Lab")) ...[
+              Row(
+                children: [
+                  SizedBox(
+                    width: 370,
+                    height: 114,
+                    child: FirebaseAnimatedList(
+                      query: FirebaseDatabase.instance.ref("School Visits/" +
+                          visitRecord['key'] +
+                          "/images/Lab"),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                          Animation<double> animation, int index) {
+                        // Map imageList = snapshot.value as Map;
+                        // imageList['key'] = snapshot.key;
+                        return _buildImageItem(snapshot: snapshot);
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ]
+          ],
+          if (visitRecord.containsKey("images")) ...[
+            if (visitRecord['images'].containsKey("Component")) ...[
+              Row(
+                children: [
+                  SizedBox(
+                    width: 370,
+                    height: 114,
+                    child: FirebaseAnimatedList(
+                      query: FirebaseDatabase.instance.ref("School Visits/" +
+                          visitRecord['key'] +
+                          "/images/Component"),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                          Animation<double> animation, int index) {
+                        return _buildImageItem(snapshot: snapshot);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ]
+          ],
+          if (visitRecord.containsKey("images")) ...[
+            if (visitRecord['images'].containsKey("Teacher")) ...[
+              Row(
+                children: [
+                  SizedBox(
+                    width: 370,
+                    height: 114,
+                    child: FirebaseAnimatedList(
+                      query: FirebaseDatabase.instance.ref("School Visits/" +
+                          visitRecord['key'] +
+                          "/images/Teacher"),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                          Animation<double> animation, int index) {
+                        return _buildImageItem(snapshot: snapshot);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ]
           ],
           if (visitRecord.containsKey("documents")) ...[
-            Row(
-              children: [
-                SizedBox(
-                  width: 370,
-                  height: 114,
-                  child: FirebaseAnimatedList(
-                    query: FirebaseDatabase.instance.ref(
-                        "School Visits/" + visitRecord['key'] + "/documents"),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                        Animation<double> animation, int index) {
-                      // DataSnapshot documentList = snapshot;
-                      // Map documentList = snapshot.value as Map;
-                      // documentList['key'] = snapshot.key;
-                      return _buildDocumentItem(snapshot: snapshot);
-                    },
+            if (visitRecord['documents'].containsKey("Component")) ...[
+              Row(
+                children: [
+                  SizedBox(
+                    width: 370,
+                    height: 114,
+                    child: FirebaseAnimatedList(
+                      query: FirebaseDatabase.instance.ref("School Visits/" +
+                          visitRecord['key'] +
+                          "/documents/Component"),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                          Animation<double> animation, int index) {
+                        return _buildDocumentItem(snapshot: snapshot);
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ]
+          ],
+          if (visitRecord.containsKey("documents")) ...[
+            if (visitRecord['documents'].containsKey("Teacher")) ...[
+              Row(
+                children: [
+                  SizedBox(
+                    width: 370,
+                    height: 114,
+                    child: FirebaseAnimatedList(
+                      query: FirebaseDatabase.instance.ref("School Visits/" +
+                          visitRecord['key'] +
+                          "/documents/Teacher"),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                          Animation<double> animation, int index) {
+                        return _buildDocumentItem(snapshot: snapshot);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ]
           ],
         ],
       ),
@@ -327,8 +399,13 @@ class _OldVisits extends State<OldVisits> {
           itemBuilder: (BuildContext context, DataSnapshot snapshot,
               Animation<double> animation, int index) {
             Map visitRecord = snapshot.value as Map;
+            Map visitImages = snapshot.value as Map;
+            Map visitDocuments = snapshot.value as Map;
             visitRecord['key'] = snapshot.key;
-            return _buildRecordItem(visitRecord: visitRecord);
+            return _buildRecordItem(
+                visitRecord: visitRecord,
+                visitImages: visitImages,
+                visitDocuments: visitDocuments);
           },
         ),
       ),

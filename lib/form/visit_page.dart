@@ -22,8 +22,10 @@ import 'package:mailer/smtp_server.dart';
 
 import '../widgets/file_upload.dart';
 
-final canCreateView = ValueNotifier<int>(0);
-List<File> selectedFiles = [];
+final canCreateViewComponent = ValueNotifier<int>(0);
+final canCreateViewTeacher = ValueNotifier<int>(0);
+List<File> componentFiles = [];
+List<File> teacherFiles = [];
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
@@ -93,8 +95,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   void dispose() {
     emailController.dispose();
-    canCreateView.value = 0;
-    selectedFiles.clear();
+    canCreateViewComponent.value = 0;
+    canCreateViewTeacher.value = 0;
+    componentFiles.clear();
+    teacherFiles.clear();
   }
 
   File? _image;
@@ -111,18 +115,47 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-  void pickFiles() async {
+  void pickComponentFiles() async {
     FilePickerResult? _filePickerResult = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'jpeg', 'pdf', 'pdf', 'doc', 'docx'],
         allowMultiple: true);
     if (_filePickerResult == null) {
-      canCreateView.value = 0;
+      canCreateViewComponent.value = 0;
       return;
     }
-    selectedFiles.clear();
-    selectedFiles = _filePickerResult.paths.map((path) => File(path!)).toList();
-    canCreateView.value = 1;
+    componentFiles.clear();
+    componentFiles =
+        _filePickerResult.paths.map((path) => File(path!)).toList();
+    canCreateViewComponent.value = 1;
+    // selectedImages = selectedFiles
+    //     .where((file) =>
+    //         file.path.split('/').last.contains(".jpeg") ||
+    //         file.path.split('/').last.contains(".jpg") ||
+    //         file.path.split('/').last.contains(".png"))
+    //     .toList();
+    // selectedDocuments = selectedFiles
+    //     .where((file) =>
+    //         file.path.split('/').last.contains(".pdf") ||
+    //         file.path.split('/').last.contains(".doc") ||
+    //         file.path.split('/').last.contains(".docx"))
+    //     .toList();
+    // uploadImages(result!);
+    // loadSelectedFile(result!.files);
+  }
+
+  void pickTeacherFiles() async {
+    FilePickerResult? _filePickerResult = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'jpeg', 'pdf', 'pdf', 'doc', 'docx'],
+        allowMultiple: true);
+    if (_filePickerResult == null) {
+      canCreateViewTeacher.value = 0;
+      return;
+    }
+    teacherFiles.clear();
+    teacherFiles = _filePickerResult.paths.map((path) => File(path!)).toList();
+    canCreateViewTeacher.value = 1;
     // selectedImages = selectedFiles
     //     .where((file) =>
     //         file.path.split('/').last.contains(".jpeg") ||
@@ -362,9 +395,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Lab Picture",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 18),
@@ -377,10 +410,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                       ],
                     ),
                   ),
+
+                  //Component Verification Docs
                   Text(
-                    'Attach Files (Optional)',
+                    'Component Verification Docs',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         color: Colors.grey.shade800,
                         fontWeight: FontWeight.bold),
                   ),
@@ -391,7 +426,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   ),
                   const SizedBox(height: 10),
                   GestureDetector(
-                    onTap: pickFiles,
+                    onTap: pickComponentFiles,
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 40.0, vertical: 20.0),
@@ -422,7 +457,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         )),
                   ),
                   ValueListenableBuilder(
-                    valueListenable: canCreateView,
+                    valueListenable: canCreateViewComponent,
                     builder: (context, value, widget) {
                       if (value == 1) {
                         return Column(
@@ -444,88 +479,262 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 ),
                               ),
                               Column(
-                                children: List.generate(selectedFiles.length,
+                                children: List.generate(componentFiles.length,
                                     (index) {
                                   return GestureDetector(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        Container(
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Colors.white,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey.shade200,
-                                                    offset: const Offset(0, 1),
-                                                    blurRadius: 3,
-                                                    spreadRadius: 2,
-                                                  )
-                                                ]),
-                                            child: Row(
-                                              children: [
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                          selectedFiles[index]
-                                                              .path
-                                                              .split('/')
-                                                              .last,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 13,
-                                                                  color: Colors
-                                                                      .black)),
-                                                      const SizedBox(height: 5),
-                                                      Text(
-                                                        selectedFiles[index]
-                                                            .path,
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            color: Colors
-                                                                .grey.shade500),
-                                                      ),
-                                                      const SizedBox(height: 5),
-                                                      Container(
-                                                          height: 5,
-                                                          clipBehavior:
-                                                              Clip.hardEdge,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5),
-                                                            color: Colors
-                                                                .blue.shade50,
-                                                          ),
-                                                          child:
-                                                              const LinearProgressIndicator(
-                                                            value: 50,
-                                                          )),
-                                                    ],
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(height: 10),
+                                          Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color:
+                                                          Colors.grey.shade200,
+                                                      offset:
+                                                          const Offset(0, 1),
+                                                      blurRadius: 3,
+                                                      spreadRadius: 2,
+                                                    )
+                                                  ]),
+                                              child: Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 10,
                                                   ),
-                                                ),
-                                                const SizedBox(width: 10),
-                                              ],
-                                            )),
-                                      ],
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                            componentFiles[
+                                                                    index]
+                                                                .path
+                                                                .split('/')
+                                                                .last,
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: Colors
+                                                                        .black)),
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        Text(
+                                                          componentFiles[index]
+                                                              .path,
+                                                          style: TextStyle(
+                                                              fontSize: 13,
+                                                              color: Colors.grey
+                                                                  .shade500),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        Container(
+                                                            height: 5,
+                                                            clipBehavior:
+                                                                Clip.hardEdge,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              color: Colors
+                                                                  .blue.shade50,
+                                                            ),
+                                                            child:
+                                                                const LinearProgressIndicator(
+                                                              value: 50,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                      onTap: () => {
+                                            OpenFile.open(
+                                                componentFiles[index].path),
+                                          });
+                                }),
+                              )
+                            ]);
+                      } else {
+                        return const Text(
+                          "Nothing selected",
+                          style: const TextStyle(color: Colors.grey),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  //Teacher's Training Report
+                  Text(
+                    "Teacher's Training Report",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey.shade800,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'File should be jpg, jpeg, png, pdf, doc OR docx',
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                  ),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: pickTeacherFiles,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 20.0),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          dashPattern: const [10, 4],
+                          strokeCap: StrokeCap.round,
+                          color: Colors.blue.shade400,
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                color: Colors.blue.shade50.withOpacity(.3),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Select your file',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey.shade400),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: canCreateViewTeacher,
+                    builder: (context, value, widget) {
+                      if (value == 1) {
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Selected File',
+                                      style: TextStyle(
+                                        color: Colors.grey.shade400,
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                    onTap: () => {
-                                    OpenFile.open(selectedFiles[index].path),
-                                    }
-                                  );
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children:
+                                    List.generate(teacherFiles.length, (index) {
+                                  return GestureDetector(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(height: 10),
+                                          Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color:
+                                                          Colors.grey.shade200,
+                                                      offset:
+                                                          const Offset(0, 1),
+                                                      blurRadius: 3,
+                                                      spreadRadius: 2,
+                                                    )
+                                                  ]),
+                                              child: Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                            teacherFiles[index]
+                                                                .path
+                                                                .split('/')
+                                                                .last,
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: Colors
+                                                                        .black)),
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        Text(
+                                                          teacherFiles[index]
+                                                              .path,
+                                                          style: TextStyle(
+                                                              fontSize: 13,
+                                                              color: Colors.grey
+                                                                  .shade500),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        Container(
+                                                            height: 5,
+                                                            clipBehavior:
+                                                                Clip.hardEdge,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              color: Colors
+                                                                  .blue.shade50,
+                                                            ),
+                                                            child:
+                                                                const LinearProgressIndicator(
+                                                              value: 50,
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                      onTap: () => {
+                                            OpenFile.open(
+                                                teacherFiles[index].path),
+                                          });
                                 }),
                               )
                             ]);
@@ -753,50 +962,64 @@ class MyCustomFormState extends State<MyCustomForm> {
         ));
   }
 
-  // void pickFiless() async {
-  //   result = await FilePicker.platform.pickFiles(allowMultiple: true);
-  //   if (result == null) return;
-  //   // uploadImages(result!);
-  //   // loadSelectedFile(result!.files);
-  // }
-
   uploadImages() async {
-    Iterable<File> imagesListFiles = selectedFiles.where((item) {
+    List<File> labImagesFile = [];
+    for (var imageAsset in images) {
+      final filePath =
+          await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+      File tempFile = File(filePath);
+      labImagesFile.add(tempFile);
+    }
+    Iterable<File> imagesLab = labImagesFile.where((item) {
       return item.path.endsWith(".jpg") ||
           item.path.endsWith(".jpeg") ||
           item.path.endsWith(".png");
     });
-    Iterable<File> documents = selectedFiles.where((item) {
+    Iterable<File> imagesComponent = componentFiles.where((item) {
+      return item.path.endsWith(".jpg") ||
+          item.path.endsWith(".jpeg") ||
+          item.path.endsWith(".png");
+    });
+    Iterable<File> imagesTeacher = teacherFiles.where((item) {
+      return item.path.endsWith(".jpg") ||
+          item.path.endsWith(".jpeg") ||
+          item.path.endsWith(".png");
+    });
+
+    Iterable<File> documentsComponent = componentFiles.where((item) {
+      return item.path.endsWith(".pdf") ||
+          item.path.endsWith(".doc") ||
+          item.path.endsWith(".docx");
+    });
+    Iterable<File> documentsTeacher = teacherFiles.where((item) {
       return item.path.endsWith(".pdf") ||
           item.path.endsWith(".doc") ||
           item.path.endsWith(".docx");
     });
 
-    List<File> labImagesFiles = [];
-    for (var imageAsset in images) {
-      final filePath =
-          await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
-      File tempFile = File(filePath);
-      labImagesFiles.add(tempFile);
-    }
-    Iterable<File> imagesExtraList = labImagesFiles.where((item) {
-      return item.path.endsWith(".jpg") ||
-          item.path.endsWith(".jpeg") ||
-          item.path.endsWith(".png");
-    });
+    List<String> imageLabUrls = [];
+    List<String> imageComponentUrls = [];
+    List<String> imageTeacherUrls = [];
+    List<String> documentComponentUrls = [];
+    List<String> documentTeacherUrls = [];
 
-    Iterable<File> imagesList = List.from(imagesListFiles)
-      ..addAll(imagesExtraList);
-
-    List<String> imageUrls = [];
-    List<String> documentUrls = [];
-    if (imagesList.isNotEmpty) {
-      imageUrls = await uploadFiles(imagesList);
+    if (imagesLab.isNotEmpty) {
+      imageLabUrls = await uploadFiles(imagesLab);
     }
-    if (documents.isNotEmpty) {
-      documentUrls = await uploadFiles(documents);
+    if (imagesComponent.isNotEmpty) {
+      imageComponentUrls = await uploadFiles(imagesComponent);
     }
-    writeNewVisit(imageUrls, documentUrls);
+    if (imagesTeacher.isNotEmpty) {
+      imageTeacherUrls = await uploadFiles(imagesTeacher);
+    }
+    if (documentsComponent.isNotEmpty) {
+      documentComponentUrls = await uploadFiles(documentsComponent);
+    }
+    if (documentsTeacher.isNotEmpty) {
+      documentTeacherUrls = await uploadFiles(documentsTeacher);
+    }
+    writeNewVisit(imageLabUrls, imageComponentUrls, imageTeacherUrls,
+        documentComponentUrls, documentTeacherUrls);
   }
 
   Future<List<String>> uploadFiles(Iterable<File> files) async {
@@ -835,10 +1058,27 @@ class MyCustomFormState extends State<MyCustomForm> {
     );
   }
 
-  void writeNewVisit(List<String> images, List<String> documents) async {
+  void writeNewVisit(
+      List<String> imageLabUrls,
+      List<String> imageComponentUrls,
+      List<String> imageTeacherUrls,
+      List<String> documentComponentUrls,
+      List<String> documentTeacherUrls) async {
     var uid = AuthService().getUID();
-    Map imagesMap = images.asMap();
-    Map documentsMap = documents.asMap();
+    Map labImages = imageLabUrls.asMap();
+    Map componentImages = imageComponentUrls.asMap();
+    Map teacherImages = imageTeacherUrls.asMap();
+    Map componentDocument = documentComponentUrls.asMap();
+    Map teacherDocument = documentTeacherUrls.asMap();
+    final imagesData = {
+      'Lab': labImages,
+      'Component': componentImages,
+      'Teacher': teacherImages
+    };
+    final documentsData = {
+      'Component': componentDocument,
+      'Teacher': teacherDocument
+    };
     visitedSchool = schoolController.text;
     selection = options[typeIndex];
     note = noteController.text;
@@ -847,8 +1087,8 @@ class MyCustomFormState extends State<MyCustomForm> {
       'name': nameController.text,
       'email': emailController.text,
       'school': schoolController.text,
-      'images': imagesMap,
-      'documents': documentsMap,
+      'images': imagesData,
+      'documents': documentsData,
       'type': options[typeIndex],
       'note': noteController.text,
       'uid': uid,
@@ -861,15 +1101,14 @@ class MyCustomFormState extends State<MyCustomForm> {
     updates[adminReference] = visitData;
     FirebaseDatabase.instance.ref().update(updates);
     showAlertDialog(context);
-    if (imagesMap.isNotEmpty && documentsMap.isNotEmpty) {
-      await sendMailAll(imagesMap, documentsMap);
-    } else if (imagesMap.isNotEmpty) {
-      await sendMailOne(imagesMap);
-    } else if (documentsMap.isNotEmpty) {
-      await sendMailOne(documentsMap);
-    } else {
-      await sendMail();
+    String attachments = "No attachments.";
+    if (imagesData.isNotEmpty || documentsData.isNotEmpty) {
+      attachments = "Attachments:<br>" +
+          imagesData.toString() +
+          "<br>" +
+          documentsData.toString();
     }
+    await sendMail(attachments);
     Navigator.pop(context);
 
     Navigator.pushReplacement(
@@ -891,47 +1130,14 @@ class MyCustomFormState extends State<MyCustomForm> {
     OpenFile.open(file.path);
   }
 
-  Widget fileDetails(PlatformFile file) {
-    final kb = file.size / 1024;
-    final mb = kb / 1024;
-    final size = (mb >= 1)
-        ? '${mb.toStringAsFixed(2)} MB'
-        : '${kb.toStringAsFixed(2)} KB';
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('File Name: ${file.name}'),
-          Text('File Size: $size'),
-
-          // Text('File Extension: ${file.extension}'),
-          // Text('File Path: ${file.path}'),
-        ],
-      ),
-    );
-  }
-
-  Future<String> getFileSize(File file) async {
-    int bytes = await file.length();
-    int decimals = 1;
-    if (bytes <= 0) return "0 B";
-    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    var i = (log(bytes) / log(1024)).floor();
-    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) +
-        ' ' +
-        suffixes[i];
-  }
-
   loadAsset() async {
     List<Asset> resultImages = <Asset>[];
-    String error = "something went wrong";
     try {
       resultImages = await MultiImagePicker.pickImages(
           maxImages: 300,
           enableCamera: true,
           selectedAssets: images,
-          materialOptions: MaterialOptions(
+          materialOptions: const MaterialOptions(
             actionBarColor: "#00a693",
             statusBarColor: "#00a693",
             actionBarTitle: "Stemrobo Help Desk",
@@ -943,7 +1149,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         images = resultImages;
       });
     } catch (e) {
-      error = e.toString();
+      String error = e.toString();
       print(error);
     }
   }
@@ -968,7 +1174,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         onPressed: () {
                           loadAsset();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                           size: 40,
                         )),
@@ -988,7 +1194,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     );
   }
 
-  sendMail() async {
+  sendMail(String attachment) async {
     String username = 'jugendrabhati658@gmail.com';
     String password = 'adftgrbtahkktzct';
 
@@ -1002,43 +1208,9 @@ class MyCustomFormState extends State<MyCustomForm> {
       ..subject = 'School form filled on ${DateTime.now()}'
       ..text = ''
       ..html =
-          "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>No Attachments</h3>";
-    await send(equivalentMessage, smtpServer);
-  }
-
-  sendMailOne(Map map) async {
-    String username = 'jugendrabhati658@gmail.com';
-    String password = 'adftgrbtahkktzct';
-
-    final smtpServer = gmail(username, password);
-    final equivalentMessage = Message()
-      ..from = Address(username, '$engineerName')
-      ..recipients.add(Address('jugendra.bhati@cybricsoft.com'))
-      // ..recipients.add(Address('helpdesk@stemrobo.com'))
-      // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
-      // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
-      ..subject = 'School form filled on ${DateTime.now()}'
-      ..text = ''
-      ..html =
-          "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map</p>";
-    await send(equivalentMessage, smtpServer);
-  }
-
-  sendMailAll(Map map1, Map map2) async {
-    String username = 'jugendrabhati658@gmail.com';
-    String password = 'adftgrbtahkktzct';
-
-    final smtpServer = gmail(username, password);
-    final equivalentMessage = Message()
-      ..from = Address(username, '$engineerName')
-      ..recipients.add(Address('jugendra.bhati@cybricsoft.com'))
-      // ..recipients.add(Address('helpdesk@stemrobo.com'))
-      // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
-      // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
-      ..subject = 'School form filled on ${DateTime.now()}'
-      ..text = ''
-      ..html =
-          "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map1<br>$map2</p>";
+          "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>" +
+              attachment +
+              "</h3>";
     await send(equivalentMessage, smtpServer);
   }
 }
