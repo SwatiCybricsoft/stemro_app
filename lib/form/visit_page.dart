@@ -82,7 +82,6 @@ class MyCustomForm extends StatefulWidget {
 
 // Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
-
   List<PlatformFile> files = [];
   get engineerName => name;
   get engineerEmail => email;
@@ -193,7 +192,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     WidgetsBinding.instance!.addPostFrameCallback((_) => setDetails());
   }
 
-  setDetails(){
+  setDetails() {
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -335,10 +334,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     },
                   ),
                   TextFormField(
-
                     keyboardType: TextInputType.text,
                     onSaved: (val) => _note = val!,
-
                     controller: noteController,
                     decoration: const InputDecoration(
                       hintText: 'Enter Note',
@@ -365,19 +362,18 @@ class MyCustomFormState extends State<MyCustomForm> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Lab Picture",style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize:18
-                        ),),
+                        Text(
+                          "Lab Picture",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
                         // ElevatedButton(onPressed: (){
                         //   loadAsset();
                         // }, child:Text('Pick Images'),
                         // ),
-                        Expanded(child: buildGridView(
-
-                        )
-                        ),
+                        Expanded(child: buildGridView()),
                       ],
                     ),
                   ),
@@ -449,79 +445,88 @@ class MyCustomFormState extends State<MyCustomForm> {
                               ),
                               Column(
                                 children: List.generate(selectedFiles.length,
-                                        (index) {
-                                      return Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 10),
-                                          Container(
-                                              padding: const EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(10),
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey.shade200,
-                                                      offset: const Offset(0, 1),
-                                                      blurRadius: 3,
-                                                      spreadRadius: 2,
-                                                    )
-                                                  ]),
-                                              child: Row(
-                                                children: [
-                                                  const SizedBox(
-                                                    width: 10,
+                                    (index) {
+                                  return GestureDetector(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        Container(
+                                            padding: const EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey.shade200,
+                                                    offset: const Offset(0, 1),
+                                                    blurRadius: 3,
+                                                    spreadRadius: 2,
+                                                  )
+                                                ]),
+                                            child: Row(
+                                              children: [
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                          selectedFiles[index]
+                                                              .path
+                                                              .split('/')
+                                                              .last,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 13,
+                                                                  color: Colors
+                                                                      .black)),
+                                                      const SizedBox(height: 5),
+                                                      Text(
+                                                        selectedFiles[index]
+                                                            .path,
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            color: Colors
+                                                                .grey.shade500),
+                                                      ),
+                                                      const SizedBox(height: 5),
+                                                      Container(
+                                                          height: 5,
+                                                          clipBehavior:
+                                                              Clip.hardEdge,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                            color: Colors
+                                                                .blue.shade50,
+                                                          ),
+                                                          child:
+                                                              const LinearProgressIndicator(
+                                                            value: 50,
+                                                          )),
+                                                    ],
                                                   ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                            selectedFiles[index]
-                                                                .path
-                                                                .split('/')
-                                                                .last,
-                                                            style: const TextStyle(
-                                                                fontSize: 13,
-                                                                color:
-                                                                Colors.black)),
-                                                        const SizedBox(height: 5),
-                                                        Text(
-                                                          selectedFiles[index].path,
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              color: Colors
-                                                                  .grey.shade500),
-                                                        ),
-                                                        const SizedBox(height: 5),
-                                                        Container(
-                                                            height: 5,
-                                                            clipBehavior:
-                                                            Clip.hardEdge,
-                                                            decoration:
-                                                            BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                              color: Colors
-                                                                  .blue.shade50,
-                                                            ),
-                                                            child:
-                                                            const LinearProgressIndicator(
-                                                              value: 50,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 10),
-                                                ],
-                                              )),
-                                        ],
-                                      );
-                                    }),
+                                                ),
+                                                const SizedBox(width: 10),
+                                              ],
+                                            )),
+                                      ],
+                                    ),
+                                    onTap: () => {
+                                    OpenFile.open(selectedFiles[index].path),
+                                    }
+                                  );
+                                }),
                               )
                             ]);
                       } else {
@@ -769,7 +774,8 @@ class MyCustomFormState extends State<MyCustomForm> {
 
     List<File> labImagesFiles = [];
     for (var imageAsset in images) {
-      final filePath = await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+      final filePath =
+          await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
       File tempFile = File(filePath);
       labImagesFiles.add(tempFile);
     }
@@ -779,7 +785,8 @@ class MyCustomFormState extends State<MyCustomForm> {
           item.path.endsWith(".png");
     });
 
-    Iterable<File> imagesList = List.from(imagesListFiles)..addAll(imagesExtraList);
+    Iterable<File> imagesList = List.from(imagesListFiles)
+      ..addAll(imagesExtraList);
 
     List<String> imageUrls = [];
     List<String> documentUrls = [];
@@ -854,13 +861,13 @@ class MyCustomFormState extends State<MyCustomForm> {
     updates[adminReference] = visitData;
     FirebaseDatabase.instance.ref().update(updates);
     showAlertDialog(context);
-    if(imagesMap.isNotEmpty && documentsMap.isNotEmpty){
+    if (imagesMap.isNotEmpty && documentsMap.isNotEmpty) {
       await sendMailAll(imagesMap, documentsMap);
-    }else if(imagesMap.isNotEmpty){
+    } else if (imagesMap.isNotEmpty) {
       await sendMailOne(imagesMap);
-    }else if(documentsMap.isNotEmpty){
+    } else if (documentsMap.isNotEmpty) {
       await sendMailOne(documentsMap);
-    }else{
+    } else {
       await sendMail();
     }
     Navigator.pop(context);
@@ -916,37 +923,32 @@ class MyCustomFormState extends State<MyCustomForm> {
         suffixes[i];
   }
 
-  loadAsset()async{
-    List<Asset>resultImages=<Asset>[];
+  loadAsset() async {
+    List<Asset> resultImages = <Asset>[];
     String error = "something went wrong";
-    try{
+    try {
       resultImages = await MultiImagePicker.pickImages(
-          maxImages:300,
-          enableCamera:  true,
-         selectedAssets: images,
-        materialOptions: MaterialOptions(
-          actionBarColor: "#00a693",
-         statusBarColor: "#00a693",
-          actionBarTitle: "Stemrobo Help Desk",
-          allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#008080",
-        )
-
-      );
+          maxImages: 300,
+          enableCamera: true,
+          selectedAssets: images,
+          materialOptions: MaterialOptions(
+            actionBarColor: "#00a693",
+            statusBarColor: "#00a693",
+            actionBarTitle: "Stemrobo Help Desk",
+            allViewTitle: "All Photos",
+            useDetailsView: false,
+            selectCircleStrokeColor: "#008080",
+          ));
       setState(() {
         images = resultImages;
       });
-
-    }catch(e){
+    } catch (e) {
       error = e.toString();
       print(error);
-
     }
+  }
 
-}
-
-Widget buildGridView(){
+  Widget buildGridView() {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: DottedBorder(
@@ -956,32 +958,35 @@ Widget buildGridView(){
         strokeCap: StrokeCap.round,
         color: Colors.blue.shade400,
         child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child:images.length==0  ?Center(
-            child: IconButton(onPressed: (){
-              loadAsset();
-            }, icon:Icon(Icons.add,size: 40,)
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
             ),
-          ):
-              GridView.count(crossAxisCount:4,
-                children:List.generate(images.length, (index){
-                  Asset asset =images[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Card(
-                        child: AssetThumb(asset: asset, width:180, height:180)),
-                  );
-                })
-              )
-
-        ),
+            child: images.length == 0
+                ? Center(
+                    child: IconButton(
+                        onPressed: () {
+                          loadAsset();
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          size: 40,
+                        )),
+                  )
+                : GridView.count(
+                    crossAxisCount: 4,
+                    children: List.generate(images.length, (index) {
+                      Asset asset = images[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Card(
+                            child: AssetThumb(
+                                asset: asset, width: 180, height: 180)),
+                      );
+                    }))),
       ),
     );
-
-}
+  }
 
   sendMail() async {
     String username = 'jugendrabhati658@gmail.com';
@@ -991,12 +996,13 @@ Widget buildGridView(){
     final equivalentMessage = Message()
       ..from = Address(username, '$engineerName')
       ..recipients.add(Address('jugendra.bhati@cybricsoft.com'))
-    // ..recipients.add(Address('helpdesk@stemrobo.com'))
-    // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
-    // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      // ..recipients.add(Address('helpdesk@stemrobo.com'))
+      // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+      // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
       ..subject = 'School form filled on ${DateTime.now()}'
       ..text = ''
-      ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>No Attachments</h3>";
+      ..html =
+          "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>No Attachments</h3>";
     await send(equivalentMessage, smtpServer);
   }
 
@@ -1008,12 +1014,13 @@ Widget buildGridView(){
     final equivalentMessage = Message()
       ..from = Address(username, '$engineerName')
       ..recipients.add(Address('jugendra.bhati@cybricsoft.com'))
-    // ..recipients.add(Address('helpdesk@stemrobo.com'))
-    // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
-    // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
+      // ..recipients.add(Address('helpdesk@stemrobo.com'))
+      // ..ccRecipients.addAll(['dharmendra@stemrobo.com','atul.mishra@stemrobo.com'])
+      // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
       ..subject = 'School form filled on ${DateTime.now()}'
       ..text = ''
-      ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map</p>";
+      ..html =
+          "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map</p>";
     await send(equivalentMessage, smtpServer);
   }
 
@@ -1030,8 +1037,8 @@ Widget buildGridView(){
       // ..bccRecipients.add('jugendra.bhati@cybricsoft.com')
       ..subject = 'School form filled on ${DateTime.now()}'
       ..text = ''
-      ..html = "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map1<br>$map2</p>";
+      ..html =
+          "<h3>Form Details</h3><p>School Name: $visitedSchool<br>Visit Purpose: $selection<br>Note: $note<p><h3>Engineer Details</h3><p>Engineer Name: $engineerName<br>Engineer Email: $engineerEmail<br><br>Attachments:<br>$map1<br>$map2</p>";
     await send(equivalentMessage, smtpServer);
   }
-
 }

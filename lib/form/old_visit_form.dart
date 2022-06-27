@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../auth/home_page.dart';
+import '../view/PdfViewer.dart';
 
 get isAdmin => isAdminStatus;
 
@@ -264,14 +265,17 @@ class _OldVisits extends State<OldVisits> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.green),
-                          padding:
-                          MaterialStateProperty.all(const EdgeInsets.all(20)),
+                              MaterialStateProperty.all(Colors.green),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.all(20)),
                           textStyle: MaterialStateProperty.all(const TextStyle(
                               fontSize: 14, color: Colors.white))),
                       onPressed: () {
                         var url = snapshot.value as String;
-                        launch(url, forceSafariVC: true, forceWebView: true);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (_) => PdfViewer(
+                                  pdfURL: url,
+                                )));
                       },
                       child: const Text(
                         'View\nDocument',
@@ -306,8 +310,7 @@ class _OldVisits extends State<OldVisits> {
               color: Colors.white,
             )),
         title: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: const Text('History')),
+            padding: const EdgeInsets.all(8.0), child: const Text('History')),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

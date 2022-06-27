@@ -15,6 +15,7 @@ dependencies:
 
   mailer: ^3.2.1
   flutter_absolute_path: ^1.0.6
+  syncfusion_flutter_pdfviewer: ^20.1.61-beta
 
   flutter_launcher_icons: ^0.9.2
   cupertino_icons: ^1.0.2
