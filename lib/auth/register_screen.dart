@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:stemro_app/view/home_screen.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -12,8 +10,6 @@ import 'login_screen.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import '../auth/AuthService.dart';
-import 'dart:developer';
-import 'package:animated_radio_buttons/animated_radio_buttons.dart';
 
 
 class RegistrationPage extends StatefulWidget {
@@ -23,8 +19,8 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
 
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
-  final formKey = new GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
   late String _email, _pass,_name, _school  ;
   var authHandler = AuthService();
   bool isLoading = false;
@@ -70,9 +66,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               ),
                               // child: SvgPicture.asset("assets/xing.svg")
                           ),
-                          HeightBox(10),
+                          const HeightBox(10),
                           "Sign Up".text.color(Colors.white).size(20).make(),
-                          HeightBox(20),
+                          const HeightBox(20),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: TextFormField(
@@ -88,24 +84,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               decoration: InputDecoration(
                                 hintText: " Enter Engineer's Name",
                                 labelText: "Engineer's Name",
-                                labelStyle: TextStyle(color: Colors.white),
-                                hintStyle: TextStyle(color: Colors.white),
+                                labelStyle: const TextStyle(color: Colors.white),
+                                hintStyle: const TextStyle(color: Colors.white),
                                 // hintStyle: TextStyle(color: Colors.black),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(color: Colors.white),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: new BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Colors.white)),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(color: Colors.white)),
                                 isDense: true, // Added this
-                                contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                               ),
                               cursorColor: Colors.white,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                          HeightBox(20),
+                          const HeightBox(20),
                           // Padding(
                           //   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           //   child: TextFormField(
@@ -154,23 +150,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               decoration: InputDecoration(
                                 hintText: ' Enter Email',
                                 labelText: ' Email',
-                                labelStyle: TextStyle(color: Colors.white),
-                                hintStyle: TextStyle(color: Colors.white),
+                                labelStyle: const TextStyle(color: Colors.white),
+                                hintStyle: const TextStyle(color: Colors.white),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(color: Colors.white),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: new BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Colors.white)),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(color: Colors.white)),
                                 isDense: true, // Added this
-                                contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                               ),
                               cursorColor: Colors.white,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                          HeightBox(20),
+                          const HeightBox(20),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: TextFormField(
@@ -179,22 +175,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               decoration: InputDecoration(
                                 hintText: 'Enter Password',
                                 labelText: "  Password",
-                                labelStyle: TextStyle(color: Colors.white),
-                                hintStyle: TextStyle(color: Colors.white),
+                                labelStyle: const TextStyle(color: Colors.white),
+                                hintStyle: const TextStyle(color: Colors.white),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(color: Colors.white),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: new BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Colors.white)),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(color: Colors.white)),
                                 isDense: true,
 
                                 // Added this
-                                contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                               ),
                               cursorColor: Colors.white,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                               obscureText: true,
                               onSaved: (val) => _pass = val!,
                               validator: (value){
@@ -206,7 +202,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                           ),
 
-                          HeightBox(20),
+                          const HeightBox(20),
                           GestureDetector(
                               onTap: () {
 
@@ -246,12 +242,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
                                     FirebaseDatabase.instance.ref().update(updates);
 
-                                    var snackBar = new SnackBar(content: Text("Registration successful"));
+                                    var snackBar = const SnackBar(content: Text("Registration successful"));
                                     scaffoldKey.currentState?.showSnackBar(snackBar);
                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>MyHomePage()));
                                   } else {
                                     //Show error message to user
-                                    var snackBar = new SnackBar(content: Text(response));
+                                    var snackBar = SnackBar(content: Text(response));
                                    // scaffoldKey.currentState?.showSnackBar(snackBar);
                                   }
                                 }).catchError((e) => print(e));
@@ -259,7 +255,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               child: isLoading
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
+                                      children: const [
                                         Text(
                                           'Please Wait...',
                                           style: TextStyle(color: Colors.teal),
@@ -277,7 +273,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       height: 50,
                                       width: 150,
                                       color: Colors.teal,
-                                      child: Text('SIGNUP',
+                                      child: const Text('SIGNUP',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15,
@@ -307,7 +303,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               context, MaterialPageRoute(builder: (context) => LoginPage()));
         },
         child: RichText(
-            text: TextSpan(
+            text: const TextSpan(
           text: 'New User?',
           style: TextStyle(fontSize: 18.0, color: Colors.black),
           children: <TextSpan>[

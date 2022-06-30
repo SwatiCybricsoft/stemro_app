@@ -1,15 +1,12 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:stemro_app/auth/login_screen.dart';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:stemro_app/form/visit_page.dart';
 import 'package:stemro_app/view/ImageUploader.dart';
-import 'package:stemro_app/view/home_screen.dart';
 
 import '../auth/AuthService.dart';
 import '../auth/home_page.dart';
-import '../form/Upload_Manager.dart';
 
 class ComponentVerify extends StatefulWidget {
   const ComponentVerify({Key? key}) : super(key: key);
@@ -22,25 +19,25 @@ class _ComponentVerifyState extends State<ComponentVerify> {
   {
     return showDialog(context: context,builder: (BuildContext context){
       return AlertDialog(
-        title: Text("File Upload",style: TextStyle(color: Colors.teal),),
+        title: const Text("File Upload",style: TextStyle(color: Colors.teal),),
         content: SingleChildScrollView(
           child: ListBody(
             children: [
-              Divider(height: 1,color: Colors.teal,),
+              const Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
                   imageUploader.openGallery(context, "Component Verification");
                 },
-                title: Text("Gallery"),
-                leading: Icon(Icons.account_box,color: Colors.teal,),
+                title: const Text("Gallery"),
+                leading: const Icon(Icons.account_box,color: Colors.teal,),
               ),
-              Divider(height: 1,color: Colors.teal,),
+              const Divider(height: 1,color: Colors.teal,),
               ListTile(
                 onTap: (){
                   imageUploader.openCamera(context, "Component Verification");
                 },
-                title: Text("Camera"),
-                leading: Icon(Icons.camera,color: Colors.teal,),
+                title: const Text("Camera"),
+                leading: const Icon(Icons.camera,color: Colors.teal,),
               ),
             ],
           ),
@@ -55,7 +52,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
-    print("Image List Length:" + imageFileList!.length.toString());
+    print("Image List Length:${imageFileList!.length}");
     setState((){
       // loadImages();
     });
@@ -65,13 +62,12 @@ class _ComponentVerifyState extends State<ComponentVerify> {
     return  Scaffold(
       appBar: AppBar(
         elevation: 0,
-        brightness: Brightness.light,
         backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(onPressed: (){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage ()));
         },
-            icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
+            icon:const Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -89,18 +85,18 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 end: Alignment.bottomCenter,
                 colors: <Color>[Colors.tealAccent, Colors.teal]),
           ),
-        ),
+        ), systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SafeArea(
         child: Column(
           children: [
-            Text("Component Verification",textAlign: TextAlign.center,style: TextStyle(
+            const Text("Component Verification",textAlign: TextAlign.center,style: TextStyle(
               decoration: TextDecoration.underline,fontSize: 20,
               color: Colors.teal,
               fontWeight: FontWeight.bold,
             ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -111,16 +107,16 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                       width: 3.0,
                       color: Colors.black26
                   ),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10.0),
                   ),
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                       colors: [
                         Colors.tealAccent,
                         Colors.teal
                       ]
                   ),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.grey ,
                         blurRadius: 2.0,
@@ -135,7 +131,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.add_circle_outline,size: 70,color: Colors.white,),
                     Text("File Upload",style: TextStyle(
                       color: Colors.white,
@@ -151,7 +147,7 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 padding: const EdgeInsets.all(18.0),
                 child: GridView.builder(
                     itemCount: imageFileList!.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3),
                     itemBuilder: (BuildContext context, int index) {
                       return Image.file(File(imageFileList![index].path), fit: BoxFit.cover,);
@@ -159,26 +155,26 @@ class _ComponentVerifyState extends State<ComponentVerify> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
               children: [
-                new Container(
+                Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
-                        icon: Icon(Icons.cancel), label:Text("CANCEL",style: TextStyle(color: Colors.red),))
+                        icon: const Icon(Icons.cancel), label:const Text("CANCEL",style: TextStyle(color: Colors.red),))
                 ),
-                Spacer(),
-                new Container(
+                const Spacer(),
+                Container(
                     padding: const EdgeInsets.only(top: 30),
                     child: RaisedButton.icon(onPressed:(){
 
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MyHomePage()));
                     },
-                        icon: Icon(Icons.save), label:Text("SAVE",style: TextStyle(color: Colors.teal),))
+                        icon: const Icon(Icons.save), label:const Text("SAVE",style: TextStyle(color: Colors.teal),))
                 ),
               ],
             )

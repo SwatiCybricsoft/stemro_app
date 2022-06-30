@@ -9,15 +9,15 @@ import 'package:image_picker/image_picker.dart';
 class ImageUploader {
   void openGallery(BuildContext context, String category) async {
     String subcategory = "Gallery";
-    String destination = category + "/" + subcategory;
-    final _firebaseStorage = FirebaseStorage.instance;
+    String destination = "$category/$subcategory";
+    final firebaseStorage = FirebaseStorage.instance;
     PickedFile? image =
         await ImagePicker().getImage(source: ImageSource.gallery);
     if (image != null) {
       showAlertDialog(context);
       var file = File(image.path);
-      var snapshot = await _firebaseStorage
-          .ref(destination + "/" + file.path)
+      var snapshot = await firebaseStorage
+          .ref("$destination/${file.path}")
           .putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       print(downloadUrl);
@@ -29,15 +29,15 @@ class ImageUploader {
 
   void openCamera(BuildContext context, String category) async {
     String subcategory = "Camera";
-    String destination = category + "/" + subcategory;
-    final _firebaseStorage = FirebaseStorage.instance;
+    String destination = "$category/$subcategory";
+    final firebaseStorage = FirebaseStorage.instance;
     PickedFile? image =
         await ImagePicker().getImage(source: ImageSource.camera);
     if (image != null) {
       showAlertDialog(context);
       var file = File(image.path);
-      var snapshot = await _firebaseStorage
-          .ref(destination + "/" + file.path)
+      var snapshot = await firebaseStorage
+          .ref("$destination/${file.path}")
           .putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       print(downloadUrl);

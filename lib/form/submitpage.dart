@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:stemro_app/auth/welcome_screen.dart';
-import 'package:stemro_app/view/home_screen.dart';
-import 'package:stemro_app/widgets/home_button.dart';
-import '../auth/home_page.dart';
 
 class SubmitPage extends StatefulWidget {
   const SubmitPage({Key? key, required this.title}) : super(key: key);
@@ -32,7 +27,7 @@ class _SubmitPageState extends State<SubmitPage> {
           children: <Widget>[
             Container(
               height: 170,
-              padding: EdgeInsets.all(35),
+              padding: const EdgeInsets.all(35),
               decoration: BoxDecoration(
                 color: themeColor,
                 shape: BoxShape.circle,
@@ -52,7 +47,7 @@ class _SubmitPageState extends State<SubmitPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            Text(
+            const Text(
               "Details filled Successfully",
               style: TextStyle(
                 color: Colors.black87,
@@ -61,7 +56,7 @@ class _SubmitPageState extends State<SubmitPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.05),
-            Text(
+            const Text(
               "You will be redirected to the home page shortly\nor click here to return to home page",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -71,14 +66,14 @@ class _SubmitPageState extends State<SubmitPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.06),
-            Flexible(
-              child: HomeButton(
-                title: 'Home',
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
+            // Flexible(
+            //   child: HomeButton(
+            //     title: 'Home',
+            //     onTap: () {
+            //       Navigator.pop(context);
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

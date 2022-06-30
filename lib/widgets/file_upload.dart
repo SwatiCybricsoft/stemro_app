@@ -1,7 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:stemro_app/form/visit_page.dart';
 class FileList extends StatefulWidget {
   final List<PlatformFile> files;
@@ -20,15 +20,14 @@ class _FileListState extends State<FileList> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        brightness: Brightness.light,
         backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>FormPage ()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const FormPage ()));
         },
-            icon:Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
+            icon:const Icon(Icons.arrow_back_ios,size: 20,color: Colors.white,)),
         title: Container(
-            padding: const EdgeInsets.all(8.0), child: Text('Documents Upload')
+            padding: const EdgeInsets.all(8.0), child: const Text('Documents Upload')
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -37,7 +36,7 @@ class _FileListState extends State<FileList> {
                 end: Alignment.bottomCenter,
                 colors: <Color>[Colors.tealAccent, Colors.teal]),
           ),
-        ),
+        ), systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: ListView.builder(
           itemCount: widget.files.length,
@@ -59,7 +58,7 @@ class _FileListState extends State<FileList> {
         widget.onOpenedFile(file);
       },
       child: ListTile(
-        title: Text('${file.name}'),
+        title: Text(file.name),
         subtitle: Text('${file.size}'),
          trailing: Text('${file.extension}'),
       ),

@@ -5,12 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stemro_app/auth/AuthService.dart';
 import 'package:stemro_app/auth/welcome_screen.dart';
-import 'package:stemro_app/form/Upload_Manager.dart';
 import 'package:stemro_app/form/old_visit_form.dart';
 import 'package:stemro_app/form/visit_page.dart';
-import 'package:stemro_app/view/Lab_picture.dart';
-import 'package:stemro_app/view/component_verification.dart';
-import '../view/teachers_traing.dart';
 
 bool isAdminStatus = false;
 String name = "";
@@ -39,7 +35,7 @@ checkAdmin() {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
 @override
   void initState() {
@@ -48,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    final _screen =  MediaQuery.of(context).size;
+    final screen =  MediaQuery.of(context).size;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.teal.shade300,
     ));
@@ -62,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
           PopupMenuButton<int>(
             onSelected: (item) => onSelected(context, item),
             itemBuilder: (context) => [
-              PopupMenuItem<int>(
+              const PopupMenuItem<int>(
                 value: 0,
                 child: Text(
                   'Logout',
@@ -76,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ],
-        title: Text(
+        title: const Text(
           'User Dashboard',
           style: TextStyle(
             fontSize: 24,
@@ -109,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           child:  Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
             FaIcon(
               FontAwesomeIcons.dumbbell,
               color: Colors.teal,
@@ -125,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      backgroundColor: Color(0xfff8f8f8),
+      backgroundColor: const Color(0xfff8f8f8),
       body: Stack(
         children: <Widget>[
           Column(
@@ -135,9 +131,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.teal.shade300,
                 child: Container(
-                  margin: EdgeInsets.only(right: 40, top:10, bottom: 20),
+                  margin: const EdgeInsets.only(right: 40, top:10, bottom: 20),
                   alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/path.png'),
                           fit: BoxFit.contain)),
@@ -154,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: MediaQuery.of(context).size.height * 0.30,
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(
@@ -181,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: GridView.count(
                       crossAxisCount: 2,
                       childAspectRatio: 0.85,
-                      controller: new ScrollController(keepScrollOffset: false),
+                      controller: ScrollController(keepScrollOffset: false),
                       shrinkWrap: true,
                       // scrollDirection: Axis.vertical,
                       children: <Widget>[
@@ -189,9 +185,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           onTap: () {
                             if (isLogin()) {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => FormPage()));
+                                  builder: (context) => const FormPage()));
                             } else {
-                              var snackBar = new SnackBar(
+                              var snackBar = const SnackBar(
                                   content: Text("Login required !"));
                               scaffoldKey.currentState?.showSnackBar(snackBar);
                             }
@@ -202,12 +198,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 3.0, color: Colors.black26),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(10.0),
                                 )),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const [
                                 Icon(
                                   Icons.folder,
                                   size: 50,
@@ -231,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (isLogin()) {
                               // loadSchoolVisits();
                             } else {
-                              var snackBar = new SnackBar(
+                              var snackBar = const SnackBar(
                                   content: Text("Login required !"));
                               scaffoldKey.currentState?.showSnackBar(snackBar);
                             }
@@ -240,9 +236,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             onTap: () {
                               if (isLogin()) {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => OldVisits()));
+                                    builder: (context) => const OldVisits()));
                               } else {
-                                var snackBar = new SnackBar(
+                                var snackBar = const SnackBar(
                                     content: Text("Login required !"));
                                 scaffoldKey.currentState
                                     ?.showSnackBar(snackBar);
@@ -254,12 +250,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       width: 3.0, color: Colors.black26),
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(10.0),
                                   )),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                children: const [
                                   Icon(
                                     Icons.add_to_photos_rounded,
                                     size: 50,
@@ -304,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => WelcomeScreen()),
+        MaterialPageRoute(builder: (context) => const WelcomeScreen()),
         (route) => false);
   }
 

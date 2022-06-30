@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:stemro_app/auth/register_screen.dart';
-import 'package:stemro_app/view/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../auth/AuthService.dart';
 import 'home_page.dart';
@@ -19,8 +16,8 @@ class _LoginPageState extends State<LoginPage> {
    late String email, pass;
    final emailController = TextEditingController();
    final passController = TextEditingController();
-   final scaffoldKey = new GlobalKey<ScaffoldState>();
-   final formKey = new GlobalKey<FormState>();
+   final scaffoldKey = GlobalKey<ScaffoldState>();
+   final formKey = GlobalKey<FormState>();
    @override
   Widget build(BuildContext context) {
      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
@@ -37,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Stack(
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage("assets/path.png"),
                               fit: BoxFit.cover,
@@ -61,9 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                               // child: SvgPicture.asset("assets/xing.svg")
                           ),
-                          HeightBox(10),
+                          const HeightBox(10),
                           "Login".text.color(Colors.white).size(20).make(),
-                          HeightBox(
+                          const HeightBox(
                               20
                           ),
                           Padding(
@@ -76,28 +73,28 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: InputDecoration(
                                 hintText: 'Enter Email',
                                 labelText: ' Email',
-                                hintStyle: TextStyle(color: Colors.white),
-                                labelStyle: TextStyle(color: Colors.white),
+                                hintStyle: const TextStyle(color: Colors.white),
+                                labelStyle: const TextStyle(color: Colors.white),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
                                       color: Colors.white
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: new BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
                                         color: Colors.white
                                     )
                                 ),
                                 isDense: true,                      // Added this
-                                contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                               ),
                               cursorColor: Colors.white,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                          HeightBox(
+                          const HeightBox(
                               20
                           ),
                           Padding(
@@ -114,35 +111,36 @@ class _LoginPageState extends State<LoginPage> {
                                 if (value.length < 3) {
                                   return 'Must be more than 2 charater';
                                 }
+                                return null;
                               },
                               // validator: (val) => val!.length < 26  ? "Password length too much large" : null ,
                               decoration: InputDecoration(
                                   labelText: "Password",
                                   hintText: "Enter Password",
 
-                                hintStyle: TextStyle(color: Colors.white),
-                                labelStyle: TextStyle(color: Colors.white),
+                                hintStyle: const TextStyle(color: Colors.white),
+                                labelStyle: const TextStyle(color: Colors.white),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
                                       color: Colors.white
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: new BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
                                         color: Colors.white,
                                     )
                                 ),
                                 isDense: true,                      // Added this
-                                contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                               ),
                               cursorColor: Colors.white,
                               obscureText: true,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                          HeightBox(20),
+                          const HeightBox(20),
                           GestureDetector(
                               onTap: (){
                                 // Fluttertoast.showToast(msg: "Invalid email and/or password. Please try again",
@@ -169,18 +167,18 @@ class _LoginPageState extends State<LoginPage> {
                                 authHandler.handleSignIn(emailController.text, passController.text).then((response) {
                                    print(response.toString());
                                   if(response.toString().endsWith("Success")){
-                                    var snackBar = new SnackBar(content: Text("Login success"));
+                                    var snackBar = const SnackBar(content: Text("Login success"));
                                     scaffoldKey.currentState?.showSnackBar(snackBar);
                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
                                   }else{
-                                    var snackBar = new SnackBar(content: Text(response.toString()));
+                                    var snackBar = SnackBar(content: Text(response.toString()));
                                     // scaffoldKey.currentState?.showSnackBar(snackBar);
                                   }
                                 }).catchError((e) => print(e));
                               },
                             child:isLoading?Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const [
                                 Text('Please Wait...',style: TextStyle(
                                   color: Colors.teal
                                 ),),
@@ -205,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                               height: 50,
                               width: 150,
                               color: Colors.teal,
-                              child: Text('LOGIN',
+                              child: const Text('LOGIN',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
@@ -227,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
           onTap: (){
              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegistrationPage()));
           },
-          child: RichText(text: TextSpan(
+          child: RichText(text: const TextSpan(
             text: 'New User?',
             style: TextStyle(fontSize: 18.0, color: Colors.black),
             children: <TextSpan>[
@@ -248,10 +246,10 @@ class _LoginPageState extends State<LoginPage> {
 }
 showLoaderDialog(BuildContext context){
   AlertDialog alert=AlertDialog(
-    content: new Row(
+    content: Row(
       children: [
-        CircularProgressIndicator(color: Colors.white,),
-        Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+        const CircularProgressIndicator(color: Colors.white,),
+        Container(margin: const EdgeInsets.only(left: 7),child:const Text("Loading..." )),
       ],),
   );
   showDialog(barrierDismissible: false,

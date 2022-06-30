@@ -469,8 +469,8 @@ class _FileListState extends State<FileList> {
         widget.onOpenedFile(file);
       },
       child: ListTile(
-        title: Text('${file.name}'),
-        subtitle: Text('${size}'),
+        title: Text(file.name),
+        subtitle: Text(size),
         trailing:  Text('${file.extension}'
         ),
       ),

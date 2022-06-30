@@ -414,10 +414,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                   //Component Verification Docs
                   Text(
                     'Component Verification Docs',
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey.shade800,
-                        fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -583,10 +583,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                   //Teacher's Training Report
                   Text(
                     "Teacher's Training Report",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey.shade800,
-                        fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -1156,7 +1156,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   Widget buildGridView() {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(35.0),
       child: DottedBorder(
         borderType: BorderType.RRect,
         radius: const Radius.circular(10),
@@ -1166,8 +1166,8 @@ class MyCustomFormState extends State<MyCustomForm> {
         child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
+                color: Colors.blue.shade50.withOpacity(.3),
+                borderRadius: BorderRadius.circular(10)),
             child: images.length == 0
                 ? Center(
                     child: IconButton(

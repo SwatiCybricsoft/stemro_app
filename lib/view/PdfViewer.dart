@@ -13,7 +13,6 @@ class PdfViewer extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
-        brightness: Brightness.light,
         backgroundColor: Colors.teal.shade300,
         centerTitle: true,
         leading: IconButton(
@@ -35,7 +34,7 @@ class PdfViewer extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: <Color>[Colors.tealAccent, Colors.teal]),
           ),
-        ),
+        ), systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SfPdfViewer.network(
         pdfURL,

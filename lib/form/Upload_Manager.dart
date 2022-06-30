@@ -23,7 +23,6 @@ class _MyScreenState extends State<UploadManager> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        brightness: Brightness.light,
         backgroundColor: Colors.teal,
         centerTitle: true,
         leading: IconButton(
@@ -31,7 +30,7 @@ class _MyScreenState extends State<UploadManager> {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) =>MyHomePage()));
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               size: 20,
               color: Colors.white,
@@ -53,7 +52,7 @@ class _MyScreenState extends State<UploadManager> {
                 end: Alignment.bottomCenter,
                 colors: <Color>[Colors.tealAccent, Colors.teal]),
           ),
-        ),
+        ), systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       backgroundColor: Colors.teal.shade400,
       body: SafeArea(
